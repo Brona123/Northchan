@@ -1,0 +1,23 @@
+<template name="content">
+	<p>asd {{data}}</p>
+
+	{{#with data}}
+		{{#if isImage type}}
+			<img width="100%" height="100px" src="{{url}}" alt="" class="thumbnail" />
+		{{else}}
+			{{#if isVideo type}}
+				<video width="100%" height="100px" controls>
+					<source src="{{url}}" type="{{type}}">
+				</video>
+			{{/if}}
+			{{#if isAudio type}}
+				<audio width="100%" height="100px" controls>
+					<source src="{{url}}" type="{{type}}">
+				</audio>
+			{{/if}}
+			{{#if isText type}}
+				<a href="{{url}}">{{original.name}}</a>
+			{{/if}}
+		{{/if}}
+	{{/with}}
+</template>

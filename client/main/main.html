@@ -1,0 +1,130 @@
+<template name="main">
+  <!--{{> index}}-->
+  <!--{{> message}}-->
+  <!--{{> canvas}}-->
+
+  <div id="rootContainer">
+    <div class="col-xs-12">
+      <section id="themeSelection">
+        Theme
+        <select id="theme">
+          {{#each themes}}
+            <option value="{{name}}">{{name}}</option>
+          {{/each}}
+        </select>
+        <br />
+
+        <span class="glyphicon glyphicon-user">{{connectedClientAmount}}</span>
+      </section>
+      
+      <span class="navbar">
+        <a href="/">
+          <span class="glyphicon glyphicon-home"></span>
+        </a>
+
+        {{#with currentSection}}
+        &rArr;
+          <a href="/{{this}}">
+            <span>{{this}}</span>
+          </a>
+
+          {{#with currentThread}}
+          &rArr;
+            <a href="/{{currentSection}}/{{this}}">
+              <span>{{this}}</span>
+            </a>
+          {{/with}}
+        {{/with}}
+      </span>
+
+      <span class="accountpane">
+        {{#if currentUser}}
+          {{#if isInRole 'superadmin'}}
+            <a href="/account-listing" id="accountListing" >Account listing</a>
+
+            <b>Role: Superadmin</b>
+          {{/if}}
+
+          {{#if isInRole 'moderator'}}
+            <b>Role: Moderator</b>
+          {{/if}}
+            <span>Hello, {{currentUser.username}}</span>
+
+          <button class="btn btn-warning"
+                  id="logoutButton"
+                  value="logout">Logout</button>
+        {{else}}
+          <button class="btn btn-info" 
+                  value="login" 
+                  data-toggle="modal" 
+                  data-target="#accountModal">Login/Register</button>
+        {{/if}}
+      </span>
+    </div>
+    
+    {{> yield}}
+  </div>
+
+  <div class="modal fade" id="accountModal" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Login/Register account</h4>
+        </div>
+
+        <div class="modal-body">
+          <form id="accountActionForm">
+            <input type="text" class="form-control" name="accountName" placeholder="Name" />
+            <input type="password" class="form-control" name="accountPassword" placeholder="Password" />
+            <div><span>Registering <input type="checkbox" name="registering" /></span></div>
+            <input type="submit" class="btn btn-success" name="accountAction" value="Login/Register" />
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</template>
+
+<!-- NOT IN USE ATM -->
+
+<template name="message">
+  
+  <div class="col-xs-12">
+    <section id="filedrop" draggable="true">Drop files here</section>
+      <input type="file" name="fileUpload" id="fileUpload" />
+
+      <hr />
+  </div>
+
+  <div class="col-xs-2">
+    {{#each files}}
+      {{#unless this.isUploaded}}
+      {{> FS.UploadProgressBar bootstrap=true}}
+      {{/unless}}
+      <a id="{{_id}}" class="fileref" href="{{url}}">{{original.name}}</a>
+      <br />
+    {{/each}}
+    </div>
+
+    <div class="col-xs-8">
+      {{> yield "content"}}
+
+      <!--
+        {{#each messages}}
+        <p>{{message}}</p>
+      {{/each}}
+
+      <form id="messageForm">
+        <input type="text" name="message" />
+        <input type="submit" value="Send" />
+      </form>
+      -->
+    </div>
+</template>

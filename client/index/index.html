@@ -1,0 +1,72 @@
+<template name="beforeIndex">
+  {{#if isDesktop}}
+    {{> index}}
+  {{/if}}
+
+  {{#if isPhone}}
+    {{> index}}
+  {{/if}}
+
+  {{#if isTablet}}
+    {{> index}}
+  {{/if}}
+</template>
+
+<template name="index">
+  <form id="createSubsection">
+    <div class="input-group">
+      <input type="text" 
+              class="form-control" 
+              name="sectionName" 
+              placeholder="Subsection name"
+              maxlength="80" />
+      <span class="input-group-btn">
+        <input type="submit" 
+                class="btn btn-success center" 
+                value="Create a section" />
+      </span>
+    </div>
+  </form>
+
+  <!-- TODO parempi UI -->
+  {{#each sections}}
+    <a href="/{{name}}">
+      <div class="sectionContainer">
+
+        <!--<span class="glyphicon glyphicon-remove"></span>-->
+        <h4 class="col-xs-12 text-center">{{name}}</h4>
+        
+        {{#with thread _id}}
+          <span class="col-xs-12 glyphicon glyphicon-user text-center"> 
+            {{../currentlyViewing.length}} 
+          </span>
+          <span class="col-xs-12 text-center">
+          Threads: {{count}}
+          Messages: {{messagesPerSection this}}
+          
+          </span>
+
+          {{#each frontPageThreads ../_id}}
+            <a href="{{../../name}}/{{name}}">
+              <div class="frontPageThreadContainer col-lg-2 col-xs-2">
+                <div class="metadata">
+                  <span class="currentViewers">
+                    <span class="glyphicon glyphicon-user">{{currentlyViewing.length}}</span>
+                  </span>
+                  <span class="messageCount">
+                    <span class="glyphicon glyphicon-envelope">{{messageCount _id}}</span>
+                  </span>
+                </div>
+                <br />
+
+                {{name}}
+              </div>
+            </a>
+          {{/each}}
+          
+        {{/with}}
+
+      </div>
+    </a>
+  {{/each}}
+</template>

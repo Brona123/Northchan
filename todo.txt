@@ -1,0 +1,46 @@
+DONE -- Threadin ja section nimen lopun whitespacet pois
+DONE -- 1 like/dislike per ip (http://stackoverflow.com/questions/31898812/any-other-unique-identifier-beside-ip-address-from-a-meteor-client-request)
+DONE -- programmatic tooltip replies kohtaan (nyt jo viesteissä)
+DONE -- data size limit (10MB?) fileihin
+SEMI DONE -- image ja video resize mahdollisuus
+DONE -- kaikki käyttäjät -määrä etusivulle
+DONE -- käyttäjät per section
+DONE -- autoscroll mahdollisuus togglettaa
+
+DONE -- serverin kaatuminen korruptoi viewer countin
+DONE -- navigaatiobar ylös, josta pääsee takaisin etusivulle
+geolocation? (https://dev.w3.org/geo/api/spec-source.html)
+mobiili UI
+DONE -- youtube ja vimeo embed
+DONE -- twitch video embed https://player.twitch.tv/?video=v19355381
+DONE -- meteor slingshot file upload amazoniin aws s3
+file upload videoissa automaattinen reload että videon näkee
+file size erroriin UI
+file size limit (50mb?) per ip per day
+file type allowit slingshot direktiiveihin
+mobiili UI parannukset
+firefox kusee
+custom audio/video kontrollit
+SEMI DONE -- argument checkit sectionin ja threadin luonnin yhteydessä
+DONE -- mobiili UI:sta lähettäessä image ei pelitä
+DONE -- poll mahdollisuus
+SEMI DONE -- poll UI
+settings object per ip
+input ui messageihin
+DONE -- sectionin thread container file display kuntoon
+DONE -- twitch live stream threadin aloitus
+
+ACCOUNT SYSTEM
+usereiden poisto
+usereiden bannaaminen tietyksi ajaksi
+moderatorille ja superadminille mahdollisuus poistaa messageja ja threadeja
+	moderatorille trashcan, superadmin suora
+superadmin vain voi luoda ja poistaa sectionin
+
+ES6 REFAKTORIT
+stringit "interpolated expressioneiksi" s.42 "You don't know JS"
+for loopit for-of loopeiksi s.51 "You don't know JS"
+
+BUGIT
+DONE -- hot code push reload ei aina poista threadin viewer countia
+DONE -- Connected clients count ei resettaa kun sovelluksesta poistuu
