@@ -38,7 +38,7 @@ Template.index.events({
 
 		locale.set(locales[currentLocale]);
 	},
-	'submit #createSubsection': function (e) {
+	'submit #createSubsection': function (e, t) {
 		e.preventDefault();
 
 		let sectionName = $("input[name='sectionName'").val().trim();
@@ -52,5 +52,12 @@ Template.index.events({
 		let form = $("#createSubsection")[0];
 		$("#createSubsection")[0].blur();
 		form.reset();
+	},
+	'click button[name="deleteSection"]': function(e, t) {
+		e.preventDefault();
+
+		console.log($(e.target).attr("data-section-id"));
+		let sectionId = $(e.target).attr("data-section-id");
+		Sections.remove(sectionId);
 	}
 });

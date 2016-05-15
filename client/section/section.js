@@ -162,6 +162,14 @@ Template.section.events({
 		$("#createThread").toggle();
 		$(e.target).toggleClass("glyphicon-minus");
 		$(e.target).toggleClass("glyphicon-plus");
+	},
+	'click button[name="deleteThread"]': function(e, t) {
+		e.preventDefault();
+
+		console.log($(e.target).attr("data-thread-id"));
+		let threadId = $(e.target).attr("data-thread-id");
+
+		Threads.remove(threadId);
 	}
 });
 

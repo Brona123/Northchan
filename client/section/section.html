@@ -46,8 +46,15 @@
     <div id="threadList">
     {{#each threads}}
 
+
       <a href="{{../name}}/{{name}}">
+      
         <div class="threadContainer {{pageTheme.thread}} col-md-2 col-xs-6">
+          {{#if isInRole 'superadmin,moderator'}}
+            <button class="btn-danger"
+                    name="deleteThread"
+                    data-thread-id="{{_id}}">Delete thread</button>
+          {{/if}}
           <span class="header">{{truncateHeader name}}</span>
           <hr />
           <span class="glyphicon glyphicon-user"> {{currentlyViewing.length}} </span>
@@ -75,9 +82,8 @@
 
           {{#with livestream}}
             <div class="livestream">
-              <iframe src="https://player.twitch.tv/?channel={{this}}" 
-                      frameborder="0"
-                      autoplay="false"></iframe>
+              <iframe src="https://player.twitch.tv/?channel={{this}}&autoplay=false"
+                      frameborder="0"></iframe>
             </div>
           {{/with}}
 

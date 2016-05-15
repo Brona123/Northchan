@@ -32,6 +32,11 @@
   {{#each sections}}
     <a href="/{{name}}">
       <div class="sectionContainer">
+        {{#if isInRole 'superadmin'}}
+          <button class="btn btn-danger"
+                  name="deleteSection"
+                  data-section-id="{{_id}}">Delete section</button>
+        {{/if}}
 
         <!--<span class="glyphicon glyphicon-remove"></span>-->
         <h4 class="col-xs-12 text-center">{{name}}</h4>

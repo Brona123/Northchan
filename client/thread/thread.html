@@ -48,6 +48,12 @@
                       class="reply btn-info glyphicon glyphicon-comment">
               </button>
               -->
+              {{#if isInRole 'superadmin,moderator'}}
+                <button data-msg-id="{{_id}}"
+                        class="btn-danger" 
+                        name="deleteMessage">Delete message</button>
+              {{/if}}
+
               {{{styleLikes likes}}}
               <button data-msg-id="{{_id}}" 
                       class="rate-up btn-success glyphicon glyphicon-thumbs-up">

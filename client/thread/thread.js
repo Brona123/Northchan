@@ -231,6 +231,11 @@ Template.thread.events({
 		let option = $(e.target).attr("data-option");
 
 		Meteor.call("vote", pollId, option);
+	},
+	'click button[name="deleteMessage"]': function(e, t) {
+		let msgId = $(e.target).attr("data-msg-id");
+		
+		Messages.remove(msgId);
 	}
 });
 
@@ -262,6 +267,7 @@ Template.input.events({
 
 		let form = $("#sendMessage")[0];
 		form.reset();
+		charactersTyped.set(0);
 	},
 	'click #hideInputArea': function(e, t) {
 		$(".inputArea").toggleClass("minimized");
@@ -281,7 +287,6 @@ Template.input.events({
 		let currentCharacters = $("#sendMessage textarea[name='msg']").val().length;
 		let maxCharacters = $("#sendMessage textarea[name='msg']").attr("maxlength");
 
-		console.log(currentCharacters + " / " + maxCharacters);
 		charactersTyped.set(currentCharacters + " / " + maxCharacters);
 	}
 });

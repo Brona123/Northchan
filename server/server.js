@@ -1,10 +1,12 @@
 Meteor.startup(() => {
 	console.log("Server started");
 
-	Metadata.upsert({"_id" : "msgCount"}, {$set : {"msgCount" : 0}});
+	//Metadata.upsert({"_id" : "msgCount"}, {$set : {"msgCount" : 0}});
 	var query = Messages.find({});
 	var handle = query.observeChanges({
 		added: function(id, fields) {
+			// Ignore server startup calls (initial calls)
+			if (!handle) return;
 			Metadata.upsert({"_id" : "msgCount"}, {$inc : {"msgCount" : 1}});
 		}
 	});
