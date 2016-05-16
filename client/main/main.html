@@ -4,8 +4,16 @@
   <!--{{> canvas}}-->
 
   <div id="rootContainer">
-    <div class="col-xs-12">
+    <div>
       <section id="themeSelection">
+
+        <button class="btn btn-info" 
+                data-toggle="modal" 
+                data-target="#settingsModal">
+          <span class="glyphicon glyphicon-cog"></span>
+        </button>
+        
+        <!--
         Theme
         <select id="theme">
           {{#each themes}}
@@ -13,6 +21,7 @@
           {{/each}}
         </select>
         <br />
+        -->
 
         <span class="glyphicon glyphicon-user">{{connectedClientAmount}}</span>
       </section>
@@ -65,6 +74,7 @@
     {{> yield}}
   </div>
 
+  <!-- Login/Register account modal -->
   <div class="modal fade" id="accountModal" role="dialog">
     <div class="modal-dialog">
 
@@ -81,6 +91,37 @@
             <div><span>Registering <input type="checkbox" name="registering" /></span></div>
             <input type="submit" class="btn btn-success" name="accountAction" value="Login/Register" />
           </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Settings modal -->
+  <div class="modal fade" id="settingsModal" role="dialog">
+    <div class="modal-dialog">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Settings</h4>
+        </div>
+
+        <div class="modal-body">
+          <h3>Theme</h3>
+          <select id="theme">
+            {{#each themes}}
+              <option value="{{name}}">{{name}}</option>
+            {{/each}}
+          </select>
+          <hr />
+
+          <h3>Messaging</h3>
+          
         </div>
 
         <div class="modal-footer">

@@ -131,7 +131,7 @@ div#pollInput {
 	border-width: 2px;
 	height:40vh;
 	overflow:hidden;
-	font-size: 5vw;
+	font-size: 3.5vw;
 }
 
 .threadContainer img {
@@ -158,8 +158,20 @@ div#pollInput {
 	width:100%;
 }
 
+.phone .threadContainer .poll {
+	width:45vw;
+}
+
+.desktop .threadContainer .poll {
+	width:15vw;
+}
+
 .threadContainer .poll canvas {
 	width:100%;
+}
+
+.threadContainer .poll .threadTitle {
+	text-align: center;
 }
 
 .threadContainer:hover {
@@ -175,6 +187,10 @@ div#pollInput {
 .threadContainer .header {
 	max-height: 10px;
 	overflow-y: hidden;
+}
+
+.threadContainer .threadViewCountContainer {
+	float:right;
 }
 
 .threadContainer hr {
@@ -340,7 +356,7 @@ div#pollInput {
 }
 
 .phone .messageContainer {
-	font-size:3.5vw;
+	font-size:3vw;
 }
 
 .messageContainer .content .file {
@@ -357,9 +373,19 @@ div#pollInput {
 	cursor:pointer;
 }
 
+.messageContainer .content .pollContainer {
+	float:left;
+	width:50vw;
+}
+
+.phone .messageContainer .content .pollContainer {
+	float:left;
+	width:95vw;
+}
+
 .messageContainer .content .poll {
 	float:left;
-	width: 200px;
+	width:100%;
 }
 
 .messageContainer .content .poll canvas {
@@ -402,7 +428,7 @@ div#pollInput {
 }
 
 .phone .messageContainer .content .msg {
-	font-size:5vw;
+	font-size:1.5vw;
 }
 
 .messageContainer .content .msg .greentext {

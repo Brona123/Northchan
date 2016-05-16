@@ -80,20 +80,26 @@
             {{/if}}
 
             {{#if pollId}}
-              <div class="poll">
-                <canvas id="{{pollId}}"></canvas>
-              </div>
-                
-              <div class="voteBtns">
-              {{#each pollOptions pollId}}
-                <button class="voteBtn"
-                        data-option="{{option}}"
-                        data-pollId="{{../pollId}}">{{option}}</button>
-                <br />
-              {{/each}}
-              </div>
+              <div class="pollContainer">
+                <div class="poll">
+                  <canvas id="{{pollId}}"></canvas>
+                </div>
 
-              {{{pollHtml pollId}}}
+                <div class="voteBtns">
+                  <select id="optionSelection"
+                          style="width:100%;">
+                    {{#each pollOptions pollId}}
+                      <option value="{{option}}">{{option}}</option>
+                    {{/each}}
+                  </select>
+                  
+                  <button class="voteBtn"
+                          data-pollId="{{pollId}}"
+                          style="width:100%;">Vote</button>
+                </div>
+
+                {{{pollHtml pollId}}}
+              </div>
             {{/if}}
 
             {{#if livestream}}

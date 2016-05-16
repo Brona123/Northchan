@@ -86,7 +86,7 @@ Template.section.helpers({
 					},
 					tooltipEvents: [],
 					responsive: true,
-					maintainAspectRatio: false
+					maintainAspectRatio: true
 				}
 
 				new Chart(ctx).Pie(data, options);

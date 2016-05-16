@@ -13,6 +13,12 @@ pbl("sections", () => {
 	return Sections.find();
 });
 
+pbl("currentSection", (sectionName) => {
+	check(sectionName, String);
+	
+	return Sections.find({"name" : sectionName});
+});
+
 pbl("sectionThreadStubs", () => {
 	return Threads.find({});
 });

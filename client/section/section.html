@@ -15,7 +15,8 @@
 <template name="section">
   <div class="col-xs-12">
     <!--<h1 class="text-center"> {{name}} </h1>-->
-    <button class="glyphicon glyphicon-minus" id="toggleCreateThreadForm"></button>
+    <button class="glyphicon glyphicon-minus btn btn-block" 
+            id="toggleCreateThreadForm"></button>
     <form id="createThread">
       <input type="hidden" name="sectionId" value="{{_id}}" />
         <input type="text" name="threadName" class="form-control" placeholder="Thread name" maxlength="80" />
@@ -45,8 +46,6 @@
 
     <div id="threadList">
     {{#each threads}}
-
-
       <a href="{{../name}}/{{name}}">
       
         <div class="threadContainer {{pageTheme.thread}} col-md-2 col-xs-6">
@@ -55,9 +54,12 @@
                     name="deleteThread"
                     data-thread-id="{{_id}}">Delete thread</button>
           {{/if}}
+          
           <span class="header">{{truncateHeader name}}</span>
-          <hr />
-          <span class="glyphicon glyphicon-user"> {{currentlyViewing.length}} </span>
+          <span class="threadViewCountContainer">
+            {{currentlyViewing.length}}
+            <span class="glyphicon glyphicon-user"></span>
+          </span>
 
           {{#with downloadUrl}}
             <img src="{{this}}">
@@ -74,7 +76,7 @@
           
           {{#with pollId}}
             <div class="poll">
-              <h4>{{pollTitle this}}</h4>
+              <h4 class="threadTitle">{{pollTitle this}}</h4>
               <canvas id="{{this}}" ></canvas>
             </div>
             {{{pollHtml this}}}
@@ -125,7 +127,10 @@
 
 <template name="poll">
   <div id='pollInput'>
-    <input type='text' name='pollTitle' placeholder='Title' />
+    <input type='text' 
+            class="form-control" 
+            name='pollTitle' 
+            placeholder='Title' />
     <br />Options <input type='button' name='addOption' value='Add option' />
   </div>
 </template>

@@ -25,8 +25,6 @@ Template.thread.onRendered(function () {
 	if (autoScrolling)
 		textArea.scrollTop = textArea.scrollHeight;
 
-	$('[data-toggle="tooltip"]').tooltip();
-	// TODO tooltip initialisaatio uuden postin ohessa
 	pageRendered.set(true);
 });
 
@@ -120,7 +118,6 @@ Template.thread.helpers({
 	},
 	'pollHtml': function (pollId) {
 		if (pageRendered.get()) {
-			console.log("REACTIVE CANVAS INSIDE");
 			var ctx = document.getElementById(pollId).getContext("2d");
 
 			if (ctx) {
@@ -149,13 +146,12 @@ Template.thread.helpers({
 					},
 					tooltipEvents: [],
 					responsive: true,
-					maintainAspectRatio: false
+					maintainAspectRatio: true
 				}
 
 				pollChart = new Chart(ctx).Pie(data, options);
 			}
 		}
-		console.log("REACTIVE CANVAS");
 	},
 	'pollOptions': function (pollId) {
 		let poll = Polls.findOne(pollId);
@@ -224,11 +220,11 @@ Template.thread.events({
 		// TODO resize figure
 	},
 	'click .voteBtn': function(e, t) {
-		console.log($(e.target).attr("data-option"));
+		console.log($("#optionSelection").val());
 		console.log($(e.target).attr("data-pollId"));
 		
 		let pollId = $(e.target).attr("data-pollId");
-		let option = $(e.target).attr("data-option");
+		let option = $("#optionSelection").val();
 
 		Meteor.call("vote", pollId, option);
 	},
@@ -271,8 +267,8 @@ Template.input.events({
 	},
 	'click #hideInputArea': function(e, t) {
 		$(".inputArea").toggleClass("minimized");
-		$(".inputArea").toggleClass("col-xs-12");
-		$(".inputArea").toggleClass("col-xs-2");
+		//$(".inputArea").toggleClass("col-xs-12");
+		//$(".inputArea").toggleClass("col-xs-2");
 		$("#messagelist").toggleClass("maximized");
 		$("#hideInputArea").toggleClass("glyphicon-chevron-down");
 		$("#hideInputArea").toggleClass("glyphicon-chevron-up");
