@@ -7,11 +7,7 @@
     <div>
       <section id="themeSelection">
 
-        <button class="btn btn-info" 
-                data-toggle="modal" 
-                data-target="#settingsModal">
-          <span class="glyphicon glyphicon-cog"></span>
-        </button>
+        
         
         <!--
         Theme
@@ -23,7 +19,7 @@
         <br />
         -->
 
-        <span class="glyphicon glyphicon-user">{{connectedClientAmount}}</span>
+        
       </section>
       
       <span class="navbar">
@@ -47,6 +43,14 @@
       </span>
 
       <span class="accountpane">
+        <span class="glyphicon glyphicon-user">{{connectedClientAmount}}</span>
+        
+        <button class="btn btn-info" 
+                  data-toggle="modal" 
+                  data-target="#settingsModal">
+          <span class="glyphicon glyphicon-cog"></span>
+        </button>
+
         {{#if currentUser}}
           {{#if isInRole 'superadmin'}}
             <a href="/account-listing" id="accountListing" >Account listing</a>

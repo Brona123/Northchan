@@ -1,5 +1,5 @@
 Slingshot.createDirective("fileUploads", Slingshot.S3Storage, {
-  bucket: "forumprojekti-files",
+  bucket: "files.northchan.com",
 
   acl: "public-read",
 
@@ -19,6 +19,6 @@ Slingshot.createDirective("fileUploads", Slingshot.S3Storage, {
     //Store file into a directory by the user's username.
     //var user = Meteor.users.findOne(this.userId);
 
-    return "forumprojekti" + "/" + file.name;
+    return "files" + "/" + file.name;
   }
 });

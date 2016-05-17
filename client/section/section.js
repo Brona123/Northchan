@@ -196,11 +196,15 @@ function createThreadWithFile(sectionId, threadName, threadText) {
 		if (error) {
 			console.log(uploader.xhr.response);
 		} else {
+			let fileName = file.name;
+			let fileFolder = "files/";
+			let properFileDownloadUrl = "http://files.northchan.com/" + fileFolder + fileName;
+			
 			Meteor.call("createThreadWithFile"
 						, sectionId
 						, threadName
 						, threadText
-						, downloadUrl);
+						, properFileDownloadUrl);
 		}
 	});
 }

@@ -425,6 +425,7 @@ function parseCount(ref) {
 
 function insertMessageWithFile(file, threadId, message, msgCount) {
 	let uploader = new Slingshot.Upload("fileUploads");
+	console.log(file);
 	
 	uploader.send(file, function(error, downloadUrl) {
 		currentUploader.set();
@@ -449,10 +450,14 @@ function insertMessageWithFile(file, threadId, message, msgCount) {
 			}, 2000);
 			
 		} else {
+			let fileName = file.name;
+			let fileFolder = "files/";
+			let properFileDownloadUrl = "http://files.northchan.com/" + fileFolder + fileName;
+			
 			Meteor.call("insertMessageWithFile"
 						, threadId
 						, message
-						, downloadUrl
+						, properFileDownloadUrl
 						, msgCount);
 		}
 	});
