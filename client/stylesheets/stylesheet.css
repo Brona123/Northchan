@@ -22,22 +22,16 @@ a:link {
 	position: relative;
 }
 
-#themeSelection {
-	display:inline-block;
-	float:left;
+.phone * {
+	font-size:30px;
 }
 
-.phone #themeSelection {
-	font-size: 4vw;
-}
-
-.tablet #themeSelection {
-	font-size: 2.5vw;
+.desktop * {
+	font-size:1vw;
 }
 
 .navbar {
 	display:inline-block;
-	font-size:2.5vw;
 	margin:0;
 	word-break: break-all;
 }
@@ -52,10 +46,10 @@ a:link {
 	border-color: #3EB489;
 	border-width: 2px;
 	min-height: 20vh;
-	margin-top: 0.5vh;
-	border-radius:3vh 1vh 3vh 1vh;
+	margin-top: 1px;
+	border-radius:5px 2px 5px 2px;
 	overflow: hidden;
-	font-size: 2vh;
+	/*font-size: 2vh;*/
 }
 
 .sectionContainer:hover {
@@ -95,9 +89,9 @@ a:link {
 
 /* SECTION ROUTE */
 
-#createThread *:not(textarea) {
-	min-height: 5vh;
-	font-size: 3vh;
+.phone #createThread *:not(textarea) {
+	min-height: 10vw;
+	font-size: 5vw;
 }
 
 #createThread textarea {
@@ -109,7 +103,7 @@ div#pollInput {
 }
 
 #sectionViewCount {
-	font-size: 3vh;
+	/*font-size: 3vh;*/
 	text-align: center;
 	margin:1vh;
 }
@@ -121,7 +115,7 @@ div#pollInput {
 	border-width: 2px;
 	height:40vh;
 	overflow:hidden;
-	font-size: 2vh;
+	/*font-size: 2vh;*/
 }
 
 .phone .threadContainer {
@@ -129,9 +123,8 @@ div#pollInput {
 	border-style: ridge;
 	border-color: #3EB489;
 	border-width: 2px;
-	height:40vh;
+	height:60vw;
 	overflow:hidden;
-	font-size: 3.5vw;
 }
 
 .threadContainer img {
@@ -142,6 +135,7 @@ div#pollInput {
 .threadContainer video {
 	width: 100%;
 	height: 60%;
+	max-height: 200px;
 }
 
 .threadContainer .embed iframe {
@@ -205,7 +199,7 @@ div#pollInput {
 }
 
 .phoneThreadRouteRootContainer {
-	height:80%;
+	height:85%;
 }
 
 .tabletThreadRouteRootContainer {
@@ -237,8 +231,7 @@ div#pollInput {
 }
 
 .phone .metadata .actions button {
-	min-height: 5vh;
-	min-width: 9vw;
+	min-width: 10vw;
 }
 
 .disliked {
@@ -268,43 +261,43 @@ div#pollInput {
 }
 
 .phone .inputArea *:not(textarea) {
-	font-size: 3vh;
+	/*font-size: 3vh;*/
 }
 
 .phone .inputArea input {
-	height: 7vh;
+	height: 7vw;
 }
 
 .phone .progress {
-	height:5vh;
+	height:5vw;
 }
 
 .tablet .inputArea {
-	height:50vh;
+	height:50vw;
 }
 
 .tablet .inputArea * {
-	font-size: 3vh;
+	/*font-size: 3vh;*/
 }
 
 .tablet .inputArea input {
-	height: 7vh;
+	height: 7vw;
 }
 
 .tablet .progress {
-	height:5vh;
+	height:5vw;
 }
 
 .desktop .minimized {
-	height: 5vh;
+	height: 2.5vw;
 }
 
 .phone .minimized {
-	height: 5vh;
+	height: 5vw;
 }
 
 .tablet .minimized {
-	height: 5vh;
+	height: 5vw;
 }
 
 .inputArea textarea {
@@ -348,22 +341,32 @@ div#pollInput {
 	border-style: ridge;
 	border-color: #3EB489;
 	border-width: 4px;
-	margin:0.5vh;
+	/*margin:0.5vh;*/
 }
 
 .desktop .messageContainer {
-	font-size: 2vh;
+	/*font-size: 2vh;*/
 }
 
 .phone .messageContainer {
-	font-size:3vw;
+	/*font-size:3vw;*/
 }
 
 .messageContainer .content .file {
+	/*
 	text-align: center;
 	display:table-cell;
 	float:left;
+	*/
 	cursor:pointer;
+	max-width: 200px;
+	width: auto;
+	height: auto;
+	display: block;
+}
+
+.messageContainer .content .file:click {
+	max-width: inherit;
 }
 
 .messageContainer .content .embed {
@@ -393,19 +396,22 @@ div#pollInput {
 	width:100%;
 }
 
-.messageContainer .content .poll .voteBtns {
-	float:left;
-}
-
 .messageContainer hr {
-	margin:5px;
+	margin:3px;
+	height:2px;
+	background-color:green;
 }
 
 .messageContainer .content .minimized {
-	max-width:10vw;
-	width:auto;
-	height:auto;
+	max-width: 10vw;
+	width: auto;
+	height: auto;
 	display: block;
+}
+
+
+.phone .messageContainer .content .minimized {
+	max-width: 35vw;
 }
 
 .messageContainer img {
@@ -428,7 +434,7 @@ div#pollInput {
 }
 
 .phone .messageContainer .content .msg {
-	font-size:1.5vw;
+	font-size:4vw;
 }
 
 .messageContainer .content .msg .greentext {

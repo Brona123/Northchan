@@ -101,6 +101,13 @@ Template.section.helpers({
 	},
 	'selectedInput': function() {
 		return currentInputTypeTemplate.get();
+	},
+	'uploadProgress': () => {
+		let uploader = currentUploader.get();
+
+		if (uploader) {
+			return Math.round(uploader.progress() * 100) || 0;
+		}
 	}
 });
 
@@ -193,6 +200,8 @@ function createThreadWithFile(sectionId, threadName, threadText) {
 	var uploader = new Slingshot.Upload("fileUploads");
 
 	uploader.send(file, function(error, downloadUrl) {
+		currentUploader.set();
+
 		if (error) {
 			console.log(uploader.xhr.response);
 		} else {
@@ -207,6 +216,8 @@ function createThreadWithFile(sectionId, threadName, threadText) {
 						, properFileDownloadUrl);
 		}
 	});
+
+	currentUploader.set(uploader);
 }
 
 function createThreadWithEmbed(sectionId, threadName, threadText) {

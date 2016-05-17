@@ -1,5 +1,4 @@
 var autoScrolling = true;
-var currentUploader = new ReactiveVar();
 var pageRendered = new ReactiveVar(false);
 var pollChart;
 var charactersTyped = new ReactiveVar("");
@@ -102,11 +101,6 @@ Template.thread.helpers({
  			return bytes + " bytes";
  		}
 	},
-	'properHTML': function(downloadUrl) {
-		if (!downloadUrl) return;
-
-		return correspondingFileHtml(downloadUrl);
-	},
 	'deviceSpecificClass': () => {
 		if (Meteor.Device.isDesktop()) {
 			return "desktopThreadRouteRootContainer";
@@ -158,6 +152,12 @@ Template.thread.helpers({
 
 		if (poll)
 			return poll.options;
+	},
+	'cacheUrl': function() {
+		console.log(currentUploader.get());
+		// Can only preload images
+		// currentUploader.file.type === "video/mp4"
+		return currentUploader.get().url(true);
 	}
 });
 
@@ -213,7 +213,7 @@ Template.thread.events({
 	'click .content .file': function(e, t) {
 		let elem = $(e.target);
 
-		elem.parent().toggleClass("minimized");
+		//elem.parent().toggleClass("minimized");
 		console.log("ELEM:");
 		console.log(elem);
 		elem.prop("controls", elem.prop("controls") ? false : true);
@@ -342,16 +342,6 @@ function formatMsg(msg) {
 	return msgWithLineBreaks;
 }
 
-function correspondingFileHtml(downloadUrl) {
-	if (downloadUrl.endsWith(".mp4")) {
-		return "<div class='file minimized'> <video src='" + downloadUrl + "' /> </div>";
-	} else if (downloadUrl.endsWith(".png") || downloadUrl.endsWith(".jpg")) {
-		return "<div class='file minimized'> <img src='" + downloadUrl + "'> </div>";
-	} else if (downloadUrl.endsWith(".mp3")) {
-		return "<div class='file'><audio src='" + downloadUrl + "' controls /> </div>";
-	}
-}
-
 function finnishDate(date) {
 	return date.getDate()
 				+ "."
@@ -425,7 +415,6 @@ function parseCount(ref) {
 
 function insertMessageWithFile(file, threadId, message, msgCount) {
 	let uploader = new Slingshot.Upload("fileUploads");
-	console.log(file);
 	
 	uploader.send(file, function(error, downloadUrl) {
 		currentUploader.set();

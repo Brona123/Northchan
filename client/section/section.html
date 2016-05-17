@@ -56,13 +56,16 @@
           {{/if}}
           
           <span class="header">{{truncateHeader name}}</span>
+          
           <span class="threadViewCountContainer">
             {{currentlyViewing.length}}
             <span class="glyphicon glyphicon-user"></span>
           </span>
 
           {{#with downloadUrl}}
-            <img src="{{this}}">
+            <div class="file">
+              {{{properFileHtml this}}}
+            </div>
           {{/with}}
 
           {{#with embedLink}}
@@ -112,6 +115,16 @@
       </span>
     </span>
 
+    <div class="progress col-xs-8">
+      <div class="progress-bar"
+            role="progressbar"
+            aria-valuenow="{{uploadProgress}}"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            style="width: {{uploadProgress}}%;">
+        {{uploadProgress}}%
+      </div>
+    </div>
     <input id='filePath' type='text' class='form-control' readonly>
   </div>
 </template>

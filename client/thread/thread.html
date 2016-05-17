@@ -31,7 +31,8 @@
 
     <div id="messagelist">
       {{#each messages}}
-        <section id="{{count}}" class="messageContainer {{pageTheme.message}}">
+        <section id="{{count}}" 
+                  class="messageContainer {{pageTheme.message}}">
 
           <div class="metadata">
             <time>{{finnishDate timestamp}}</time>
@@ -75,8 +76,16 @@
             </div>
             {{/if}}
 
+            <!-- Can only display images cached
+            {{#with cacheUrl}}
+              <img src={{this}}/>
+            {{/with}}
+            -->
+
             {{#if downloadUrl}}
-              {{{properHTML downloadUrl}}}
+              <div class="file">
+                {{{properFileHtml downloadUrl}}}
+              </div>
             {{/if}}
 
             {{#if pollId}}

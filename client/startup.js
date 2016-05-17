@@ -23,3 +23,19 @@ function pong(error, result) {
 	console.log("TIMEDIFF: " + timeDiff);
 }
 */
+
+function correspondingFileHtml(downloadUrl) {
+	if (downloadUrl.endsWith(".mp4")) {
+		return "<video src='" + downloadUrl + "' />";
+	} else if (downloadUrl.endsWith(".png") || downloadUrl.endsWith(".jpg")) {
+		return "<img src='" + downloadUrl + "'>";
+	} else if (downloadUrl.endsWith(".mp3")) {
+		return "<audio src='" + downloadUrl + "' controls />";
+	}
+}
+
+Template.registerHelper("properFileHtml", (downloadUrl) => {
+	if (!downloadUrl) return;
+
+	return correspondingFileHtml(downloadUrl);
+});
