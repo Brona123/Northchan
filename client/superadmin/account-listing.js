@@ -16,6 +16,12 @@ Template.accountListing.helpers({
 	'allRoles': () => {
 		console.log(Roles.getAllRoles().fetch());
 		return Roles.getAllRoles().fetch();
+	},
+	'bannedUsers': () => {
+		return BannedUsers.find();
+	},
+	'userName': (id) => {
+		return Meteor.users.findOne(id).username;
 	}
 });
 
@@ -37,5 +43,10 @@ Template.accountListing.events({
 		let userId = $(e.target).attr("data-userid");
 
 		Roles.addUsersToRoles(userId, role);
+	},
+	'click button[name="unban"]': (e, t) => {
+		let userId = $(e.target).attr("data-userid");
+
+		BannedUsers.remove(userId);
 	}
 });

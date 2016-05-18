@@ -48,7 +48,8 @@ Template.thread.helpers({
 		return Files.findOne(fileId);
 	},
 	'finnishDate': (date) => {
-		return finnishDate(date);
+		if (date)
+			return finnishDate(date);
 	},
 	'styleLikes': function(likeCount) {
 		if (!likeCount) {
@@ -232,6 +233,23 @@ Template.thread.events({
 		let msgId = $(e.target).attr("data-msg-id");
 		
 		Messages.remove(msgId);
+	},
+	'click button[name="banUser"]': function(e, t) {
+		console.log($(e.target).attr("data-owner-id"));
+		let id = $(e.target).attr("data-owner-id");
+		let msgId = $(e.target).attr("data-msg-id");
+
+		let msgContent = Messages.findOne(msgId).msg;
+		let modId = Meteor.userId();
+
+		// TODO UI bannin syyn antamiselle
+		let reason = "U're banned!";
+
+		Meteor.call("banUser"
+					, id
+					, "U're banned!"
+					, msgContent
+					, modId);
 	}
 });
 
@@ -244,8 +262,6 @@ Template.input.events({
 		let file = $("input[name='msgFile']").prop('files')[0];
 		let embedLink = getVideoEmbedLink($("input[name='embed']").val());
 
-		// TODO embed parsetus perus linkistä embed linkiksi
-		// youtube/vimeo etc.. 
 		let replies = parseReplies(message);
 		let msgCount = Metadata.findOne().msgCount;
 
@@ -305,7 +321,6 @@ Template.input.helpers({
 		}
 	},
 	'charactersTyped': () => {
-		console.log("sdfg");
 		return charactersTyped.get();
 	}
 });
@@ -463,6 +478,12 @@ function storeReplies(replies, msgCount) {
 }
 
 function parseReplies(msg) {
+	// TODO numero viestissä ilman #-merkkiä aiheuttaa server errorin
+	console.log(msg.match(/#/g));
+	if (msg.match(/#/g)) {
+		return;
+	}
+
 	let trimmed = msg.replace(/\s/g, "");
 	let splitted = trimmed.split("#");
 

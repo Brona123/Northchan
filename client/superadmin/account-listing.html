@@ -46,6 +46,36 @@
     </table>
   </div>
 
+  <div class="bannedUsers col-xs-10 col-xs-offset-1">
+    <table class="table table-hover table-striped">
+      <thead>
+        <tr>
+          <th>Unban</th>
+          <th>User id/Account name</th>
+          <th>Reason</th>
+          <th>Message</th>
+          <th>Banned by</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        {{#each bannedUsers}}
+          <tr>
+            <td>
+              <button class="btn btn-success" 
+                      name="unban"
+                      data-userid="{{_id}}">Unban</button>
+            </td>
+            <td>{{_id}}</td>
+            <td>{{reason}}</td>
+            <td>{{message}}</td>
+            <td>{{userName bannedBy}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
   <div class="modal fade" id="userRole" role="dialog">
     <div class="modal-dialog">
 

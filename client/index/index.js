@@ -27,8 +27,10 @@ Template.index.helpers({
 		return Messages.find({"threadId" : {$in : threadIds}}).count();
 	},
 	'frontPageThreads' : (sectionId) => {
+		let threadAmount = Meteor.Device.isDesktop() ? 6 : 4;
+
 		return Threads.find({"sectionId" : sectionId}
-							, {sort : {"currentlyViewing" : -1}, limit : 6});
+							, {sort : {"currentlyViewing" : -1}, limit : threadAmount});
 	}
 });
 

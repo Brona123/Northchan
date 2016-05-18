@@ -35,6 +35,9 @@ Meteor.methods({
 		let clientId = SHA256(conn.clientAddress);
 
 		clearViews(clientId);
+	},
+	'getId': function() {
+		return SHA256(this.connection.clientAddress);
 	}
 });
 

@@ -50,6 +50,12 @@
               </button>
               -->
               {{#if isInRole 'superadmin,moderator'}}
+                <b>{{from}}</b>
+                <button data-owner-id="{{from}}"
+                        data-msg-id="{{_id}}"
+                        class="btn-warning"
+                        name="banUser">Ban user</button>
+
                 <button data-msg-id="{{_id}}"
                         class="btn-danger" 
                         name="deleteMessage">Delete message</button>

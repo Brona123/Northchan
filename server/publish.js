@@ -56,7 +56,7 @@ pbl("thread", function (threadName) {
 	}
 });
 
-pbl("messages", (threadName) => {
+pbl("messages", function (threadName) {
 	check(threadName, String);
 	
 	let thread = Threads.findOne({"name" : threadName});
@@ -64,7 +64,13 @@ pbl("messages", (threadName) => {
 	if (!thread) {
 		return;
 	} else {
-		return Messages.find({"threadId" : thread._id});
+
+		if (Roles.userIsInRole(this.userId, 'superadmin,moderator')) {
+			return Messages.find({"threadId" : thread._id});
+		} else {
+			return Messages.find({"threadId" : thread._id}
+								, {$fields : {"from" : 0}});
+		}
 	}
 });
 
@@ -80,6 +86,12 @@ pbl("polls", () => {
 	return Polls.find({}, {$fields : {"alreadyVoted" : 0}});
 });
 
+pbl("selfBanned", function () {
+	let id = SHA256(this.connection.clientAddress);
+
+	return BannedUsers.find(id);
+});
+
 // Admin publications
 pbl("adminAccountsListing", () => {
 	return Meteor.users.find({});
@@ -87,4 +99,8 @@ pbl("adminAccountsListing", () => {
 
 pbl("adminAllRoles", () => {
 	return Meteor.roles.find({});
+});
+
+pbl("adminBannedUsers", () => {
+	return BannedUsers.find({});
 });

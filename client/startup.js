@@ -24,6 +24,12 @@ function pong(error, result) {
 }
 */
 
+Meteor.startup(() => {
+	Meteor.call("getId", function (error, result) {
+		Session.set("hashId", result);
+	});
+});
+
 function correspondingFileHtml(downloadUrl) {
 	if (downloadUrl.endsWith(".mp4")) {
 		return "<video src='" + downloadUrl + "' />";
