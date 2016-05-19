@@ -30,7 +30,7 @@ Meteor.startup(() => {
 	});
 });
 
-function correspondingFileHtml(downloadUrl) {
+correspondingFileHtml = function(downloadUrl) {
 	if (downloadUrl.endsWith(".mp4")) {
 		return "<video src='" + downloadUrl + "' />";
 	} else if (downloadUrl.endsWith(".png") || downloadUrl.endsWith(".jpg")) {

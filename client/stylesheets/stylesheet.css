@@ -195,7 +195,7 @@ div#pollInput {
 
 /* THREAD ROUTE */
 .desktopThreadRouteRootContainer {
-	height:85vh;
+	height:80vh;
 }
 
 .phoneThreadRouteRootContainer {
@@ -208,7 +208,7 @@ div#pollInput {
 
 .desktopThreadRouteRootContainer #messagelist {
 	overflow-y:scroll;
-	height:75%;
+	height:70%;
 }
 
 .phoneThreadRouteRootContainer #messagelist {
@@ -362,20 +362,10 @@ div#pollInput {
 }
 
 .messageContainer .content .file {
-	/*
 	text-align: center;
 	display:table-cell;
 	float:left;
-	*/
 	cursor:pointer;
-	max-width: 200px;
-	width: auto;
-	height: auto;
-	display: block;
-}
-
-.messageContainer .content .file:click {
-	max-width: inherit;
 }
 
 .messageContainer .content .embed {
@@ -413,7 +403,7 @@ div#pollInput {
 }
 
 .messageContainer .content .minimized {
-	max-width: 10vw;
+	max-width: 20vw;
 	width: auto;
 	height: auto;
 	display: block;

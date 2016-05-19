@@ -214,7 +214,7 @@ Template.thread.events({
 	'click .content .file': function(e, t) {
 		let elem = $(e.target);
 
-		//elem.parent().toggleClass("minimized");
+		elem.parent().toggleClass("minimized");
 		console.log("ELEM:");
 		console.log(elem);
 		elem.prop("controls", elem.prop("controls") ? false : true);
@@ -404,7 +404,7 @@ function messageAsHtml(msg) {
 		        + '<iframe src="' + msg.embedLink + '" frameborder="0" allowfullscreen></iframe>'
 		      	+ '</div>';
     } else if (msg.downloadUrl) {
-    	html += correspondingFileHtml(msg.downloadUrl);
+    	html += '<div class="minimized">' + correspondingFileHtml(msg.downloadUrl) + '</div>';
     }
 
     html += '<span class="msg">' + formatMsg(msg.msg) + '</span></div>';
@@ -478,25 +478,24 @@ function storeReplies(replies, msgCount) {
 }
 
 function parseReplies(msg) {
-	// TODO numero viestissä ilman #-merkkiä aiheuttaa server errorin
-	console.log(msg.match(/#/g));
-	if (msg.match(/#/g)) {
-		return;
+	// If message doesn't have references, return empty array
+	if (!msg.includes("#")) {
+		return [];
 	}
 
-	let trimmed = msg.replace(/\s/g, "");
-	let splitted = trimmed.split("#");
+	// Match all strings beginning with '#'
+	// and continuing with a digit
+	let matcher = msg.match(/#\d+/g);
 
 	var replies = [];
-	splitted.forEach((e, i, a) => {
-		let matcher = e.match(/\d+/);
-
-		if (matcher) {
-			let msgCount = matcher[0];
-			replies.push(+msgCount);
-		}
+	matcher.forEach((e, i, a) => {
+		// Filter out the '#' char and push digits
+		// to replies array
+		replies.push(+e.substring(1, e.length));
 	});
 
+	// Return only unique references
+	// so ppl can't spam reference one message
 	return $.unique(replies);
 }
 
