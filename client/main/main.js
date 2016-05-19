@@ -1,7 +1,3 @@
-Template.registerHelper("pageTheme", function() {
-	return pageTheme.get();
-});
-
 function getDeviceClass() {
 	if (Meteor.Device.isDesktop()) {
 		return "desktop";
@@ -14,10 +10,14 @@ function getDeviceClass() {
 
 Template.main.onRendered(function() {
 	Tracker.autorun(function() {
-		let theme = pageTheme.get();
-		$('body').removeClass();
-		$('body').addClass(theme.background);
-		$('body').addClass(getDeviceClass());
+		let theme = Session.get("pageTheme");
+		console.log("CHANGED THEME");
+
+		if (theme) {
+			$('body').removeClass();
+			$('body').addClass(theme.background);
+			$('body').addClass(getDeviceClass());
+		}
 	});
 });
 
@@ -27,7 +27,7 @@ Template.main.events({
 
 		themes.forEach((elem, index, arr) => {
 			if (elem.name === theme) {
-				pageTheme.set(elem);
+				Session.update("pageTheme", elem);
 			}
 		});
 	},
@@ -62,6 +62,24 @@ Template.main.events({
 	},
 	'click #logoutButton': (e, t) => {
 		Meteor.logout();
+	},
+	'click input[name="autoscroll"]': (e, t) => {
+		let settings = Session.get("settings");
+		settings.autoscroll = !settings.autoscroll;
+
+		Session.update("settings", settings);
+	},
+	'click input[name="readonly"]': (e, t) => {
+		let settings = Session.get("settings");
+		settings.readonly = !settings.readonly;
+
+		Session.update("settings", settings);
+	},
+	'click input[name="reactive"]': (e, t) => {
+		let settings = Session.get("settings");
+		settings.reactive = !settings.reactive;
+
+		Session.update("settings", settings);
 	}
 });
 
@@ -78,6 +96,20 @@ Template.main.helpers({
 	},
 	'themes': () => {
 		return themes;
+	},
+	'isSelected': (name) => {
+		if (Session.get("pageTheme").name === name) {
+			return "selected";
+		}
+	},
+	'autoscrollToggled': () => {
+		return Session.get("settings").autoscroll;
+	},
+	'readonlyToggled': () => {
+		return Session.get("settings").readonly;
+	},
+	'reactiveToggled': () => {
+		return Session.get("settings").reactive;
 	}
 });
 

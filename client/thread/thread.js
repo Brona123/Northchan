@@ -1,4 +1,3 @@
-var autoScrolling = true;
 var pageRendered = new ReactiveVar(false);
 var pollChart;
 var charactersTyped = new ReactiveVar("");
@@ -15,13 +14,12 @@ Template.thread.onRendered(function () {
 		insertElement: function(node, next) {
 			$(node).hide().insertBefore(next).fadeIn();
 
-			if (autoScrolling)
+			if (Session.get("settings").autoscroll)
 				textArea.scrollTop = textArea.scrollHeight;
-			
 		}
 	};
 	
-	if (autoScrolling)
+	if (Session.get("settings").autoscroll)
 		textArea.scrollTop = textArea.scrollHeight;
 
 	pageRendered.set(true);
@@ -159,6 +157,9 @@ Template.thread.helpers({
 		// Can only preload images
 		// currentUploader.file.type === "video/mp4"
 		return currentUploader.get().url(true);
+	},
+	'isReadOnly': () => {
+		return Session.get("settings").readonly ? "readonly" : "";
 	}
 });
 
@@ -207,9 +208,6 @@ Template.thread.events({
 	},
 	'mouseenter .replies a': function(e, t) {
 		displayRefTooltip($(e.target));
-	},
-	'click #autoscroll': function(e, t) {
-		autoScrolling = $(e.target).prop("checked");
 	},
 	'click .content .file': function(e, t) {
 		let elem = $(e.target);
@@ -391,7 +389,7 @@ function displayRefTooltip(target) {
 }
 
 function messageAsHtml(msg) {
-	var html =  '<section class="messageContainer ' + pageTheme.get().message + '">'
+	var html =  '<section class="messageContainer ' + Session.get("pageTheme").message + '">'
 	      		+ '<div class="metadata">'
 	        	+ '<time>' + finnishDate(msg.timestamp) + '</time>'
 				+ '<a href="' + msg.count + ' class="reply" data-msg-id="' + msg._id + '">#' + msg.count + '</a>'

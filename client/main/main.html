@@ -26,35 +26,39 @@
       </span>
 
       <span class="accountpane">
-        <span class="glyphicon glyphicon-user">{{connectedClientAmount}}</span>
-
+        {{#unless readonly}}
+          <span class="glyphicon glyphicon-user">{{connectedClientAmount}}</span>
+        {{/unless}}
+        
         <button class="btn btn-info" 
                   data-toggle="modal" 
                   data-target="#settingsModal">
           <span class="glyphicon glyphicon-cog"></span>
         </button>
 
-        {{#if currentUser}}
-          {{#if isInRole 'superadmin'}}
-            <a href="/account-listing" id="accountListing" >Account listing</a>
+        {{#unless readonly}}
+          {{#if currentUser}}
+            {{#if isInRole 'superadmin'}}
+              <a href="/account-listing" id="accountListing" >Account listing</a>
 
-            <b>Role: Superadmin</b>
+              <b>Role: Superadmin</b>
+            {{/if}}
+
+            {{#if isInRole 'moderator'}}
+              <b>Role: Moderator</b>
+            {{/if}}
+              <span>Hello, {{currentUser.username}}</span>
+
+            <button class="btn btn-warning"
+                    id="logoutButton"
+                    value="logout">Logout</button>
+          {{else}}
+            <button class="btn btn-info" 
+                    value="login" 
+                    data-toggle="modal" 
+                    data-target="#accountModal">Login/Register</button>
           {{/if}}
-
-          {{#if isInRole 'moderator'}}
-            <b>Role: Moderator</b>
-          {{/if}}
-            <span>Hello, {{currentUser.username}}</span>
-
-          <button class="btn btn-warning"
-                  id="logoutButton"
-                  value="logout">Logout</button>
-        {{else}}
-          <button class="btn btn-info" 
-                  value="login" 
-                  data-toggle="modal" 
-                  data-target="#accountModal">Login/Register</button>
-        {{/if}}
+        {{/unless}}
       </span>
     </div>
     
@@ -100,15 +104,27 @@
 
         <div class="modal-body">
           <h3>Theme</h3>
-          <select id="theme">
+          <select id="theme" class="form-control">
             {{#each themes}}
-              <option value="{{name}}">{{name}}</option>
+              <option value="{{name}}" {{isSelected this.name}}>{{name}}</option>
             {{/each}}
           </select>
           <hr />
 
           <h3>Messaging</h3>
-          
+          <input type="checkbox"
+                  name="autoscroll"
+                  checked="{{autoscrollToggled}}" />Autoscroll
+          <hr />
+
+          <h3>Usability</h3>
+          <input type="checkbox"
+                  name="readonly" 
+                  checked="{{readonlyToggled}}" />Readonly mode
+          <br />
+          <input type="checkbox"
+                  name="reactive" 
+                  checked="{{reactiveToggled}}" />Reactive data          
         </div>
 
         <div class="modal-footer">

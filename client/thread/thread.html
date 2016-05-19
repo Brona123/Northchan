@@ -1,32 +1,43 @@
 <template name="beforeThread">
-  {{#if isDesktop}}
-    {{> thread}}
-    {{> input}}
-  {{/if}}
+  {{> thread}}
 
+  {{#unless readonly}}
+    {{> input}}
+  {{/unless}}
+
+  <!--
   {{#if isPhone}}
     {{> thread}}
-    {{> input}}
+    
+    {{#unless readonly}}
+      {{> input}}
+    {{/unless}}
   {{/if}}
 
   {{#if isTablet}}
     {{> thread}}
-    {{> input}}
+
+    {{#unless readonly}}
+      {{> input}}
+    {{/unless}}
   {{/if}}
+  -->
 
 </template>
 
 <template name="thread">
-  <div class="{{deviceSpecificClass}}">
+  <div class="{{deviceSpecificClass}} {{isReadOnly}}">
     <div class="threadMetaContainer">
       <!--<h1 class="text-center"> {{threadName}} </h1>-->
       <span class="glyphicon glyphicon-user">{{viewerCount}}</span>
 
+      <!--
       Autoscroll
       <span class="custom-checkbox">
         <input type="checkbox" id="autoscroll" checked />
         <span class="box"><span class="tick"></span></span>
       </span>
+      -->
     </div>
 
     <div id="messagelist">

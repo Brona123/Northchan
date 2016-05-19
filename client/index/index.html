@@ -14,20 +14,22 @@
 
 <template name="index">
   {{#if isInRole 'superadmin'}}
-    <form id="createSubsection">
-      <div class="input-group">
-        <input type="text" 
-                class="form-control" 
-                name="sectionName" 
-                placeholder="Subsection name"
-                maxlength="80" />
-        <span class="input-group-btn">
-          <input type="submit" 
-                  class="btn btn-success center" 
-                  value="Create a section" />
-        </span>
-      </div>
-    </form>
+    {{#unless readonly}}
+      <form id="createSubsection">
+        <div class="input-group">
+          <input type="text" 
+                  class="form-control" 
+                  name="sectionName" 
+                  placeholder="Subsection name"
+                  maxlength="80" />
+          <span class="input-group-btn">
+            <input type="submit" 
+                    class="btn btn-success center" 
+                    value="Create a section" />
+          </span>
+        </div>
+      </form>
+    {{/unless}}
   {{/if}}
 
   <!-- TODO parempi UI -->

@@ -5,7 +5,11 @@ Template.index.onRendered(function () {
 
 Template.index.helpers({
 	'sections' : () => {
-		return Sections.find({}, {sort : {"currentlyViewing" : -1, "name" : 1}}); 
+		if (Session.get("settings").reactive) {
+			return Sections.find({}, {sort : {"currentlyViewing" : -1, "name" : 1}});
+		} else {
+			return Sections.find({}, {sort : {"name" : 1}});			
+		}
 	},
 	'sectionThreadCount': () => {
 		return Threads.find(); 

@@ -15,31 +15,32 @@
 <template name="section">
   <div class="col-xs-12">
     <!--<h1 class="text-center"> {{name}} </h1>-->
-    <button class="glyphicon glyphicon-minus btn btn-block" 
-            id="toggleCreateThreadForm"></button>
-    <form id="createThread">
-      <input type="hidden" name="sectionId" value="{{_id}}" />
-        <input type="text" name="threadName" class="form-control" placeholder="Thread name" maxlength="80" />
-      
-      <select id="inputTypeSelection" class="form-control">
-        <option value="embed">Embed (youtube/vimeo/twitch VoD)</option>
-        <option value="file">File (10 MB limit)</option>
-        <option value="livestream">Live stream (twitch.tv)</option>
-        <option value="poll">Poll</option>
-      </select>
+    {{#unless readonly}}
+      <button class="glyphicon glyphicon-minus btn btn-block" 
+              id="toggleCreateThreadForm"></button>
+      <form id="createThread">
+        <input type="hidden" name="sectionId" value="{{_id}}" />
+          <input type="text" name="threadName" class="form-control" placeholder="Thread name" maxlength="80" />
+        
+        <select id="inputTypeSelection" class="form-control">
+          <option value="embed">Embed (youtube/vimeo/twitch VoD)</option>
+          <option value="file">File (10 MB limit)</option>
+          <option value="livestream">Live stream (twitch.tv)</option>
+          <option value="poll">Poll</option>
+        </select>
 
-      <!-- TODO UI kuntoon -->
-      {{> Template.dynamic template=selectedInput }}
+        <!-- TODO UI kuntoon -->
+        {{> Template.dynamic template=selectedInput }}
 
 
-      <textarea class="form-control" 
-                name="threadInitText" 
-                placeholder="Initial text"
-                rows="6"></textarea>
-      
-      <input type="submit" class="btn btn-success btn-block center" value="Create a thread" />
-    </form>
-    
+        <textarea class="form-control" 
+                  name="threadInitText" 
+                  placeholder="Initial text"
+                  rows="6"></textarea>
+        
+        <input type="submit" class="btn btn-success btn-block center" value="Create a thread" />
+      </form>
+    {{/unless}}
 
     <div id="sectionViewCount" class="col-xs-12 glyphicon glyphicon-user">{{sectionViewCount}}</div>
     <br />

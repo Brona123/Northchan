@@ -25,11 +25,12 @@ SEMI DONE -- argument checkit sectionin ja threadin luonnin yhteydessä
 DONE -- mobiili UI:sta lähettäessä image ei pelitä
 DONE -- poll mahdollisuus
 SEMI DONE -- poll UI
-settings object per ip
+DONE -- (session)settings object per ip
 input ui messageihin
 DONE -- sectionin thread container file display kuntoon
 DONE -- twitch live stream threadin aloitus
 threadia luodessa progress bar file uploadeille
+threadin luonti ilman fileä etc
 
 ACCOUNT SYSTEM
 usereiden poisto
@@ -47,3 +48,5 @@ DONE -- hot code push reload ei aina poista threadin viewer countia
 DONE -- Connected clients count ei resettaa kun sovelluksesta poistuu
 threadin luodessa ainakin kännykällä fontti kusee
 numerot viestissä bugittavat
+viestissä referoidessa viestiä jota ei olemassa tulee server error
+tulevaisuuden viestiä referoidessa kyseisessä viestissä ei näy repliesejä

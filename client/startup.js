@@ -25,6 +25,14 @@ function pong(error, result) {
 */
 
 Meteor.startup(() => {
+	if (!Session.get("pageTheme")) {
+		Session.setPersistent("pageTheme", mintTheme);
+	}
+
+	if (!Session.get("settings")) {
+		Session.setPersistent("settings", settings);
+	}
+
 	Meteor.call("getId", function (error, result) {
 		Session.set("hashId", result);
 	});
@@ -44,4 +52,12 @@ Template.registerHelper("properFileHtml", (downloadUrl) => {
 	if (!downloadUrl) return;
 
 	return correspondingFileHtml(downloadUrl);
+});
+
+Template.registerHelper("readonly", () => {
+	return Session.get("settings").readonly;
+});
+
+Template.registerHelper("pageTheme", () => {
+	return Session.get("pageTheme");
 });

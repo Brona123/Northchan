@@ -26,7 +26,11 @@ Template.section.helpers({
 			return currentSection.currentlyViewing.length;
 	},
 	'threads' : () => {
-		return Threads.find({}, {sort : {"currentlyViewing" : -1, "_id" : 1}});
+		if (Session.get("settings").reactive) {
+			return Threads.find({}, {sort : {"currentlyViewing" : -1, "name" : 1}});
+		} else {
+			return Threads.find({}, {sort : {"name" : 1}});			
+		}
 	},
 	'getUrl' : (fileId) => {
 		let file = Files.findOne(fileId);
@@ -49,15 +53,6 @@ Template.section.helpers({
 			return header;
 		} else {
 			return header.substr(0, 20) + " ...";
-		}
-	},
-	'properScreenWidth' : () => {
-		if (Meteor.Device.isDesktop()) {
-			return "col-xs-2";
-		} else if (Meteor.Device.isPhone()) {
-			return "col-xs-4";
-		} else if (Meteor.Device.isTablet()) {
-			return "col-xs-4";
 		}
 	},
 	'pollHtml': function (pollId) {
