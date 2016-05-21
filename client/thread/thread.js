@@ -32,73 +32,11 @@ Template.thread.helpers({
 	'messages': () => {
 		return Messages.find({}, {sort : {sortableTime: 1}});
 	},
-	'getUrl' : (fileId) => {
-		let file = Files.findOne(fileId);
-		
-		return file.url();
-	},
-	'getOrigSize': (fileId) => {
-		let file = Files.findOne(fileId);
-
-		return file.size();
-	},
-	'getFile': (fileId) => {
-		return Files.findOne(fileId);
-	},
-	'finnishDate': (date) => {
-		if (date)
-			return finnishDate(date);
-	},
-	'styleLikes': function(likeCount) {
-		if (!likeCount) {
-			return "";
-		}
-
-		let elem = $("<span />");
-
-		if (likeCount < 0) {
-			elem.addClass("disliked");
-			elem.text(likeCount);
-		} else if (likeCount > 0) {
-			elem.addClass("liked");
-			elem.text("+" + likeCount);
-		} else {
-			elem.text("0");
-		}
-
-		//likeCount < 0 ? elem.addClass("disliked") : elem.addClass("liked") elem.text("+" + likeCount);
-		
-		return elem.prop('outerHTML');
-	},
-	'replyMsg': function(msgCount) {
-		let msg = Messages.findOne({"count" : msgCount});
-
-		if (msg) {
-			let text = msg.msg;
-
-			return "<p>" + text + "</p>";
-		} else {
-			return "";
-		}
-	},
-	'formatMsg': function(msg) {
-		return formatMsg(msg);
-	},
 	'viewerCount': function() {
 		let currentThread = Threads.findOne();
 
 		if (currentThread)
 			return currentThread.currentlyViewing.length;
-	},
-	'formatBytes': function(bytes) {
-
-		if ((bytes / 1024) / 1024 > 1) {
-			return ((bytes / 1024) / 1024).toFixed(2) + " MB";
-		} else if (bytes / 1024 > 1) {
-			return (bytes / 1024).toFixed(2) + " KB";
- 		} else {
- 			return bytes + " bytes";
- 		}
 	},
 	'deviceSpecificClass': () => {
 		if (Meteor.Device.isDesktop()) {
@@ -108,55 +46,6 @@ Template.thread.helpers({
 		} else if (Meteor.Device.isTablet()) {
 			return "tabletThreadRouteRootContainer";
 		}
-	},
-	'pollHtml': function (pollId) {
-		if (pageRendered.get()) {
-			var ctx = document.getElementById(pollId).getContext("2d");
-
-			if (ctx) {
-				let poll = Polls.findOne(pollId);
-
-				var data = [];
-
-				poll.options.forEach((elem, index, array) => {
-					data.push({
-						label : elem.option,
-						value : elem.voteCount,
-						color : elem.bgColor
-					});
-				});
-
-				if (pollChart) {
-					pollChart.destroy();
-				}
-
-				var options = {
-					animation : false,
-					tooltipTemplate: "<%= label %> - <%= value %>",
-					showToolTips: true,
-					onAnimationComplete: function() {
-						this.showTooltip(this.segments, true);
-					},
-					tooltipEvents: [],
-					responsive: true,
-					maintainAspectRatio: true
-				}
-
-				pollChart = new Chart(ctx).Pie(data, options);
-			}
-		}
-	},
-	'pollOptions': function (pollId) {
-		let poll = Polls.findOne(pollId);
-
-		if (poll)
-			return poll.options;
-	},
-	'cacheUrl': function() {
-		console.log(currentUploader.get());
-		// Can only preload images
-		// currentUploader.file.type === "video/mp4"
-		return currentUploader.get().url(true);
 	},
 	'isReadOnly': () => {
 		return Session.get("settings").readonly ? "readonly" : "";
@@ -286,8 +175,6 @@ Template.input.events({
 		$("#messagelist").toggleClass("maximized");
 		$("#hideInputArea").toggleClass("glyphicon-chevron-down");
 		$("#hideInputArea").toggleClass("glyphicon-chevron-up");
-
-
 	},
 	'change .btn-file :file': function(e, t) {
 		let fileName = $(".btn-file :file").val().split("\\").pop();
@@ -321,6 +208,99 @@ Template.input.helpers({
 	'charactersTyped': () => {
 		return charactersTyped.get();
 	}
+});
+
+Template.messageContainer.helpers({
+	'finnishDate': (date) => {
+		if (date)
+			return finnishDate(date);
+	},
+	'styleLikes': function(likeCount) {
+		if (!likeCount) {
+			return "";
+		}
+
+		let elem = $("<span />");
+
+		if (likeCount < 0) {
+			elem.addClass("disliked");
+			elem.text(likeCount);
+		} else if (likeCount > 0) {
+			elem.addClass("liked");
+			elem.text("+" + likeCount);
+		} else {
+			elem.text("0");
+		}
+		
+		return elem.prop('outerHTML');
+	},
+	'replyMsg': function(msgCount) {
+		let msg = Messages.findOne({"count" : msgCount});
+
+		if (msg) {
+			let text = msg.msg;
+
+			return "<p>" + text + "</p>";
+		} else {
+			return "";
+		}
+	},
+	'formatMsg': function(msg) {
+		return formatMsg(msg);
+	},
+	'pollHtml': function (pollId) {
+		if (pageRendered.get()) {
+			var ctx = document.getElementById(pollId).getContext("2d");
+
+			if (ctx) {
+				let poll = Polls.findOne(pollId);
+
+				var data = [];
+
+				poll.options.forEach((elem, index, array) => {
+					data.push({
+						label : elem.option,
+						value : elem.voteCount,
+						color : elem.bgColor
+					});
+				});
+
+				if (pollChart) {
+					pollChart.destroy();
+				}
+
+				var options = {
+					animation : false,
+					tooltipTemplate: "<%= label %> - <%= value %>",
+					showToolTips: true,
+					onAnimationComplete: function() {
+						this.showTooltip(this.segments, true);
+					},
+					tooltipEvents: [],
+					responsive: true,
+					maintainAspectRatio: true
+				}
+
+				pollChart = new Chart(ctx).Pie(data, options);
+			}
+		}
+	},
+	'pollOptions': function (pollId) {
+		let poll = Polls.findOne(pollId);
+
+		if (poll)
+			return poll.options;
+	},
+	'cacheUrl': function() {
+		console.log(currentUploader.get());
+		// Can only preload images
+		// currentUploader.file.type === "video/mp4"
+		return currentUploader.get().url(true);
+	}
+});
+
+Template.messageContainer.events({
+
 });
 
 function formatMsg(msg) {
@@ -373,6 +353,7 @@ function displayRefTooltip(target) {
 	let msgRef = target.attr('href');
 	let count = parseCount(msgRef);
 	let msg = Messages.findOne({"count" : count});
+	let content = Blaze.toHTMLWithData(Template["messageContainer"], msg).replace(/>\s+</g,'><');
 
 	if (msg) {
 		target.popover({
@@ -380,46 +361,12 @@ function displayRefTooltip(target) {
 			trigger: 'hover',
 			html: true,
 			container: 'body',
-			content: messageAsHtml(msg)
+			content: content
 		}).popover('show');
 	} else {
 		// TODO call method when message not published in thread
 		// and referencing it
 	}
-}
-
-function messageAsHtml(msg) {
-	var html =  '<section class="messageContainer ' + Session.get("pageTheme").message + '">'
-	      		+ '<div class="metadata">'
-	        	+ '<time>' + finnishDate(msg.timestamp) + '</time>'
-				+ '<a href="' + msg.count + ' class="reply" data-msg-id="' + msg._id + '">#' + msg.count + '</a>'
-	      		+ '</div>'
-	      		+ '<hr />'
-				+ '<div class="content">';
-
-    if (msg.embedLink) {
-    	html += '<div class="embed">'
-		        + '<iframe src="' + msg.embedLink + '" frameborder="0" allowfullscreen></iframe>'
-		      	+ '</div>';
-    } else if (msg.downloadUrl) {
-    	html += '<div class="minimized">' + correspondingFileHtml(msg.downloadUrl) + '</div>';
-    }
-
-    html += '<span class="msg">' + formatMsg(msg.msg) + '</span></div>';
-
-    if (msg.replies) {
-    	html += '<hr />'
-		    	+ '<section class="replies">'
-		    	+ 'Replies:';
-
-    	msg.replies.forEach((elem, index, arr) => {
-    		html += '<a href="#' + elem + '">#' + elem + '</a>';
-    	});
-    }
-
-    html += '</section></section>';
-
-	return html;
 }
 
 function parseCount(ref) {

@@ -477,6 +477,10 @@ div#pollInput {
 	vertical-align: bottom;
 }
 
+.popover {
+	width:100%;
+}
+
 /* /THREAD ROUTE */
 
 
@@ -621,7 +625,7 @@ div#pollInput {
 
 /* /MARS THEME */
 
-/* /LSD THEME */
+/* LSD THEME */
 
 @keyframes bglsd {
 	0% { 
@@ -678,8 +682,33 @@ div#pollInput {
 
 }
 
+/* /LSD THEME */
 
-/* LSD THEME */
+/* PP THEME */
+
+.ppBg {
+	background-color: black;
+}
+
+.ppBg a {
+	color:blue;
+}
+
+.ppThread {
+	background-color: black;
+	color: yellow;
+}
+
+.ppMessage {
+	background-color: black;
+	color: yellow;
+}
+
+.ppInput {
+	background-color: white;
+}
+
+/* /PP THEME */
 
 /* SCROLLBAR CSS */
 

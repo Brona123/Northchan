@@ -4,25 +4,6 @@
   {{#unless readonly}}
     {{> input}}
   {{/unless}}
-
-  <!--
-  {{#if isPhone}}
-    {{> thread}}
-    
-    {{#unless readonly}}
-      {{> input}}
-    {{/unless}}
-  {{/if}}
-
-  {{#if isTablet}}
-    {{> thread}}
-
-    {{#unless readonly}}
-      {{> input}}
-    {{/unless}}
-  {{/if}}
-  -->
-
 </template>
 
 <template name="thread">
@@ -30,134 +11,11 @@
     <div class="threadMetaContainer">
       <!--<h1 class="text-center"> {{threadName}} </h1>-->
       <span class="glyphicon glyphicon-user">{{viewerCount}}</span>
-
-      <!--
-      Autoscroll
-      <span class="custom-checkbox">
-        <input type="checkbox" id="autoscroll" checked />
-        <span class="box"><span class="tick"></span></span>
-      </span>
-      -->
     </div>
 
     <div id="messagelist">
       {{#each messages}}
-        <section id="{{count}}" 
-                  class="messageContainer {{pageTheme.message}}">
-
-          <div class="metadata">
-            <time>{{finnishDate timestamp}}</time>
-
-
-            <a href="{{count}}" 
-                class="reply" 
-                data-msg-id="{{_id}}">#{{count}}</a>
-
-            
-            <div class="actions">
-            <!--
-              <button data-msg-id="{{_id}}"
-                      class="reply btn-info glyphicon glyphicon-comment">
-              </button>
-              -->
-              {{#if isInRole 'superadmin,moderator'}}
-                <b>{{from}}</b>
-                <button data-owner-id="{{from}}"
-                        data-msg-id="{{_id}}"
-                        class="btn-warning"
-                        name="banUser">Ban user</button>
-
-                <button data-msg-id="{{_id}}"
-                        class="btn-danger" 
-                        name="deleteMessage">Delete message</button>
-              {{/if}}
-
-              {{{styleLikes likes}}}
-              <button data-msg-id="{{_id}}" 
-                      class="rate-up btn-success glyphicon glyphicon-thumbs-up">
-              </button>
-              <button data-msg-id="{{_id}}" 
-                      class="rate-down btn-danger glyphicon glyphicon-thumbs-down">
-              </button>
-            </div>
-          </div>
-          <hr />
-
-          <div class="content">
-            {{#if embedLink}}
-            <div class="embed">
-              <iframe src="{{embedLink}}"
-                      frameborder="0" 
-                      allowfullscreen>
-              </iframe>
-            </div>
-            {{/if}}
-
-            <!-- Can only display images cached
-            {{#with cacheUrl}}
-              <img src={{this}}/>
-            {{/with}}
-            -->
-
-            {{#if downloadUrl}}
-              <div class="file minimized">
-                {{{properFileHtml downloadUrl}}}
-              </div>
-            {{/if}}
-
-            {{#if pollId}}
-              <div class="pollContainer">
-                <div class="poll">
-                  <canvas id="{{pollId}}"></canvas>
-                </div>
-
-                <div class="voteBtns">
-                  <select id="optionSelection"
-                          style="width:100%;">
-                    {{#each pollOptions pollId}}
-                      <option value="{{option}}">{{option}}</option>
-                    {{/each}}
-                  </select>
-                  
-                  <button class="voteBtn"
-                          data-pollId="{{pollId}}"
-                          style="width:100%;">Vote</button>
-                </div>
-
-                {{{pollHtml pollId}}}
-              </div>
-            {{/if}}
-
-            {{#if livestream}}
-              <div class="livestream">
-                <iframe src="https://player.twitch.tv/?channel={{livestream}}" 
-                      frameborder="0"
-                      height="378" 
-                      width="620"></iframe>
-
-              {{#if chatIncluded}}
-                <iframe src="https://www.twitch.tv/{{livestream}}/chat?popout=" 
-                        frameborder="0" 
-                        scrolling="no"
-                        height="378"
-                        width="310"></iframe>
-              {{/if}}
-              
-              </div>
-            {{/if}}
-            <span class="msg">{{{formatMsg msg}}}</span> 
-          </div>
-
-          {{#with replies}}
-            <hr />
-            <section class="replies">
-            Replies:
-              {{#each this}}
-                <a href="#{{this}}">#{{this}}</a>
-              {{/each}}
-            </section>
-          {{/with}}
-        </section>
+        {{> messageContainer}}
       {{/each}}
     </div>
   </div>
@@ -259,4 +117,110 @@
 
     <div id="charactersTyped">Characters typed: {{charactersTyped}}</div>
   </div>
+</template>
+
+<template name="messageContainer">
+  <section id="{{count}}" 
+            class="messageContainer {{pageTheme.message}}">
+
+    <div class="metadata">
+      <time>{{finnishDate timestamp}}</time>
+
+
+      <a href="{{count}}" 
+          class="reply" 
+          data-msg-id="{{_id}}">#{{count}}</a>
+
+      
+      <div class="actions">
+        {{#if isInRole 'superadmin,moderator'}}
+          <b>{{from}}</b>
+          <button data-owner-id="{{from}}"
+                  data-msg-id="{{_id}}"
+                  class="btn-warning"
+                  name="banUser">Ban user</button>
+
+          <button data-msg-id="{{_id}}"
+                  class="btn-danger" 
+                  name="deleteMessage">Delete message</button>
+        {{/if}}
+
+        {{{styleLikes likes}}}
+        <button data-msg-id="{{_id}}" 
+                class="rate-up btn-success glyphicon glyphicon-thumbs-up">
+        </button>
+        <button data-msg-id="{{_id}}" 
+                class="rate-down btn-danger glyphicon glyphicon-thumbs-down">
+        </button>
+      </div>
+    </div>
+    <hr />
+
+    <div class="content">
+      {{#if embedLink}}
+      <div class="embed">
+        <iframe src="{{embedLink}}"
+                frameborder="0" 
+                allowfullscreen>
+        </iframe>
+      </div>
+      {{/if}}
+
+      {{#if downloadUrl}}
+        <div class="file minimized">
+          {{{properFileHtml downloadUrl}}}
+        </div>
+      {{/if}}
+
+      {{#if pollId}}
+        <div class="pollContainer">
+          <div class="poll">
+            <canvas id="{{pollId}}"></canvas>
+          </div>
+
+          <div class="voteBtns">
+            <select id="optionSelection"
+                    style="width:100%;">
+              {{#each pollOptions pollId}}
+                <option value="{{option}}">{{option}}</option>
+              {{/each}}
+            </select>
+            
+            <button class="voteBtn"
+                    data-pollId="{{pollId}}"
+                    style="width:100%;">Vote</button>
+          </div>
+
+          {{{pollHtml pollId}}}
+        </div>
+      {{/if}}
+
+      {{#if livestream}}
+        <div class="livestream">
+          <iframe src="https://player.twitch.tv/?channel={{livestream}}" 
+                frameborder="0"
+                height="378" 
+                width="620"></iframe>
+
+        {{#if chatIncluded}}
+          <iframe src="https://www.twitch.tv/{{livestream}}/chat?popout=" 
+                  frameborder="0" 
+                  scrolling="no"
+                  height="378"
+                  width="310"></iframe>
+        {{/if}}
+        
+        </div>
+      {{/if}}
+      <span class="msg">{{{formatMsg msg}}}</span> 
+    </div>
+
+    {{#with replies}}
+      <hr />
+      <section class="replies">
+        <span>Replies:{{#each this}}<a href="#{{this}}">#{{this}}</a>{{/each}}
+        </span>
+      </section>
+    {{/with}}
+  </section>
 </template>
