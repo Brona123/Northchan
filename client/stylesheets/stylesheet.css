@@ -57,7 +57,7 @@ a:link {
 
 .sectionContainer {
 	border-radius: 3px;
-	border-style: ridge;
+	border-style: dashed;
 	border-color: #3EB489;
 	border-width: 2px;
 	min-height: 20vh;
@@ -68,34 +68,7 @@ a:link {
 }
 
 .sectionContainer:hover {
-	border-color: blue;
-}
-
-.frontPageThreadContainer {
-	border-radius: 5px;
-	border-style: dashed;
-	border-color: #3EB489;
-	border-width: 2px;
-	height: 20vh;
-	overflow-y: hidden;
-	word-break: break-all;
-	/* PRO TIP display:table; doesn't work with min-height in firefox */
-}
-
-.frontPageThreadContainer:hover {
-	border-color: blue;
-}
-
-.frontPageThreadContainer .metadata {
-	
-}
-
-.frontPageThreadContainer .metadata .currentViewers {
-	float:left;
-}
-
-.frontPageThreadContainer .metadata .messageCount {
-	float:right;
+	border-style: ridge;
 }
 
 .sectionContainer .title {
@@ -123,19 +96,22 @@ div#pollInput {
 	margin:1vh;
 }
 
+.threadContainer {
+	border-style: dashed;
+}
+
 .desktop .threadContainer {
 	border-radius: 5px;
-	border-style: ridge;
 	border-color: #3EB489;
 	border-width: 2px;
-	height:40vh;
+	min-height: 250px;
+	max-height:250px;
 	overflow:hidden;
 	/*font-size: 2vh;*/
 }
 
 .phone .threadContainer {
 	border-radius: 5px;
-	border-style: ridge;
 	border-color: #3EB489;
 	border-width: 2px;
 	height:60vw;
@@ -185,7 +161,6 @@ div#pollInput {
 
 .threadContainer:hover {
 	border-style:outset;
-	border-color:blue;
 }
 
 .threadContainer a {
@@ -470,6 +445,7 @@ div#pollInput {
 
 .messageContainer .content {
 	display:table-cell;
+	margin:3px;
 }
 
 .messageContainer .replies {

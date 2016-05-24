@@ -1,0 +1,97 @@
+<template name="inputMessage">
+  <!-- if phone, smaller height inputArea -->
+  <div class="{{pageTheme.inputArea}} inputArea col-xs-12">
+    <div class="progress col-xs-8">
+      <div class="progress-bar"
+            role="progressbar"
+            aria-valuenow="{{uploadProgress}}"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            style="width: {{uploadProgress}}%;">
+        {{uploadProgress}}%
+      </div>
+    </div>
+
+    <div class="col-xs-4">
+      <button id="hideInputArea"
+              class="btn glyphicon glyphicon-chevron-down col-xs-12">
+      </button>
+    </div>
+
+    <form id="sendMessage" data-thread-id="{{threadId}}">
+      {{#if isDesktop}}
+
+        <textarea class="col-xs-8" 
+                  rows="5" 
+                  name="msg" 
+                  maxlength="2000"></textarea>
+
+        <div class="msgOptions col-xs-4">
+          <span class="input-group">
+            <span class="input-group-btn">
+              <span class="btn btn-primary btn-file">
+              Select file <input type="file" name="msgFile" />
+              </span>
+            </span>
+            <input id="filePath" type="text" class="form-control" readonly>
+
+          </span>
+          OR
+
+          <input type="text" name="embed" class="form-control" placeholder="Embed link" />
+          <input type="submit" class="btn btn-block btn-success" value="Send message" />
+        </div>
+      {{/if}}
+
+      {{#if isPhone}}
+        <div class="msgOptions">
+        <span>
+          <input type="text" name="embed" class="form-control col-xs-12" placeholder="Embed link" />
+          </span>
+          <span class="input-group col-xs-12">
+            <span class="input-group-btn">
+              <span class="btn btn-primary btn-file glyphicon glyphicon-file"><input type="file" name="msgFile" />
+              </span>
+            </span>
+            <input id="filePath" type="text" class="form-control" readonly>
+
+          </span>
+        </div>
+
+        <textarea class="col-xs-12" 
+                  rows="5" 
+                  name="msg" 
+                  maxlength="2000"></textarea>
+
+        <input type="submit" class="btn btn-success btn-block" value="Send message" />
+      {{/if}}
+
+      {{#if isTablet}}
+        <div class="msgOptions">
+        <span>
+          <input type="text" name="embed" class="form-control col-xs-12" placeholder="Embed link" />
+          </span>
+          <span class="input-group col-xs-12">
+            <span class="input-group-btn">
+              <span class="btn btn-primary btn-file">
+              Select file <input type="file" name="msgFile" />
+              </span>
+            </span>
+            <input id="filePath" type="text" class="form-control" readonly>
+
+          </span>
+        </div>
+
+        <textarea class="col-xs-12" 
+                  rows="4" 
+                  name="msg" 
+                  maxlength="2000"></textarea>
+
+        <input type="submit" class="btn btn-success btn-block" value="Send message" />
+      {{/if}}
+
+    </form>
+
+    <div id="charactersTyped">Characters typed: {{charactersTyped}}</div>
+  </div>
+</template>

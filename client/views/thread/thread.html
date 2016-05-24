@@ -1,0 +1,22 @@
+<template name="beforeThread">
+  {{> thread}}
+
+  {{#unless readonly}}
+    {{> inputMessage threadId=threadId}}
+  {{/unless}}
+</template>
+
+<template name="thread">
+  <div class="{{deviceSpecificClass}} {{isReadOnly}}">
+    <div class="threadMetaContainer">
+      <span class="glyphicon glyphicon-user">{{viewerCount}}</span>
+      <!--<span class="text-center"> {{threadName}} </span>-->
+    </div>
+
+    <div id="messagelist">
+      {{#each messages}}
+        {{> messageContainer}}
+      {{/each}}
+    </div>
+  </div>
+</template>

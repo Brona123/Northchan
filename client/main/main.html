@@ -1,8 +1,4 @@
 <template name="main">
-  <!--{{> index}}-->
-  <!--{{> message}}-->
-  <!--{{> canvas}}-->
-
   <div id="rootContainer">
     <div class="col-xs-12">
       <span class="navbar">
@@ -134,41 +130,4 @@
 
     </div>
   </div>
-</template>
-
-<!-- NOT IN USE ATM -->
-
-<template name="message">
-  
-  <div class="col-xs-12">
-    <section id="filedrop" draggable="true">Drop files here</section>
-      <input type="file" name="fileUpload" id="fileUpload" />
-
-      <hr />
-  </div>
-
-  <div class="col-xs-2">
-    {{#each files}}
-      {{#unless this.isUploaded}}
-      {{> FS.UploadProgressBar bootstrap=true}}
-      {{/unless}}
-      <a id="{{_id}}" class="fileref" href="{{url}}">{{original.name}}</a>
-      <br />
-    {{/each}}
-    </div>
-
-    <div class="col-xs-8">
-      {{> yield "content"}}
-
-      <!--
-        {{#each messages}}
-        <p>{{message}}</p>
-      {{/each}}
-
-      <form id="messageForm">
-        <input type="text" name="message" />
-        <input type="submit" value="Send" />
-      </form>
-      -->
-    </div>
 </template>

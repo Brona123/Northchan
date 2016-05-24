@@ -56,10 +56,10 @@ pbl("thread", function (threadName) {
 	}
 });
 
-pbl("messages", function (threadName) {
-	check(threadName, String);
+pbl("messages", function (threadSlug) {
+	check(threadSlug, String);
 	
-	let thread = Threads.findOne({"name" : threadName});
+	let thread = Threads.findOne({"slug" : threadSlug});
 
 	if (!thread) {
 		return;

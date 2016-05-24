@@ -42,7 +42,7 @@ correspondingFileHtml = function(downloadUrl) {
 	if (downloadUrl.endsWith(".mp4")) {
 		return "<video src='" + downloadUrl + "' />";
 	} else if (downloadUrl.endsWith(".png") || downloadUrl.endsWith(".jpg")) {
-		return "<img src='" + downloadUrl + "'>";
+		return "<img src='" + downloadUrl + "' alt='Image placeholder'>";
 	} else if (downloadUrl.endsWith(".mp3")) {
 		return "<audio src='" + downloadUrl + "' controls />";
 	}

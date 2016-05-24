@@ -1,16 +1,6 @@
 Meteor.startup(() => {
 	console.log("Server started");
 
-	//Metadata.upsert({"_id" : "msgCount"}, {$set : {"msgCount" : 0}});
-	var query = Messages.find({});
-	var handle = query.observeChanges({
-		added: function(id, fields) {
-			// Ignore server startup calls (initial calls)
-			if (!handle) return;
-			Metadata.upsert({"_id" : "msgCount"}, {$inc : {"msgCount" : 1}});
-		}
-	});
-
 	// Create user and assign it the admin role if user doesn't exist
 	if (!Accounts.findUserByUsername("SuperAdmin")) {
 		Accounts.createUser({
@@ -30,6 +20,50 @@ Meteor.startup(() => {
 		let accId = Accounts.findUserByUsername("ModeratorOne");
 		Roles.addUsersToRoles(accId, "moderator");
 	}
+
+	var methods = ['insertMessage'
+					,'createThread'
+					,'createSection'
+					,'vote'];
+
+	console.log("METHODS:");
+	//console.log(methods);
+	
+	DDPRateLimiter.setErrorMessage("Don't DOS plz");
+
+	_.each(methods, (elem, index, list) => {
+		//console.log(elem);
+
+		const rule = {
+			clientAddress: function(address) {
+				//console.log(address);
+				return true;
+			},
+			type: "method",
+			name: elem
+		}
+
+		DDPRateLimiter.addRule(rule, 5, 1000);
+	});
+	
+	/*
+	for (var method of methods) {
+		console.log(method);
+	}
+	*/
+	
+	/*
+	const methods = ['rateMessageUpsert', 'storeReplies']
+	const loginRule = {
+	  	userId: function (userId) {
+		    return Meteor.users.findOne(userId).type !== 'Admin';
+		},
+	    type: 'method',
+	    method: 'login'
+	}
+
+	DDPRateLimiter.addRule(loginRule, 5, 1000);
+	*/
 });
 
 Meteor.onConnection(function(conn) {

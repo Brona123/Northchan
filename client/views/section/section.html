@@ -1,0 +1,34 @@
+<template name="beforeSection">
+  {{#if isDesktop}}
+    {{> section}}
+  {{/if}}
+
+  {{#if isPhone}}
+    {{> section}}
+  {{/if}}
+
+  {{#if isTablet}}
+    {{> section}}
+  {{/if}}
+</template>
+
+<template name="section">
+  <div class="col-xs-12">
+    <!--<h1 class="text-center"> {{name}} </h1>-->
+    {{#unless readonly}}
+      {{> inputThread}}
+    {{/unless}}
+
+    <div id="sectionViewCount" 
+          class="col-xs-12 glyphicon glyphicon-user">
+          {{sectionViewCount}}
+    </div>
+    <br />
+
+    <div id="threadList">
+      {{#each threads}}
+        {{> threadContainer sectionName=sectionName thread=this}}
+      {{/each}}
+    </div>
+  </div>  
+</template>

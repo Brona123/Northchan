@@ -32,6 +32,7 @@ DONE -- twitch live stream threadin aloitus
 threadia luodessa progress bar file uploadeille
 threadin luonti ilman fileä etc
 rate limiter (1 message per 10 sec)
+poll display kun voteja on olemassa
 
 ACCOUNT SYSTEM
 usereiden poisto

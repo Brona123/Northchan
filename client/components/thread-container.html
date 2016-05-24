@@ -1,0 +1,52 @@
+<template name="threadContainer">
+  {{#with thread}}
+    <a href="{{../sectionName}}/{{slug}}">
+      <div class="threadContainer {{pageTheme.thread}} col-md-2 col-xs-6">
+        {{#if isInRole 'superadmin,moderator'}}
+          <button class="btn-danger"
+                  name="deleteThread"
+                  data-thread-id="{{_id}}">Delete thread</button>
+        {{/if}}
+        
+        <span class="header">{{truncateHeader name}}</span>
+        
+        <span class="threadViewCountContainer">
+          {{currentlyViewing.length}}
+          <span class="glyphicon glyphicon-user"></span>
+        </span>
+
+        {{#with downloadUrl}}
+          <div class="file">
+            {{{properFileHtml this}}}
+          </div>
+        {{/with}}
+
+        {{#with embedLink}}
+          <div class="embed">
+            <iframe src="{{this}}"
+                    frameborder="0" 
+                    allowfullscreen>
+            </iframe>
+          </div>
+        {{/with}}
+        
+        {{#with pollId}}
+          <div class="poll">
+            <h4 class="threadTitle">{{pollTitle this}}</h4>
+            <canvas id="{{this}}" ></canvas>
+          </div>
+          {{{pollHtml this}}}
+        {{/with}}
+
+        {{#with livestream}}
+          <div class="livestream">
+            <iframe src="https://player.twitch.tv/?channel={{this}}&autoplay=false"
+                    frameborder="0"></iframe>
+          </div>
+        {{/with}}
+
+        <p>{{firstLines initialText}}</p>
+      </div>
+    </a>
+  {{/with}}
+</template>

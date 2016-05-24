@@ -23,27 +23,30 @@ Template.index.helpers({
 	'messageCount' : (threadId) => {
 		return Messages.find({"threadId" : threadId}).count();
 	},
-	'messagesPerSection' : (threads) => {
+	'messagesPerSection' : (section) => {
+		let threads = Threads.find({"sectionId" : section._id});
+		
 		let threadIds = [];
+
 		threads.forEach((elem, index, arr) => {
 			threadIds.push(elem._id);
 		});
+
 		return Messages.find({"threadId" : {$in : threadIds}}).count();
+	},
+	'threadsPerSection' : (section) => {
+		return Threads.find({"sectionId" : section._id}).count();
 	},
 	'frontPageThreads' : (sectionId) => {
 		let threadAmount = Meteor.Device.isDesktop() ? 6 : 4;
 
 		return Threads.find({"sectionId" : sectionId}
-							, {sort : {"currentlyViewing" : -1}, limit : threadAmount});
+							, {sort : {"currentlyViewing" : -1}
+								, limit : threadAmount});
 	}
 });
 
 Template.index.events({
-	'change #locale' : (e, t) => {
-		let currentLocale = $("#locale").val();
-
-		locale.set(locales[currentLocale]);
-	},
 	'submit #createSubsection': function (e, t) {
 		e.preventDefault();
 
@@ -62,7 +65,6 @@ Template.index.events({
 	'click button[name="deleteSection"]': function(e, t) {
 		e.preventDefault();
 
-		console.log($(e.target).attr("data-section-id"));
 		let sectionId = $(e.target).attr("data-section-id");
 		Sections.remove(sectionId);
 	}
