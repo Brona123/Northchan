@@ -21,49 +21,30 @@ Meteor.startup(() => {
 		Roles.addUsersToRoles(accId, "moderator");
 	}
 
-	var methods = ['insertMessage'
-					,'createThread'
-					,'createSection'
-					,'vote'];
-
-	console.log("METHODS:");
-	//console.log(methods);
+	// DDP rate limiting for methods
+	// but for some reason doesn't work for subscriptions
+	const methods = ['insertMessage'
+						, 'createThread'
+						, 'createSection'
+						, 'vote'];
 	
 	DDPRateLimiter.setErrorMessage("Don't DOS plz");
 
-	_.each(methods, (elem, index, list) => {
-		//console.log(elem);
+	_.each(methods, (methodName, index, list) => {
 
 		const rule = {
-			clientAddress: function(address) {
-				//console.log(address);
+			connectionId: function(connectionId) {
 				return true;
 			},
 			type: "method",
-			name: elem
+			name: methodName
 		}
 
 		DDPRateLimiter.addRule(rule, 5, 1000);
 	});
-	
-	/*
-	for (var method of methods) {
-		console.log(method);
-	}
-	*/
-	
-	/*
-	const methods = ['rateMessageUpsert', 'storeReplies']
-	const loginRule = {
-	  	userId: function (userId) {
-		    return Meteor.users.findOne(userId).type !== 'Admin';
-		},
-	    type: 'method',
-	    method: 'login'
-	}
 
-	DDPRateLimiter.addRule(loginRule, 5, 1000);
-	*/
+	// Clear rate limiter data when starting server
+	RateLimiting.remove({});
 });
 
 Meteor.onConnection(function(conn) {

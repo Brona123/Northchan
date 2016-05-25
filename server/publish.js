@@ -1,34 +1,34 @@
 let pbl = Meteor.publish;
+let rateLimiterTimeouts = [];
 
-pbl("files", () => {
-	//return Files.find();
-	return "";
-});
+pbl("sections", function () {
+	checkRateLimits(this, "sections");
 
-pbl("canvas", () => {
-	return Canvas.find();
-});
-
-pbl("sections", () => {
 	return Sections.find();
 });
 
-pbl("currentSection", (sectionName) => {
+pbl("currentSection", function (sectionName) {
 	check(sectionName, String);
+	checkRateLimits(this, "currentSection");
 	
 	return Sections.find({"name" : sectionName});
 });
 
-pbl("sectionThreadStubs", () => {
+pbl("sectionThreadStubs", function () {
+	checkRateLimits(this, "sectionThreadStubs");
+
 	return Threads.find({});
 });
 
-pbl("threadMessageStubs", () => {
+pbl("threadMessageStubs", function () {
+	checkRateLimits(this, "threadMessageStubs");
+
 	return Messages.find({});
 });
 
-pbl("threads", (sectionName) => {
+pbl("threads", function (sectionName) {
 	check(sectionName, String);
+	checkRateLimits(this, "threads");
 
 	let section = Sections.findOne({"name" : sectionName}, );
 
@@ -41,6 +41,7 @@ pbl("threads", (sectionName) => {
 
 pbl("thread", function (threadName) {
 	check(threadName, String);
+	checkRateLimits(this, "thread");
 
 	this.onStop(function() {
 		Threads.upsert({"name" : threadName}
@@ -58,6 +59,7 @@ pbl("thread", function (threadName) {
 
 pbl("messages", function (threadSlug) {
 	check(threadSlug, String);
+	checkRateLimits(this, "messages");
 	
 	let thread = Threads.findOne({"slug" : threadSlug});
 
@@ -74,19 +76,27 @@ pbl("messages", function (threadSlug) {
 	}
 });
 
-pbl("msgCount", () => {
+pbl("msgCount", function () {
+	checkRateLimits(this, "msgCount");
+
 	return Metadata.find();
 });
 
-pbl("currentConnections", () => {
+pbl("currentConnections", function () {
+	checkRateLimits(this, "currentConnections");
+
 	return ConnectedClients.find("connectedClients", {$fields : {"count" : 1}});
 });
 
-pbl("polls", () => {
+pbl("polls", function () {
+	checkRateLimits(this, "polls");
+
 	return Polls.find({}, {$fields : {"alreadyVoted" : 0}});
 });
 
 pbl("selfBanned", function () {
+	checkRateLimits(this, "selfBanned");
+
 	let id = SHA256(this.connection.clientAddress);
 
 	return BannedUsers.find(id);
@@ -104,3 +114,31 @@ pbl("adminAllRoles", () => {
 pbl("adminBannedUsers", () => {
 	return BannedUsers.find({});
 });
+
+function checkRateLimits(context, name) {
+	const subLimit = 50;
+	const timeLimit = 1000;
+	const clientAddress = context.connection.clientAddress;
+
+	if (RateLimiting.findOne(clientAddress)) {
+		if (RateLimiting.findOne(clientAddress).sections > subLimit) {
+			BannedUsers.upsert(SHA256(clientAddress)
+								, {"reason" : "Banned for spamming subscriptions"
+									, "message" : "null"
+									, "bannedBy" : "System"});
+			return;
+		}
+	}
+
+	const publications = {};
+	publications[name] = 1;
+	RateLimiting.upsert(clientAddress, {$inc : publications});
+
+	if (!rateLimiterTimeouts[name]) {
+		rateLimiterTimeouts[name] = Meteor.setTimeout(() => {
+			publications[name] = 0;
+			RateLimiting.upsert(clientAddress, {$set : publications});
+			rateLimiterTimeouts[name] = undefined;
+		}, timeLimit);
+	}
+}
