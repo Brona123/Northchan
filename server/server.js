@@ -55,17 +55,10 @@ Meteor.onConnection(function(conn) {
 	let ipHash = SHA256(conn.clientAddress);
 	ConnectedClients.upsert(ipHash, {$set : {lastConn : new Date()}});
 
-	let connectedClientCount = ConnectedClients.find({"count" : null}).count();
-	ConnectedClients.upsert("connectedClients"
-							, {$set : {"count" : connectedClientCount}});
-
 	conn.onClose(function() {
 		console.log("CLOSED CONNECTION: " + conn.clientAddress);
 		ConnectedClients.remove(ipHash);
-
-		let connectedClientCount = ConnectedClients.find({"count" : null}).count();
-		ConnectedClients.update("connectedClients"
-							, {$set : {"count" : connectedClientCount}});
+		
 		Meteor.call("clearConnectionView", conn);
 	});
 });

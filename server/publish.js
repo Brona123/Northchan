@@ -30,7 +30,7 @@ pbl("threads", function (sectionName) {
 	check(sectionName, String);
 	checkRateLimits(this, "threads");
 
-	let section = Sections.findOne({"name" : sectionName}, );
+	let section = Sections.findOne({"name" : sectionName});
 
 	if (!section) {
 		return;
@@ -39,22 +39,11 @@ pbl("threads", function (sectionName) {
 	}
 });
 
-pbl("thread", function (threadName) {
-	check(threadName, String);
+pbl("thread", function (threadSlug) {
+	check(threadSlug, String);
 	checkRateLimits(this, "thread");
 
-	this.onStop(function() {
-		Threads.upsert({"name" : threadName}
-						, {$inc : {"viewCount" : -1}});
-	});
-
-	if (!threadName) {
-		return;
-	} else {
-		Threads.upsert({"name" : threadName}
-						, {$inc : {"viewCount" : 1}});
-		return Threads.find({"name" : threadName});
-	}
+	return Threads.find({"slug" : threadSlug});
 });
 
 pbl("messages", function (threadSlug) {
@@ -85,7 +74,7 @@ pbl("msgCount", function () {
 pbl("currentConnections", function () {
 	checkRateLimits(this, "currentConnections");
 
-	return ConnectedClients.find("connectedClients", {$fields : {"count" : 1}});
+	return ConnectedClients.find({}, {$fields : {"_id" : 0}});
 });
 
 pbl("polls", function () {

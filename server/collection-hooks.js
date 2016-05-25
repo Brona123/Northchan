@@ -4,18 +4,23 @@ Sections.after.remove(function(userId, doc) {
 });
 
 Threads.after.remove(function(userId, doc) {
-	console.log("REMOVED THREAD, REMOVING MESSAGES");
+	console.log(`REMOVED THREAD ${doc.name}, REMOVING MESSAGES`);
 	Messages.remove({"threadId" : doc._id});
 });
 
 Threads.before.insert((userId, doc) => {
-	doc.slug = slugify(doc.name);
+	let date = new Date();
+
+	doc.timestamp = date;
+	doc.sortableTime = date.getTime();
+	doc.slug = slugify(String(doc.name));
 });
 
 Messages.before.insert(function(userId, doc) {
 	let date = new Date();
 
-	doc.count = Metadata.findOne("msgCount").msgCount;
+	// If message count is found, set it, else set as first message
+	doc.count = Metadata.findOne("msgCount") ? Metadata.findOne("msgCount").msgCount + 1 : 1;
 	doc.timestamp = date;
 	doc.sortableTime = date.getTime();
 });

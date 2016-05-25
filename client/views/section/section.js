@@ -26,9 +26,9 @@ Template.section.helpers({
 	},
 	'threads' : () => {
 		if (Session.get("settings").reactive) {
-			return Threads.find({}, {sort : {"currentlyViewing" : -1, "name" : 1}});
+			return Threads.find({}, {sort : {"currentlyViewing" : -1, "sortableTime" : -1}});
 		} else {
-			return Threads.find({}, {sort : {"name" : 1}});			
+			return Threads.find({}, {sort : {"sortableTime" : -1}});			
 		}
 	},
 	'sectionName': () => {
@@ -36,17 +36,6 @@ Template.section.helpers({
 
 		if (currentSection)
 			return currentSection.name;
-	}
-});
-
-// TODO jos threadin nimen perässä on väli, subscription kusee
-Template.section.events({
-	'click button[name="deleteThread"]': function(e, t) {
-		e.preventDefault();
-
-		let threadId = $(e.target).attr("data-thread-id");
-
-		Threads.remove(threadId);
 	}
 });
 

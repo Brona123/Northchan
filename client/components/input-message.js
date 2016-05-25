@@ -103,7 +103,7 @@ function insertMessageWithFile(file, messageObject) {
 		} else {
 			let fileName = file.name;
 			let fileFolder = "files/";
-			let properFileDownloadUrl = "http://files.northchan.com/" + fileFolder + fileName;
+			let properFileDownloadUrl = `http://files.northchan.com/${fileFolder}${fileName}`;
 			
 			messageObject.downloadUrl = properFileDownloadUrl;
 

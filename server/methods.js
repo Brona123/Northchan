@@ -4,23 +4,25 @@ Meteor.methods({
 
 		let clientId = SHA256(this.connection.clientAddress);
 
-		let section = Sections.findOne({"name" : sectionName
-										, "currentlyViewing" : clientId});
+		let section = Sections.findOne({"name" : sectionName});
 
 		if (!section) {
-			Sections.upsert({"name" : sectionName}, {$push : {"currentlyViewing" : clientId}});
+			return;
+		} else {
+			Sections.update({"name" : sectionName}, {$push : {"currentlyViewing" : clientId}});
 		}
 	},
-	'setCurrentThread': function(threadName) {
-		check(threadName, String);
+	'setCurrentThread': function(threadSlug) {
+		check(threadSlug, String);
 
 		let clientId = SHA256(this.connection.clientAddress);
 
-		let thread = Threads.findOne({"name" : threadName
-										, "currentlyViewing" : clientId});
+		let thread = Threads.findOne({"slug" : threadSlug});
 
 		if (!thread) {
-			Threads.upsert({"name" : threadName}, {$push : {"currentlyViewing" : clientId}});
+			return;
+		} else {
+			Threads.update({"slug" : threadSlug}, {$push : {"currentlyViewing" : clientId}});
 		}
 	},
 	'clearCurrentView': function() {

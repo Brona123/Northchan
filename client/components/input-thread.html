@@ -34,6 +34,7 @@
 </template>
 
 <template name="file">
+  
   <div class='input-group'>
     <span class='input-group-btn'>
       <span class='btn btn-primary btn-file'>
@@ -41,27 +42,32 @@
       </span>
     </span>
 
-    <div class="progress col-xs-8">
-      <div class="progress-bar"
-            role="progressbar"
-            aria-valuenow="{{uploadProgress}}"
-            aria-valuemin="0"
-            aria-valuemax="100"
-            style="width: {{uploadProgress}}%;">
-        {{uploadProgress}}%
-      </div>
-    </div>
     <input id='filePath' type='text' class='form-control' readonly>
   </div>
+
+  <div class="progress">
+    <div class="progress-bar"
+          role="progressbar"
+          aria-valuenow="{{uploadProgress}}"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          style="width: {{uploadProgress}}%;">
+      <span>{{uploadProgress}}%</span>
+    </div>
+  </div>
+
 </template>
 
 <template name="livestream">
   <input type="text"
+          id="channelName"
           name="channelName"
           class="form-control"
           placeholder="Channel name" />
 
-  <label class="checkbox-inline"><input type="checkbox" name="includeChat" checked>Include chat</label>
+  <label class="checkbox-inline" for="channelName">
+    <input type="checkbox" name="includeChat" checked />Include chat
+  </label>
 </template>
 
 <template name="poll">

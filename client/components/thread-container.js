@@ -67,3 +67,13 @@ Template.threadContainer.helpers({
 			return poll.pollTitle;
 	}
 });
+
+Template.threadContainer.events({
+	'click button[name="deleteThread"]': function(e, t) {
+		e.preventDefault();
+
+		let threadId = $(e.target).attr("data-thread-id");
+
+		Threads.remove(threadId);
+	}
+});

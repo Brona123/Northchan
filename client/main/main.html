@@ -1,7 +1,8 @@
 <template name="main">
   <div id="rootContainer">
     <div class="col-xs-12">
-      <span class="navbar">
+      
+      <div class="navbar">
         <a href="/">
           <span class="glyphicon glyphicon-home"></span>
         </a>
@@ -19,9 +20,9 @@
             </a>
           {{/with}}
         {{/with}}
-      </span>
+      </div>
 
-      <span class="accountpane">
+      <div class="accountpane">
         {{#unless readonly}}
           <span class="glyphicon glyphicon-user">{{connectedClientAmount}}</span>
         {{/unless}}
@@ -55,7 +56,8 @@
                     data-target="#accountModal">Login/Register</button>
           {{/if}}
         {{/unless}}
-      </span>
+      </div>
+      
     </div>
     
     {{> yield}}

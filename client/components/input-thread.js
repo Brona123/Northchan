@@ -84,7 +84,8 @@ Template.inputThread.events({
 		form.reset();
 	},
 	'change .btn-file :file': function(e, t) {
-		$("#filePath").val($(".btn-file :file").val());
+		let fileName = $(".btn-file :file").val().split("\\").pop();
+		$("#filePath").val(fileName);
 	},
 	'change #inputTypeSelection': (e, t) => {
 		let inputType = $('#inputTypeSelection').val();
@@ -111,7 +112,10 @@ Template.inputThread.events({
 Template.inputThread.helpers({
 	'selectedInput': function() {
 		return currentInputTypeTemplate.get();
-	},
+	}
+});
+
+Template.file.helpers({
 	'uploadProgress': () => {
 		let uploader = currentUploader.get();
 

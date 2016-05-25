@@ -85,8 +85,8 @@ Template.main.events({
 
 Template.main.helpers({
 	'connectedClientAmount' : () => {
-		if (ConnectedClients.findOne()) 
-			return ConnectedClients.findOne().count;
+		if (ConnectedClients.find()) 
+			return ConnectedClients.find().count();
 	},
 	'currentSection' : () => {
 		return Session.get("sectionId");
