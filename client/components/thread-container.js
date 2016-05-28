@@ -1,4 +1,4 @@
-var templateRendered = new ReactiveVar(false);
+const templateRendered = new ReactiveVar(false);
 
 Template.threadContainer.onCreated(function() {
 	templateRendered.set(false);
@@ -9,7 +9,7 @@ Template.threadContainer.onRendered(function() {
 });
 
 Template.threadContainer.helpers({
-	'firstLines' : (initialText) => {
+	firstLines(initialText) {
 		if (!initialText) {
 			return;
 		}
@@ -20,21 +20,21 @@ Template.threadContainer.helpers({
 			return initialText.substr(0, 140) + " ...";
 		}
 	},
-	'truncateHeader' : (header) => {
+	truncateHeader(header) {
 		if (header.length < 20) {
 			return header;
 		} else {
 			return header.substr(0, 20) + " ...";
 		}
 	},
-	'pollHtml': function (pollId) {
+	pollHtml(pollId) {
 		if (templateRendered.get()) {
-			var ctx = document.getElementById(pollId).getContext("2d");
+			const ctx = document.getElementById(pollId).getContext("2d");
 
 			if (ctx) {
-				let poll = Polls.findOne(pollId);
+				const poll = Polls.findOne(pollId);
 
-				var data = [];
+				const data = [];
 
 				poll.options.forEach((elem, index, array) => {
 					data.push({
@@ -44,7 +44,7 @@ Template.threadContainer.helpers({
 					});
 				});
 
-				var options = {
+				const options = {
 					animation : false,
 					tooltipTemplate: "<%= label %> - <%= value %>",
 					showToolTips: true,
@@ -60,8 +60,8 @@ Template.threadContainer.helpers({
 			}
 		}
 	},
-	'pollTitle' : function(pollId) {
-		let poll = Polls.findOne(pollId);
+	pollTitle(pollId) {
+		const poll = Polls.findOne(pollId);
 
 		if (poll)
 			return poll.pollTitle;
@@ -72,7 +72,7 @@ Template.threadContainer.events({
 	'click button[name="deleteThread"]': function(e, t) {
 		e.preventDefault();
 
-		let threadId = $(e.target).attr("data-thread-id");
+		const threadId = $(e.target).attr("data-thread-id");
 
 		Threads.remove(threadId);
 	}

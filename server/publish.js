@@ -1,5 +1,5 @@
-let pbl = Meteor.publish;
-let rateLimiterTimeouts = [];
+const pbl = Meteor.publish;
+const rateLimiterTimeouts = [];
 
 pbl("sections", function () {
 	checkRateLimits(this, "sections");
@@ -105,12 +105,13 @@ pbl("adminBannedUsers", () => {
 });
 
 function checkRateLimits(context, name) {
+	console.log(`RATE LIMIT ${name}`);
 	const subLimit = 50;
 	const timeLimit = 1000;
 	const clientAddress = context.connection.clientAddress;
 
 	if (RateLimiting.findOne(clientAddress)) {
-		if (RateLimiting.findOne(clientAddress).sections > subLimit) {
+		if (RateLimiting.findOne(clientAddress)[name] > subLimit) {
 			BannedUsers.upsert(SHA256(clientAddress)
 								, {"reason" : "Banned for spamming subscriptions"
 									, "message" : "null"

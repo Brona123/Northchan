@@ -1,6 +1,6 @@
 var pageRendered = new ReactiveVar(false);
 
-Template.section.onCreated(function() {
+Template.section.onCreated(() => {
 	pageRendered.set(false);
 	currentInputTypeTemplate = new ReactiveVar("embed");
 });
@@ -18,21 +18,21 @@ Template.section.onRendered(function() {
 });
 
 Template.section.helpers({
-	'sectionViewCount': function () {
-		let currentSection = Sections.findOne();
+	sectionViewCount() {
+		const currentSection = Sections.findOne();
 
 		if (currentSection)
 			return currentSection.currentlyViewing.length;
 	},
-	'threads' : () => {
+	threads() {
 		if (Session.get("settings").reactive) {
 			return Threads.find({}, {sort : {"currentlyViewing" : -1, "sortableTime" : -1}});
 		} else {
 			return Threads.find({}, {sort : {"sortableTime" : -1}});			
 		}
 	},
-	'sectionName': () => {
-		let currentSection = Sections.findOne();
+	sectionName() {
+		const currentSection = Sections.findOne();
 
 		if (currentSection)
 			return currentSection.name;
@@ -42,13 +42,13 @@ Template.section.helpers({
 // Function stolen from
 // http://stackoverflow.com/questions/1740700/how-to-get-hex-color-value-rather-than-rgb-value
 function rgb2hex(rgb) {
-     if (  rgb.search("rgb") == -1 ) {
-          return rgb;
-     } else {
-          rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))?\)$/);
-          function hex(x) {
-               return ("0" + parseInt(x).toString(16)).slice(-2);
-          }
-          return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]); 
-     }
+    if (rgb.search("rgb") == -1) {
+        return rgb;
+    } else {
+        rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))?\)$/);
+        function hex(x) {
+            return ("0" + parseInt(x).toString(16)).slice(-2);
+        }
+        return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]); 
+    }
 }

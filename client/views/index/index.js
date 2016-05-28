@@ -1,32 +1,32 @@
-Template.index.onRendered(function () {
+Template.index.onRendered(() => {
 	Session.set("sectionId", "");
 	Session.set("threadId", "");
 });
 
 Template.index.helpers({
-	'sections' : () => {
+	sections() {
 		if (Session.get("settings").reactive) {
 			return Sections.find({}, {sort : {"currentlyViewing" : -1, "name" : 1}});
 		} else {
 			return Sections.find({}, {sort : {"name" : 1}});			
 		}
 	},
-	'sectionThreadCount': () => {
+	sectionThreadCount() {
 		return Threads.find(); 
 	},
-	'threadCount': (sectionId) => {
+	threadCount(sectionId) {
 		return Threads.find({"sectionId" : sectionId}).count();
 	},
-	'thread' : (sectionId) => {
+	thread(sectionId) {
 		return Threads.find({"sectionId" : sectionId});
 	},
-	'messageCount' : (threadId) => {
+	messageCount(threadId) {
 		return Messages.find({"threadId" : threadId}).count();
 	},
-	'messagesPerSection' : (section) => {
-		let threads = Threads.find({"sectionId" : section._id});
+	messagesPerSection(section) {
+		const threads = Threads.find({"sectionId" : section._id});
 		
-		let threadIds = [];
+		const threadIds = [];
 
 		threads.forEach((elem, index, arr) => {
 			threadIds.push(elem._id);
@@ -34,11 +34,11 @@ Template.index.helpers({
 
 		return Messages.find({"threadId" : {$in : threadIds}}).count();
 	},
-	'threadsPerSection' : (section) => {
+	threadsPerSection(section) {
 		return Threads.find({"sectionId" : section._id}).count();
 	},
-	'frontPageThreads' : (sectionId) => {
-		let threadAmount = Meteor.Device.isDesktop() ? 6 : 4;
+	frontPageThreads(sectionId) {
+		const threadAmount = Meteor.Device.isDesktop() ? 6 : 4;
 
 		return Threads.find({"sectionId" : sectionId}
 							, {sort : {"currentlyViewing" : -1}
@@ -47,10 +47,10 @@ Template.index.helpers({
 });
 
 Template.index.events({
-	'submit #createSubsection': function (e, t) {
+	'submit #createSubsection': (e, t) => {
 		e.preventDefault();
 
-		let sectionName = $("input[name='sectionName'").val().trim();
+		const sectionName = $("input[name='sectionName'").val().trim();
 
 		if (!Sections.findOne({"name" : sectionName})) {
 			Meteor.call("createSection", sectionName);
@@ -58,14 +58,14 @@ Template.index.events({
 			alert("Section with name \"" + sectionName + "\" already exists");
 		}
 
-		let form = $("#createSubsection")[0];
+		const form = $("#createSubsection")[0];
 		$("#createSubsection")[0].blur();
 		form.reset();
 	},
-	'click button[name="deleteSection"]': function(e, t) {
+	'click button[name="deleteSection"]': (e, t) => {
 		e.preventDefault();
 
-		let sectionId = $(e.target).attr("data-section-id");
+		const sectionId = $(e.target).attr("data-section-id");
 		Sections.remove(sectionId);
 	}
 });

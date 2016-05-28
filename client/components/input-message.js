@@ -1,35 +1,43 @@
-var charactersTyped = new ReactiveVar("");
+let currentInputTypeTemplate;
+let charactersTyped = new ReactiveVar("");
+
+Template.inputMessage.onCreated(function() {
+	currentInputTypeTemplate = new ReactiveVar("embed");
+});
 
 Template.inputMessage.events({
 	'submit #sendMessage': function(e, t) {
 		e.preventDefault();
 
-		let threadId = $("#sendMessage").attr("data-thread-id");
-		let message = $("textarea[name='msg']").val();
-		let file = $("input[name='msgFile']").prop('files')[0];
-		let embedLink = getVideoEmbedLink($("input[name='embed']").val());
-		let replies = parseReplies(message);
-		let msgCount = Metadata.findOne().msgCount;
-
-		if (replies)
-			storeReplies(replies, msgCount);
+		const threadId = $("#sendMessage").attr("data-thread-id");
+		const message = $("textarea[name='msg']").val();
+		const references = parseReferences(message);
+		const msgCount = Metadata.findOne().msgCount;
 
 		let messageObject = {
 			threadId : threadId,
 			msg : message,
 		}
 
-		if (file) {
+		if (references)
+			messageObject.references = references;
+
+
+		if ($("input[name='file']").prop('files')) {
+			const file = $("input[name='file']").prop('files')[0];
+
 			insertMessageWithFile(file, messageObject);
 		} else {
-			if (embedLink) {
+			if ($("input[name='embedLink']").val()) {
+				const embedLink = getVideoEmbedLink($("input[name='embedLink']").val());
+
 				messageObject.embedLink = embedLink;
 			}
 
 			Meteor.call("insertMessage", messageObject);
 		}
 
-		let form = $("#sendMessage")[0];
+		const form = $("#sendMessage")[0];
 		form.reset();
 		charactersTyped.set(0);
 	},
@@ -42,20 +50,25 @@ Template.inputMessage.events({
 		$("#hideInputArea").toggleClass("glyphicon-chevron-up");
 	},
 	'change .btn-file :file': function(e, t) {
-		let fileName = $(".btn-file :file").val().split("\\").pop();
+		const fileName = $(".btn-file :file").val().split("\\").pop();
 		$("#filePath").val(fileName);
 	},
 	'keyup #sendMessage textarea[name="msg"]' : function(e, t) {
-		let currentCharacters = $("#sendMessage textarea[name='msg']").val().length;
-		let maxCharacters = $("#sendMessage textarea[name='msg']").attr("maxlength");
+		const currentCharacters = $("#sendMessage textarea[name='msg']").val().length;
+		const maxCharacters = $("#sendMessage textarea[name='msg']").attr("maxlength");
 
 		charactersTyped.set(currentCharacters + " / " + maxCharacters);
+	},
+	'change #inputTypeSelection': (e, t) => {
+		const inputType = $('#inputTypeSelection').val();
+
+		currentInputTypeTemplate.set(inputType);
 	}
 });
 
 Template.inputMessage.helpers({
 	'uploadProgress': () => {
-		let uploader = currentUploader.get();
+		const uploader = currentUploader.get();
 
 		if (uploader) {
 			return Math.round(uploader.progress() * 100) || 0;
@@ -72,6 +85,9 @@ Template.inputMessage.helpers({
 	},
 	'charactersTyped': () => {
 		return charactersTyped.get();
+	},
+	'selectedInput': () => {
+		return currentInputTypeTemplate.get();
 	}
 });
 
@@ -114,32 +130,24 @@ function insertMessageWithFile(file, messageObject) {
 	currentUploader.set(uploader);
 }
 
-function storeReplies(replies, msgCount) {
-	if (replies.length === 0) {
-		return;
-	}
-	
-	Meteor.call("storeReplies", replies, msgCount);
-}
-
-function parseReplies(msg) {
+function parseReferences(msg) {
 	// If message doesn't have references, return empty array
-	if (!msg.includes("#")) {
+	if (msg.match(/#\d/) === null) {
 		return [];
 	}
 
 	// Match all strings beginning with '#'
 	// and continuing with a digit
-	let matcher = msg.match(/#\d+/g);
+	const matcher = msg.match(/#\d+/g);
 
-	var replies = [];
+	const references = [];
 	matcher.forEach((e, i, a) => {
 		// Filter out the '#' char and push digits
 		// to replies array
-		replies.push(+e.substring(1, e.length));
+		references.push(+e.substring(1, e.length));
 	});
 
 	// Return only unique references
 	// so ppl can't spam reference one message
-	return $.unique(replies);
+	return $.unique(references);
 }

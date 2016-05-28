@@ -1,5 +1,5 @@
 Meteor.startup(() => {
-	console.log("Server started");
+	debugLog("Server started");
 
 	// Create user and assign it the admin role if user doesn't exist
 	if (!Accounts.findUserByUsername("SuperAdmin")) {
@@ -7,7 +7,7 @@ Meteor.startup(() => {
 			username: "SuperAdmin", 
 			password: "AsdRegardsAsaad"
 		});
-		let accId = Accounts.findUserByUsername("SuperAdmin");
+		const accId = Accounts.findUserByUsername("SuperAdmin");
 		Roles.addUsersToRoles(accId, "superadmin", Roles.GLOBAL_GROUP);
 	}
 
@@ -17,7 +17,7 @@ Meteor.startup(() => {
 			username: "ModeratorOne",
 			password: "Kek123"
 		});
-		let accId = Accounts.findUserByUsername("ModeratorOne");
+		const accId = Accounts.findUserByUsername("ModeratorOne");
 		Roles.addUsersToRoles(accId, "moderator");
 	}
 
@@ -30,7 +30,7 @@ Meteor.startup(() => {
 	
 	DDPRateLimiter.setErrorMessage("Don't DOS plz");
 
-	_.each(methods, (methodName, index, list) => {
+	methods.forEach((methodName, index, arr) => {
 
 		const rule = {
 			connectionId: function(connectionId) {
@@ -47,11 +47,14 @@ Meteor.startup(() => {
 	RateLimiting.remove({});
 });
 
-Meteor.onConnection(function(conn) {
+Meteor.onConnection((conn) => {
 	console.log("OPEN CONNECTION: " + conn.clientAddress);
+	// Store a new unique visitor's ip to a private collection
 	UniqueVisitors.upsert(conn.clientAddress
 							, {$set : {lastConn : new Date()}});
 
+	// Hash a connected user's ip and store it in a public collection
+	// for displaying viewer count
 	let ipHash = SHA256(conn.clientAddress);
 	ConnectedClients.upsert(ipHash, {$set : {lastConn : new Date()}});
 

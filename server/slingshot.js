@@ -1,24 +1,13 @@
 Slingshot.createDirective("fileUploads", Slingshot.S3Storage, {
-  bucket: "files.northchan.com",
+    bucket: "files.northchan.com",
 
-  acl: "public-read",
+    acl: "public-read",
 
-  authorize: function () {
-    //Deny uploads if user is not logged in.
-    /*
-    if (!this.userId) {
-      var message = "Please login before posting files";
-      throw new Meteor.Error("Login Required", message);
+    authorize: function () {
+        return true;
+    },
+
+    key: function (file) {
+        return `files/${file.name}`;
     }
-    */
-
-    return true;
-  },
-
-  key: function (file) {
-    //Store file into a directory by the user's username.
-    //var user = Meteor.users.findOne(this.userId);
-
-    return "files" + "/" + file.name;
-  }
 });

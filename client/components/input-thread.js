@@ -1,12 +1,12 @@
-var currentInputTypeTemplate;
-var pageRendered = new ReactiveVar(false);
+let currentInputTypeTemplate;
+let pageRendered = new ReactiveVar(false);
 
-Template.inputThread.onCreated(function() {
+Template.inputThread.onCreated(() => {
 	pageRendered.set(false);
 	currentInputTypeTemplate = new ReactiveVar("embed");
 });
 
-Template.inputThread.onRendered(function() {
+Template.inputThread.onRendered(() => {
 	pageRendered.set(true);
 });
 
@@ -16,9 +16,9 @@ Template.inputThread.events({
 
 		pageRendered.set(false);
 
-		let sectionId = $("input[name='sectionId']").val();
-		let threadName = $("input[name='threadName']").val().trim();
-		let threadText = $("textarea[name='threadInitText']").val();
+		const sectionId = $("input[name='sectionId']").val();
+		const threadName = $("input[name='threadName']").val().trim();
+		const threadText = $("textarea[name='threadInitText']").val();
 
 		if (Threads.findOne({"name" : threadName})) {
 			alert("Thread with name \"" + threadName + "\" already exists");
@@ -33,21 +33,21 @@ Template.inputThread.events({
 
 		// If user created thread with file, we have to upload the
 		// file first (async)
-		if ($("input[name='initialFile']").prop('files')) {
-			let file = $("input[name='initialFile']").prop('files')[0];
+		if ($("input[name='file']").prop('files')) {
+			const file = $("input[name='file']").prop('files')[0];
 
 			createThreadWithFile(file, threadObject);
 		} else {
 			// Else we can just do synchronous stuff
 			if ($("input[name='pollTitle']").val()) {
-				let pollTitle = $("input[name='pollTitle']").val();
+				const pollTitle = $("input[name='pollTitle']").val();
 
-				let options = [];
+				const options = [];
 						
 				$("input[name='pollOption']").each(function() {
 					if (this.value) {
-						let optClass = $(this).attr("data-opt");
-						let bgColor = $("button[data-opt='" + optClass + "']").css('backgroundColor');
+						const optClass = $(this).attr("data-opt");
+						const bgColor = $("button[data-opt='" + optClass + "']").css('backgroundColor');
 
 						options.push({
 							"option" : this.value,
@@ -63,14 +63,14 @@ Template.inputThread.events({
 			}
 
 			if ($("input[name='embedLink']").val()) {
-				let embedLink = getVideoEmbedLink($("input[name='embedLink']").val());
+				const embedLink = getVideoEmbedLink($("input[name='embedLink']").val());
 
 				threadObject.embedLink = embedLink;
 			}
 
 			if ($("input[name='channelName']").val()) {
-				let channelName = $("input[name='channelName']").val();
-				let chatIncluded = $("input[name='includeChat']").prop("checked");
+				const channelName = $("input[name='channelName']").val();
+				const chatIncluded = $("input[name='includeChat']").prop("checked");
 
 				threadObject.livestream = channelName;
 				threadObject.chatIncluded = chatIncluded;
@@ -84,16 +84,16 @@ Template.inputThread.events({
 		form.reset();
 	},
 	'change .btn-file :file': function(e, t) {
-		let fileName = $(".btn-file :file").val().split("\\").pop();
+		const fileName = $(".btn-file :file").val().split("\\").pop();
 		$("#filePath").val(fileName);
 	},
 	'change #inputTypeSelection': (e, t) => {
-		let inputType = $('#inputTypeSelection').val();
+		const inputType = $('#inputTypeSelection').val();
 
 		currentInputTypeTemplate.set(inputType);
 	},
 	'click #createThread input[name="addOption"]': function(e, t) {
-		let nextOptClass = $("input[name='pollOption']").length + 1;
+		const nextOptClass = $("input[name='pollOption']").length + 1;
 		$("#pollInput").append("<br /><input type='text' name='pollOption' data-opt='" + nextOptClass + "' /><button class='" + nextOptClass + " btn' name='colorPicker' data-opt='" + nextOptClass + "'>BG Color</button>");
 		
 		$("button[name='colorPicker']").colorpicker().on('changeColor', function(e) {
@@ -110,14 +110,14 @@ Template.inputThread.events({
 });
 
 Template.inputThread.helpers({
-	'selectedInput': function() {
+	selectedInput() {
 		return currentInputTypeTemplate.get();
 	}
 });
 
 Template.file.helpers({
-	'uploadProgress': () => {
-		let uploader = currentUploader.get();
+	uploadProgress() {
+		const uploader = currentUploader.get();
 
 		if (uploader) {
 			return Math.round(uploader.progress() * 100) || 0;
@@ -126,7 +126,7 @@ Template.file.helpers({
 });
 
 function createThreadWithFile(file, threadObject) {
-	var uploader = new Slingshot.Upload("fileUploads");
+	const uploader = new Slingshot.Upload("fileUploads");
 
 	uploader.send(file, function(error, downloadUrl) {
 		currentUploader.set();
@@ -134,9 +134,9 @@ function createThreadWithFile(file, threadObject) {
 		if (error) {
 			console.log(uploader.xhr.response);
 		} else {
-			let fileName = file.name;
-			let fileFolder = "files/";
-			let properFileDownloadUrl = "http://files.northchan.com/" + fileFolder + fileName;
+			const fileName = file.name;
+			const fileFolder = "files/";
+			const properFileDownloadUrl = `http://files.northchan.com/${fileFolder}${fileName}`;
 			
 			threadObject.downloadUrl = properFileDownloadUrl;
 			Meteor.call("createThread", threadObject);

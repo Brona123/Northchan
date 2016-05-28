@@ -10,8 +10,7 @@ function getDeviceClass() {
 
 Template.main.onRendered(function() {
 	Tracker.autorun(function() {
-		let theme = Session.get("pageTheme");
-		console.log("CHANGED THEME");
+		const theme = Session.get("pageTheme");
 
 		if (theme) {
 			$('body').removeClass();
@@ -23,7 +22,7 @@ Template.main.onRendered(function() {
 
 Template.main.events({
 	'change #theme': function(e, t) {
-		let theme = $('#theme').val();
+		const theme = $('#theme').val();
 
 		themes.forEach((elem, index, arr) => {
 			if (elem.name === theme) {
@@ -34,10 +33,10 @@ Template.main.events({
 	'submit #accountActionForm': function(e, t) {
 		e.preventDefault();
 
-		let accountName = $("input[name='accountName']").val().trim();
-		let accountPassword = $("input[name='accountPassword']").val().trim();
+		const accountName = $("input[name='accountName']").val().trim();
+		const accountPassword = $("input[name='accountPassword']").val().trim();
 
-		let options = {
+		const options = {
 			username : accountName,
 			password : accountPassword
 		}
@@ -64,19 +63,19 @@ Template.main.events({
 		Meteor.logout();
 	},
 	'click input[name="autoscroll"]': (e, t) => {
-		let settings = Session.get("settings");
+		const settings = Session.get("settings");
 		settings.autoscroll = !settings.autoscroll;
 
 		Session.update("settings", settings);
 	},
 	'click input[name="readonly"]': (e, t) => {
-		let settings = Session.get("settings");
+		const settings = Session.get("settings");
 		settings.readonly = !settings.readonly;
 
 		Session.update("settings", settings);
 	},
 	'click input[name="reactive"]': (e, t) => {
-		let settings = Session.get("settings");
+		const settings = Session.get("settings");
 		settings.reactive = !settings.reactive;
 
 		Session.update("settings", settings);
@@ -84,31 +83,31 @@ Template.main.events({
 });
 
 Template.main.helpers({
-	'connectedClientAmount' : () => {
+	connectedClientAmount() {
 		if (ConnectedClients.find()) 
 			return ConnectedClients.find().count();
 	},
-	'currentSection' : () => {
+	currentSection() {
 		return Session.get("sectionId");
 	},
-	'currentThread': () => {
+	currentThread() {
 		return Session.get("threadId");
 	},
-	'themes': () => {
+	themes() {
 		return themes;
 	},
-	'isSelected': (name) => {
+	isSelected(name) {
 		if (Session.get("pageTheme").name === name) {
 			return "selected";
 		}
 	},
-	'autoscrollToggled': () => {
+	autoscrollToggled() {
 		return Session.get("settings").autoscroll;
 	},
-	'readonlyToggled': () => {
+	readonlyToggled() {
 		return Session.get("settings").readonly;
 	},
-	'reactiveToggled': () => {
+	reactiveToggled() {
 		return Session.get("settings").reactive;
 	}
 });

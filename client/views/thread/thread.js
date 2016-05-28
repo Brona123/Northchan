@@ -1,12 +1,12 @@
 var pageRendered = new ReactiveVar(false);
 
-Template.thread.onCreated(function () {
+Template.thread.onCreated(() => {
 	pageRendered.set(false);
 });
 
 Template.thread.onRendered(function () {
-	let template = Template.instance();
-	let textArea = template.find('#messagelist');
+	const template = Template.instance();
+	const textArea = template.find('#messagelist');
 
 	this.find('#messagelist')._uihooks = {
 		insertElement: function(node, next) {
@@ -24,25 +24,25 @@ Template.thread.onRendered(function () {
 });
 
 Template.beforeThread.helpers({
-	'threadId': function () {
+	threadId() {
 		return this._id;
 	}
 });
 
 Template.thread.helpers({
-	'threadName': function() {
+	threadName() {
 		return this.name;
 	},
-	'messages': () => {
+	messages() {
 		return Messages.find({}, {sort : {sortableTime: 1}});
 	},
-	'viewerCount': function() {
+	viewerCount() {
 		let currentThread = Threads.findOne();
 
 		if (currentThread)
 			return currentThread.currentlyViewing.length;
 	},
-	'deviceSpecificClass': () => {
+	deviceSpecificClass() {
 		if (Meteor.Device.isDesktop()) {
 			return "desktopThreadRouteRootContainer";
 		} else if (Meteor.Device.isPhone()) {
@@ -51,22 +51,20 @@ Template.thread.helpers({
 			return "tabletThreadRouteRootContainer";
 		}
 	},
-	'isReadOnly': () => {
+	isReadOnly() {
 		return Session.get("settings").readonly ? "readonly" : "";
 	}
 });
 
 Template.thread.events({
 	'load img': function(e, t) {
-		console.log("IMAGE LOADED");
-		let textArea = t.find('#messagelist');
+		const textArea = t.find('#messagelist');
 
 		if (Session.get("settings").autoscroll)
 				textArea.scrollTop = textArea.scrollHeight;
 	},
 	'loadeddata video': function(e, t) {
-		console.log("VIDEO LOADED");
-		let textArea = t.find('#messagelist');
+		const textArea = t.find('#messagelist');
 
 		if (Session.get("settings").autoscroll)
 				textArea.scrollTop = textArea.scrollHeight;

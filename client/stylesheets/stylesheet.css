@@ -41,7 +41,7 @@ a:link {
 	word-break: break-all;
 }
 
-.phone .navbar {
+.phone .navbar * {
 	font-size:5vw;
 }
 
@@ -237,11 +237,11 @@ div#pollInput {
 }
 
 .phone .metadata time {
-	font-size: 1vw;
+
 }
 
 .phone .metadata .reply {
-	font-size: 1.4vw;
+
 }
 
 .phone .metadata .actions button {
@@ -267,12 +267,9 @@ div#pollInput {
 	background-color: #222222;
 }
 
-.desktop .inputArea {
-	
-}
-
-.phone .inputArea {
-	
+.phone .inputArea * {
+	font-size: 5vw;
+	min-height: 10vw;
 }
 
 .phone .inputArea *:not(textarea) {
@@ -374,8 +371,9 @@ div#pollInput {
 	/*font-size: 2vh;*/
 }
 
-.phone .messageContainer {
+.phone .messageContainer * {
 	/*font-size:3vw;*/
+	font-size: 4.5vw;
 }
 
 .messageContainer .content .file {

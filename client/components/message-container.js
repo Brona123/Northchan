@@ -1,22 +1,34 @@
-var pollChart;
-var templateRendered = new ReactiveVar(false);
+let pollChart;
+const templateRendered = new ReactiveVar(false);
 
-Template.messageContainer.onCreated(function () {
+Template.messageContainer.onCreated(() => {
 	templateRendered.set(false);
 });
 
-Template.messageContainer.onRendered(function () {
+Template.messageContainer.onRendered(() => {
 	templateRendered.set(true);
 });
 
 Template.messageContainer.helpers({
-	'finnishDate': (date) => {
-		if (date)
-			return finnishDate(date);
+	finnishDate(date) {
+		if (!date)
+			return;
+
+		return date.getDate()
+				+ "."
+				+ (date.getMonth() + 1)
+				+ "."
+				+ date.getFullYear()
+				+ " "
+				+ prependZero(date.getHours())
+				+ ":"
+				+ prependZero(date.getMinutes())
+				+ ":"
+				+ prependZero(date.getSeconds());
 	},
-	'styleLikes': function(likeCount) {
+	styleLikes(likeCount) {
 		if (!likeCount) {
-			return "";
+			return;
 		}
 
 		let elem = $("<span />");
@@ -33,28 +45,45 @@ Template.messageContainer.helpers({
 		
 		return elem.prop('outerHTML');
 	},
-	'replyMsg': function(msgCount) {
-		let msg = Messages.findOne({"count" : msgCount});
+	formatMsg(msg) {
+		const splittedMsg = msg.split("\n");
+		let formattedMsg = "";
 
-		if (msg) {
-			let text = msg.msg;
+		splittedMsg.forEach((elem, index, arr) => {
+			if (elem.startsWith("<")) {
+				formattedMsg += ("<span class='bluetext'> &lt;" 
+									+ elem.substring(1, elem.length) 
+									+ " </span>\n");
+			} else if (elem.startsWith(">")) {
+				formattedMsg += ("<span class='greentext'> &gt;" 
+									+ elem.substring(1, elem.length)
+									+ " </span>\n");
+			} else {
+				formattedMsg += elem + "\n";
+			}
+		});
 
-			return "<p>" + text + "</p>";
-		} else {
-			return "";
-		}
+		const msgWithLinks = formattedMsg.replace(/(?:https?)[^\s]+/g
+												, "<a href='$&'>$&</a>");
+		
+		const msgWithTooltips = msgWithLinks.replace(/#\d+/g
+											, "<a class='reference'"
+							                    + " href='$&'>"
+							                    + "$&"
+							                    + "</a>");
+
+		const msgWithLineBreaks = msgWithTooltips.replace(/\n/g, "<br />");
+
+		return msgWithLineBreaks;
 	},
-	'formatMsg': function(msg) {
-		return formatMsg(msg);
-	},
-	'pollHtml': function (pollId) {
+	pollHtml(pollId) {
 		if (templateRendered.get()) {
-			var ctx = document.getElementById(pollId).getContext("2d");
+			const ctx = document.getElementById(pollId).getContext("2d");
 
 			if (ctx) {
-				let poll = Polls.findOne(pollId);
+				const poll = Polls.findOne(pollId);
 
-				var data = [];
+				const data = [];
 
 				poll.options.forEach((elem, index, array) => {
 					data.push({
@@ -68,7 +97,7 @@ Template.messageContainer.helpers({
 					pollChart.destroy();
 				}
 
-				var options = {
+				const options = {
 					animation : false,
 					tooltipTemplate: "<%= label %> - <%= value %>",
 					showToolTips: true,
@@ -84,61 +113,59 @@ Template.messageContainer.helpers({
 			}
 		}
 	},
-	'pollOptions': function (pollId) {
-		let poll = Polls.findOne(pollId);
+	pollOptions(pollId) {
+		const poll = Polls.findOne(pollId);
 
 		if (poll)
 			return poll.options;
 	},
-	'cacheUrl': function() {
-		console.log(currentUploader.get());
+	cacheUrl() {
 		// Can only preload images
 		// currentUploader.file.type === "video/mp4"
 		return currentUploader.get().url(true);
 	},
-	'votes': function(pollId) {
-		console.log(Polls.findOne(pollId).alreadyVoted);
+	votes(pollId) {
 		return Polls.findOne(pollId).alreadyVoted;
 	}
 });
 
 Template.messageContainer.events({
-	'click .rate-up': function(e, t) {
-		let msgId = $(e.target).attr("data-msg-id");
+	'click .rate-up':(e, t) => {
+		const msgId = $(e.target).attr("data-msg-id");
 
 		Meteor.call('rateMessageUpsert'
 					, msgId
 					, {$inc : {likes : 1}});
 	},
-	'click .rate-down': function(e, t) {
-		let msgId = $(e.target).attr("data-msg-id");
+	'click .rate-down':(e, t) => {
+		const msgId = $(e.target).attr("data-msg-id");
 
 		Meteor.call('rateMessageUpsert'
 					, msgId
 					, {$inc : {likes : -1}});
 	},
-	'click .reply': function(e, t) {
+	'click .reply':(e, t) => {
 		e.preventDefault();
 
-		let msgId = $(e.target).attr("data-msg-id");
+		const msgId = $(e.target).attr("data-msg-id");
 
-		let count = Messages.findOne(msgId).count;
+		const count = Messages.findOne(msgId).count;
 
-		let textarea = $("textarea[name='msg']");
-		textarea.val(textarea.val() + "#" + count + "\n");
+		const textarea = $("textarea[name='msg']");
+		textarea.val(`${textarea.val()}#${count}\n`);
 		textarea.focus();
 	},
 	'click .replies a': function(e, t) {
-		let id = $(e.target).attr('href');
+		const id = $(e.target).attr('href');
 
-		let elem = $(id).get(0);
+		const elem = $(id).get(0);
 
 		elem.scrollIntoView();
 	},
 	'click .reference': function(e, t) {
-		let id = $(e.target).attr('href');
+		const id = $(e.target).attr('href');
 
-		let elem = $(id).get(0);
+		const elem = $(id).get(0);
 
 		elem.scrollIntoView();
 	},
@@ -149,92 +176,58 @@ Template.messageContainer.events({
 		displayPopover($(e.target));
 	},
 	'click .content .file': function(e, t) {
-		let elem = $(e.target);
+		const elem = $(e.target);
 
 		elem.parent().toggleClass("minimized");
-		console.log("ELEM:");
-		console.log(elem);
-		elem.prop("controls", elem.prop("controls") ? false : true);
+		elem.prop("controls", elem.prop("controls"));
 		// TODO resize figure
 	},
 	'click .voteBtn': function(e, t) {
-		console.log($("#optionSelection").val());
-		console.log($(e.target).attr("data-pollId"));
-		
-		let pollId = $(e.target).attr("data-pollId");
-		let option = $("#optionSelection").val();
+		const pollId = $(e.target).attr("data-pollId");
+		const option = $("#optionSelection").val();
 
 		Meteor.call("vote", pollId, option);
 	},
 	'click button[name="deleteMessage"]': function(e, t) {
-		let msgId = $(e.target).attr("data-msg-id");
+		const msgId = $(e.target).attr("data-msg-id");
 		
 		Messages.remove(msgId);
 	},
 	'click button[name="banUser"]': function(e, t) {
-		console.log($(e.target).attr("data-owner-id"));
-		let id = $(e.target).attr("data-owner-id");
-		let msgId = $(e.target).attr("data-msg-id");
+		const id = $(e.target).attr("data-owner-id");
+		const msgId = $(e.target).attr("data-msg-id");
 
-		let msgContent = Messages.findOne(msgId).msg;
-		let modId = Meteor.userId();
+		const msgContent = Messages.findOne(msgId).msg;
+		const modId = Meteor.userId();
 
 		// TODO UI bannin syyn antamiselle
-		let reason = "U're banned!";
+		const reason = "U're banned!";
 
 		Meteor.call("banUser"
 					, id
 					, "U're banned!"
 					, msgContent
 					, modId);
+	},
+	'progress video': function(e, t) {
+		/*
+		var self = e.originalEvent.target;
+
+		var range = 0;
+	    var bf = self.buffered;
+	    var time = self.currentTime;
+
+	    while(!(bf.start(range) <= time && time <= bf.end(range))) {
+	        range += 1;
+	    }
+	    var loadStartPercentage = bf.start(range) / self.duration;
+	    var loadEndPercentage = bf.end(range) / self.duration;
+	    var loadPercentage = loadEndPercentage - loadStartPercentage;
+
+	    alert(loadPercentage);
+	    */
 	}
 });
-
-function finnishDate(date) {
-	return date.getDate()
-				+ "."
-				+ (date.getMonth() + 1)
-				+ "."
-				+ date.getFullYear()
-				+ " "
-				+ prependZero(date.getHours())
-				+ ":"
-				+ prependZero(date.getMinutes())
-				+ ":"
-				+ prependZero(date.getSeconds());
-}
-
-function formatMsg(msg) {
-	let splittedMsg = msg.split("\n");
-	let formattedMsg = "";
-
-	splittedMsg.forEach((elem, index, arr) => {
-		if (elem.startsWith("<")) {
-			formattedMsg += ("<span class='bluetext'> &lt;" 
-								+ elem.substring(1, elem.length) 
-								+ " </span>\n");
-		} else if (elem.startsWith(">")) {
-			formattedMsg += ("<span class='greentext'> &gt;" 
-								+ elem.substring(1, elem.length)
-								+ " </span>\n");
-		} else {
-			formattedMsg += elem + "\n";
-		}
-	});
-
-	let msgWithLinks = formattedMsg.replace(/(?:https?)[^\s]+/g
-											, "<a href='$&'>$&</a>");
-	
-	let msgWithTooltips = msgWithLinks.replace(/#\d+/g
-										, "<a class='reference'"
-						                    + " href='$&'>"
-						                    + "$&"
-						                    + "</a>");
-
-	let msgWithLineBreaks = msgWithTooltips.replace(/\n/g, "<br />");
-
-	return msgWithLineBreaks;
-}
 
 function prependZero(str) {
 	if (str < 10) {

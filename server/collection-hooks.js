@@ -1,32 +1,37 @@
-Sections.after.remove(function(userId, doc) {
-	console.log("REMOVED SECTION, REMOVING THREADS");
+Sections.after.remove((userId, doc) => {
+	debugLog("REMOVED SECTION, REMOVING THREADS");
 	Threads.remove({"sectionId" : doc._id});
 });
 
-Threads.after.remove(function(userId, doc) {
-	console.log(`REMOVED THREAD ${doc.name}, REMOVING MESSAGES`);
+Threads.after.remove((userId, doc) => {
+	debugLog(`REMOVED THREAD ${doc.name}, REMOVING MESSAGES`);
 	Messages.remove({"threadId" : doc._id});
 });
 
 Threads.before.insert((userId, doc) => {
-	let date = new Date();
+	const date = new Date();
 
 	doc.timestamp = date;
 	doc.sortableTime = date.getTime();
-	doc.slug = slugify(String(doc.name));
+	// Creating a new String object to avoid modifying original name
+	doc.slug = slugify(String(doc.name)); 
 });
 
-Messages.before.insert(function(userId, doc) {
-	let date = new Date();
+Messages.before.insert((userId, doc) => {
+	const date = new Date();
 
-	// If message count is found, set it, else set as first message
-	doc.count = Metadata.findOne("msgCount") ? Metadata.findOne("msgCount").msgCount + 1 : 1;
+	Metadata.upsert("msgCount", {$inc : {"msgCount" : 1}});
+	doc.count = Metadata.findOne("msgCount").msgCount;
 	doc.timestamp = date;
 	doc.sortableTime = date.getTime();
 });
 
-Messages.after.insert(function(userId, doc) {
-	Metadata.upsert({"_id" : "msgCount"}, {$inc : {"msgCount" : 1}});
+Messages.after.insert((userId, doc) => {
+	if (doc.references && doc.references.length > 0) {
+		Messages.update({"count" : {$in : doc.references}}
+						, {$push : {"replies" : doc.count}}
+						, {multi : true});
+	}
 });
 
 // function stolen from 
@@ -36,9 +41,9 @@ function slugify(str) {
   str = str.toLowerCase();
 
   // remove accents, swap ñ for n, etc
-  var from = "ãàáäâåẽèéëêìíïîõòóöôùúüûñç·/_,:;";
-  var to   = "aaaaaaeeeeeiiiiooooouuuunc------";
-  for (var i=0, l=from.length ; i<l ; i++) {
+  let from = "ãàáäâåẽèéëêìíïîõòóöôùúüûñç·/_,:;";
+  let to   = "aaaaaaeeeeeiiiiooooouuuunc------";
+  for (let i=0, l=from.length ; i<l ; i++) {
     str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
   }
 
