@@ -1,6 +1,6 @@
 <template name="messageContainer">
   <section id="{{count}}" 
-            class="messageContainer {{pageTheme.message}}">
+            class="messageContainer">
 
     <div class="metadata">
       <time>{{finnishDate timestamp}}</time>
@@ -44,7 +44,7 @@
       {{/if}}
 
       {{#if downloadUrl}}
-        <div class="file minimized">
+        <div class="file">
           {{{properFileHtml downloadUrl}}}
         </div>
       {{/if}}
@@ -53,11 +53,10 @@
         <div class="pollContainer">
           <div class="poll">
           <!-- TODO poll display when votes exist -->
-            {{#if votes pollId}}
-              <canvas id="{{pollId}}"></canvas>
-              {{else}}
+            <canvas id="{{pollId}}"></canvas>
+            {{#unless votes pollId}}
               <b>No votes given yet</b>
-            {{/if}}
+            {{/unless}}
           </div>
 
           <div class="voteBtns">

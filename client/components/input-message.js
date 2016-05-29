@@ -23,7 +23,8 @@ Template.inputMessage.events({
 			messageObject.references = references;
 
 
-		if ($("input[name='file']").prop('files')) {
+		if ($("input[name='file']").prop('files') && $("input[name='file']").prop('files')[0]) {
+			console.log($("input[name='file']").prop('files')[0])
 			const file = $("input[name='file']").prop('files')[0];
 
 			insertMessageWithFile(file, messageObject);
@@ -41,13 +42,13 @@ Template.inputMessage.events({
 		form.reset();
 		charactersTyped.set(0);
 	},
-	'click #hideInputArea': function(e, t) {
-		$(".inputArea").toggleClass("minimized");
+	'click #hideInputFieldArea': function(e, t) {
+		$(".inputFieldArea").toggle();
 		//$(".inputArea").toggleClass("col-xs-12");
 		//$(".inputArea").toggleClass("col-xs-2");
-		$("#messagelist").toggleClass("maximized");
-		$("#hideInputArea").toggleClass("glyphicon-chevron-down");
-		$("#hideInputArea").toggleClass("glyphicon-chevron-up");
+		//$("#messagelist").toggleClass("maximized");
+		$(e.target).toggleClass("glyphicon-chevron-down");
+		$(e.target).toggleClass("glyphicon-chevron-up");
 	},
 	'change .btn-file :file': function(e, t) {
 		const fileName = $(".btn-file :file").val().split("\\").pop();
@@ -117,9 +118,8 @@ function insertMessageWithFile(file, messageObject) {
 			}, 2000);
 			
 		} else {
-			let fileName = file.name;
-			let fileFolder = "files/";
-			let properFileDownloadUrl = `http://files.northchan.com/${fileFolder}${fileName}`;
+			const encodedFileURI = encodeURIComponent(file.name);
+			const properFileDownloadUrl = `http://files.northchan.com/files/${encodedFileURI}`;
 			
 			messageObject.downloadUrl = properFileDownloadUrl;
 

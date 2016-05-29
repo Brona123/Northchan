@@ -14,7 +14,7 @@ Template.main.onRendered(function() {
 
 		if (theme) {
 			$('body').removeClass();
-			$('body').addClass(theme.background);
+			$('body').addClass(theme.class);
 			$('body').addClass(getDeviceClass());
 		}
 	});

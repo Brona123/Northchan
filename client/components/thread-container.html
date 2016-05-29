@@ -1,7 +1,7 @@
 <template name="threadContainer">
   {{#with thread}}
     <a href="{{../sectionName}}/{{slug}}">
-      <div class="threadContainer {{pageTheme.thread}} col-md-2 col-xs-6">
+      <div class="threadContainer col-md-2 col-xs-4">
         {{#if isInRole 'superadmin,moderator'}}
           <button class="btn-danger"
                   name="deleteThread"
@@ -13,6 +13,11 @@
         <span class="threadViewCountContainer">
           {{currentlyViewing.length}}
           <span class="glyphicon glyphicon-user"></span>
+        </span>
+
+        <span class="threadMessageCountContainer">
+          {{messageCount}}
+          <span class="glyphicon glyphicon-envelope"></span>
         </span>
 
         {{#with downloadUrl}}

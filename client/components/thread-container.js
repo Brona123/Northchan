@@ -65,6 +65,11 @@ Template.threadContainer.helpers({
 
 		if (poll)
 			return poll.pollTitle;
+	},
+	messageCount() {
+		//console.log(Messages.find({"threadId" : this._id}).count());
+
+		return Messages.find({"threadId" : this._id}).count();
 	}
 });
 

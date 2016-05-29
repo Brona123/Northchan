@@ -21,7 +21,7 @@ file type allowit slingshot direktiiveihin
 mobiili UI parannukset
 firefox kusee
 custom audio/video kontrollit
-SEMI DONE -- argument checkit sectionin ja threadin luonnin yhteydessä
+DONE -- argument checkit sectionin ja threadin luonnin yhteydessä
 DONE -- mobiili UI:sta lähettäessä image ei pelitä
 DONE -- poll mahdollisuus
 SEMI DONE -- poll UI
@@ -32,8 +32,8 @@ DONE -- twitch live stream threadin aloitus
 threadia luodessa progress bar file uploadeille
 threadin luonti ilman fileä etc
 rate limiter (1 message per 10 sec)
-poll display kun voteja on olemassa
-mobiili video display kusee
+SEMI DONE -- poll display kun voteja on olemassa
+SEMI DONE -- mobiili video display kusee
 
 ACCOUNT SYSTEM
 usereiden poisto
@@ -53,3 +53,4 @@ threadin luodessa ainakin kännykällä fontti kusee
 numerot viestissä bugittavat
 viestissä referoidessa viestiä jota ei olemassa tulee server error
 tulevaisuuden viestiä referoidessa kyseisessä viestissä ei näy repliesejä
+thread creation empty checkit titlessä ja messagessa

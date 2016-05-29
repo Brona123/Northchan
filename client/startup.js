@@ -17,11 +17,12 @@ Template.registerHelper("properFileHtml", (downloadUrl) => {
 	if (!downloadUrl) return;
 
 	if (downloadUrl.endsWith(".mp4")) {
-		return "<video src='" + downloadUrl + "' />";
+		const button = `<button data-video-url=${downloadUrl} class='resize btn-block'>Resize</button>`;
+		return `<video src=${downloadUrl} poster='/video-placeholder.png'/> <br />${button}`;
 	} else if (downloadUrl.endsWith(".png") || downloadUrl.endsWith(".jpg")) {
-		return "<img src='" + downloadUrl + "' alt='Image placeholder'>";
+		return `<img src=${downloadUrl} alt='Image placeholder'>`;
 	} else if (downloadUrl.endsWith(".mp3")) {
-		return "<audio src='" + downloadUrl + "' controls />";
+		return `<audio src=${downloadUrl} controls />`;
 	}
 });
 

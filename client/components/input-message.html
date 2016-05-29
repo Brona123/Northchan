@@ -1,31 +1,33 @@
 <template name="inputMessage">
   <!-- if phone, smaller height inputArea -->
-  <div class="{{pageTheme.inputArea}} inputArea col-xs-12">
+  <div class="inputArea col-xs-12">
     <div class="col-xs-12">
-      <button id="hideInputArea"
+      <button id="hideInputFieldArea"
               class="btn btn-block glyphicon glyphicon-chevron-down">
       </button>
     </div>
 
-    <div class="col-xs-12">
-      <select id="inputTypeSelection" class="form-control">
-        <option value="embed">Embed (youtube/vimeo/twitch VoD)</option>
-        <option value="file">File (10 MB limit)</option>
-      </select>
+    <div class="inputFieldArea">
+      <div class="col-xs-12">
+        <select id="inputTypeSelection" class="form-control">
+          <option value="embed">Embed (youtube/vimeo/twitch VoD)</option>
+          <option value="file">File (10 MB limit)</option>
+        </select>
 
+      </div>
+
+
+      <form id="sendMessage" class="col-xs-12" data-thread-id="{{threadId}}">
+        {{> Template.dynamic template=selectedInput }}
+        <textarea class="col-xs-12" 
+                  rows="5" 
+                  name="msg" 
+                  maxlength="2000"></textarea>
+
+        Characters typed: {{charactersTyped}}
+
+        <input type="submit" class="btn btn-block btn-success" value="Send message" />
+      </form>
     </div>
-
-
-    <form id="sendMessage" class="col-xs-12" data-thread-id="{{threadId}}">
-      {{> Template.dynamic template=selectedInput }}
-      <textarea class="col-xs-12" 
-                rows="5" 
-                name="msg" 
-                maxlength="2000"></textarea>
-
-      Characters typed: {{charactersTyped}}
-
-      <input type="submit" class="btn btn-block btn-success" value="Send message" />
-    </form>
   </div>
 </template>

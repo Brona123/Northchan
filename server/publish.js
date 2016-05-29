@@ -105,6 +105,10 @@ pbl("adminBannedUsers", () => {
 });
 
 function checkRateLimits(context, name) {
+	if (BannedUsers.findOne(SHA256(context.connection.clientAddress))) {
+		return;
+	}
+	
 	console.log(`RATE LIMIT ${name}`);
 	const subLimit = 50;
 	const timeLimit = 1000;

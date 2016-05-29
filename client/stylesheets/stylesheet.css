@@ -27,9 +27,6 @@ a:link {
 	font-size:30px;
 }
 
-.phone button {
-	min-height: 10vw;
-}
 
 .desktop * {
 	font-size:1vw;
@@ -41,11 +38,15 @@ a:link {
 	word-break: break-all;
 }
 
+.phone .navbar {
+	width: 100%;
+}
+
 .phone .navbar * {
 	font-size:5vw;
 }
 
-.accountpane {
+.desktop .accountpane {
 	float:right;
 }
 
@@ -77,6 +78,7 @@ a:link {
 
 .sectionContainer:hover {
 	border-style: ridge;
+	background: rgba(0,0,0,0.3);
 }
 
 .sectionContainer .title {
@@ -112,8 +114,7 @@ div#pollInput {
 	border-radius: 5px;
 	border-color: #3EB489;
 	border-width: 2px;
-	min-height: 250px;
-	max-height:250px;
+	height:250px;
 	overflow:hidden;
 	/*font-size: 2vh;*/
 }
@@ -122,7 +123,7 @@ div#pollInput {
 	border-radius: 5px;
 	border-color: #3EB489;
 	border-width: 2px;
-	height:60vw;
+	height:250px;
 	overflow:hidden;
 }
 
@@ -185,6 +186,10 @@ div#pollInput {
 	float:right;
 }
 
+.threadContainer .threadMessageCountContainer {
+	float:right;
+}
+
 .threadContainer hr {
 	margin:1px;
 }
@@ -237,16 +242,15 @@ div#pollInput {
 }
 
 .phone .metadata time {
-
+	font-size:50px;
 }
 
 .phone .metadata .reply {
-
+	font-size:50px;
 }
 
 .phone .metadata .actions button {
 	min-width: 10vw;
-	min-height: 7vw;
 }
 
 .disliked {
@@ -272,10 +276,6 @@ div#pollInput {
 	min-height: 10vw;
 }
 
-.phone .inputArea *:not(textarea) {
-	/*font-size: 3vh;*/
-}
-
 .phone .inputArea input {
 	height: 7vw;
 }
@@ -297,10 +297,6 @@ div#pollInput {
 
 .tablet .inputArea {
 	height:50vw;
-}
-
-.tablet .inputArea * {
-	/*font-size: 3vh;*/
 }
 
 .tablet .inputArea input {
@@ -367,15 +363,6 @@ div#pollInput {
 	/*margin:0.5vh;*/
 }
 
-.desktop .messageContainer {
-	/*font-size: 2vh;*/
-}
-
-.phone .messageContainer * {
-	/*font-size:3vw;*/
-	font-size: 4.5vw;
-}
-
 .messageContainer .content .file {
 	text-align: center;
 	display:table-cell;
@@ -397,7 +384,7 @@ div#pollInput {
 
 .phone .messageContainer .content .pollContainer {
 	float:left;
-	width:95vw;
+	width:98vw;
 }
 
 .messageContainer .content .poll {
@@ -424,19 +411,27 @@ div#pollInput {
 	display: block;
 }
 
-
-.phone .messageContainer .content .minimized {
-	max-width: 35vw;
-}
-
 .messageContainer img {
-	width:100%;
-	height:100%;
+	max-height: 160px;
+	max-width: 200px;
+	width: auto;
 }
 
 .messageContainer video {
-	width:100%;
-	height:100%;
+	max-height: 160px;
+	max-width: 200px;
+	width: auto;
+}
+
+.messageContainer video.maximized {
+	max-height: none;
+	max-width: none;
+	width: 100%;
+	height: 100%;
+}
+
+.phone .messageContainer video.maximized {
+	width: 98vw;
 }
 
 .messageContainer audio {
@@ -448,9 +443,15 @@ div#pollInput {
 	word-break:break-all;
 }
 
-.phone .messageContainer .content * {
-	font-size:3rem;
+.phone .msg {
+	font-size: 10px;
 }
+
+.phone .messageContainer .content * {
+	
+}
+
+
 
 .messageContainer .content .msg .greentext {
 	color:green;
@@ -476,95 +477,90 @@ div#pollInput {
 
 /* /THREAD ROUTE */
 
-
-/* NOT USED ATM */
-#filedrop {
-	background-color: #3EB489;
-	width:50%;
-	height:200px;
-}
-
-/* NOT USED ATM */
-#drawingBoard {
-	cursor:pointer;
-}
-
-/* NOT USED ATM */
-#drawingBoard:active {
-	cursor:crosshair;
-}
-
 /******************************** THEMES **********************/
 
 /* MINT THEME */
 
-.mintBg {
+.mint {
 	background-color: #CCFFCC;
 }
 
-.mintBg a:visited {
+.mint a:visited {
 	color:#CE5A57;
 }
 
-.mintBg a:link {
+.mint a:link {
 	color:#444C5C;
 }
 
-.mintContentBg {
-	background-color: #118C4E;
-}
-
-.mintThread {
+.mint .threadContainer {
 	background-color: #FFFFCC;
 	color: #AD864F;
 	font-family:"Comic Sans MS", cursive, sans-serif;
 }
 
-.mintMessage {
+.mint .messageContainer {
 	background-color: #FFFFCC;
 	color: #AD864F;
 	font-family:"Comic Sans MS", cursive, sans-serif;
 }
 
-.mintInput {
+.mint .inputArea {
 	background-color: #FFFFCC;
+}
+
+.mint ::-webkit-scrollbar-track {
+  	background-color: #FFFFCC;
+}
+
+.mint ::-webkit-scrollbar-thumb {
+  	background-color: #AAFFAA;
 }
 
 /* /MINT THEME */
 
 /* DARK THEME */
 
-.darkBg {
+.dark {
 	background-color: #021C1E;
 }
 
-.darkBg a {
+.dark a {
 	color:#7DA3A1;
 }
 
-.darkContentBg {
-	background-color: #004445;
-}
-
-.darkThread {
+.dark .threadContainer {
 	background-color: #004445;
 	color: #444C5C;
 }
 
-.darkMessage {
+.dark .messageContainer {
 	background-color: #2C7873;
 	color:#444C5C;
 }
 
-.darkInput {
+.dark .inputArea {
 	background-color:#2C7873;
+}
+
+.dark .messageContainer {
+	background-color: #2C7873;
+	color:#444C5C;
+}
+
+.dark ::-webkit-scrollbar-track {
+  	background-color: #2C7873;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  	background-color: #021C1E;
 }
 
 /* /DARK THEME */
 
 /* MONOKAI THEME */
 
-.monokaiBg {
+.monokai {
 	background-color: #171812;
 }
 
@@ -572,21 +568,17 @@ div#pollInput {
 
 }
 
-.monokaiContentBg {
-
-}
-
-.monokaiThread {
+.monokai .threadContainer {
 	background-color: #272822;
 	color: #A6E22E;
 }
 
-.monokaiMessage {
+.monokai .messageContainer {
 	background-color: #272822;
 	color:#A6E22E;
 }
 
-.monokaiInput {
+.monokai .inputArea {
 	background-color:#272822;
 }
 
@@ -594,25 +586,25 @@ div#pollInput {
 
 /* MARS THEME */
 
-.marsBg {
+.mars {
 	background-color: #46211A;
 }
 
-.marsBg a {
+.mars a {
 	color:#BA5536;
 }
 
-.marsThread {
+.mars .threadContainer {
 	background-color: #693D3D;
 	color: #E1B16A;
 }
 
-.marsMessage {
+.mars .messageContainer {
 	background-color: #693D3D;
 	color: #E1B16A;
 }
 
-.marsInput {
+.mars .inputArea {
 	background-color: #693D3D;
 }
 
@@ -653,25 +645,25 @@ div#pollInput {
 	}
 }
 
-.lsdBg {
+.lsd {
 	animation-name: bglsd;
 	animation-duration:2s;
 	animation-iteration-count: infinite;
 }
 
-.lsdThread {
+.lsd .threadContainer {
 	animation-name: threadlsd;
 	animation-duration:5s;
 	animation-iteration-count: infinite;
 }
 
-.lsdMessage {
+.lsd .messageContainer {
 	animation-name: messagelsd;
 	animation-duration:7s;
 	animation-iteration-count: infinite;
 }
 
-.lsdInput {
+.lsd .inputArea {
 
 }
 
@@ -706,16 +698,8 @@ div#pollInput {
 /* SCROLLBAR CSS */
 
 ::-webkit-scrollbar {
-  width: 6px;  /* for vertical scrollbars */
-  height: 6px; /* for horizontal scrollbars */
-}
-
-::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.5);
+  	width: 10px;  /* for vertical scrollbars */
+  	height: 10px; /* for horizontal scrollbars */
 }
 
 /* /SCROLLBAR CSS */

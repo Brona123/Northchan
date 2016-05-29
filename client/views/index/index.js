@@ -6,9 +6,9 @@ Template.index.onRendered(() => {
 Template.index.helpers({
 	sections() {
 		if (Session.get("settings").reactive) {
-			return Sections.find({}, {sort : {"currentlyViewing" : -1, "name" : 1}});
+			return Sections.find({}, {sort : {"currentlyViewing" : -1, "name" : -1}});
 		} else {
-			return Sections.find({}, {sort : {"name" : 1}});			
+			return Sections.find({}, {sort : {"name" : -1}});			
 		}
 	},
 	sectionThreadCount() {
@@ -38,10 +38,10 @@ Template.index.helpers({
 		return Threads.find({"sectionId" : section._id}).count();
 	},
 	frontPageThreads(sectionId) {
-		const threadAmount = Meteor.Device.isDesktop() ? 6 : 4;
+		const threadAmount = Meteor.Device.isDesktop() ? 6 : 3;
 
 		return Threads.find({"sectionId" : sectionId}
-							, {sort : {"currentlyViewing" : -1}
+							, {sort : {"currentlyViewing" : -1, "sortableTime" : -1}
 								, limit : threadAmount});
 	}
 });
