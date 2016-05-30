@@ -242,15 +242,15 @@ div#pollInput {
 }
 
 .phone .metadata time {
-	font-size:50px;
+	font-size:30px;
 }
 
 .phone .metadata .reply {
-	font-size:50px;
+	font-size:40px;
 }
 
 .phone .metadata .actions button {
-	min-width: 10vw;
+	font-size:70px;
 }
 
 .disliked {
@@ -444,7 +444,7 @@ div#pollInput {
 }
 
 .phone .msg {
-	font-size: 10px;
+	font-size: 40px;
 }
 
 .phone .messageContainer .content * {

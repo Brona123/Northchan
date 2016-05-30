@@ -109,7 +109,7 @@ function checkRateLimits(context, name) {
 		return;
 	}
 	
-	console.log(`RATE LIMIT ${name}`);
+	debugLog(`RATE LIMIT ${name}`);
 	const subLimit = 50;
 	const timeLimit = 1000;
 	const clientAddress = context.connection.clientAddress;

@@ -56,8 +56,6 @@ Template.inputThread.events({
 					}
 				});
 
-				console.log("POLLTITLE: " + pollTitle);
-
 				threadObject.pollTitle = pollTitle;
 				threadObject.options = options;
 			}
