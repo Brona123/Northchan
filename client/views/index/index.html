@@ -22,6 +22,8 @@
                   name="sectionName" 
                   placeholder="Subsection name"
                   maxlength="80" />
+
+          {{> file}}
                   
           <span class="input-group-btn">
             <input type="submit" 
@@ -33,29 +35,38 @@
     {{/unless}}
   {{/if}}
 
-  {{#each sections}}
-    <a href="/{{name}}">
-      <div class="sectionContainer">
-        {{#if isInRole 'superadmin'}}
-          <button class="btn btn-danger"
-                  name="deleteSection"
-                  data-section-id="{{_id}}">Delete section</button>
-        {{/if}}
+  <div id="pageMetaData">
+  Total sections: {{totalSections}}
+  Total threads: {{totalThreads}}
+  Total messages: {{totalMessages}}
+  </div>
 
-        <h4 class="col-xs-12 text-center">{{name}}</h4>
-          
-        <span class="col-xs-12 glyphicon glyphicon-user text-center"> 
-          {{currentlyViewing.length}} 
-        </span>
-        <span class="col-xs-12 text-center">
-        Threads: {{threadsPerSection this}}
-        Messages: {{messagesPerSection this}}
-        </span>
+  <div id="sections">
+    {{#each sections}}
+      <a href="/{{name}}">
+        <div class="sectionContainer" 
+              style="{{bgImg this}}">
+          {{#if isInRole 'superadmin'}}
+            <button class="btn btn-danger"
+                    name="deleteSection"
+                    data-section-id="{{_id}}">Delete section</button>
+          {{/if}}
 
-        {{#each frontPageThreads _id}}
-          {{> threadContainer sectionName=../name thread=this}}
-        {{/each}}
-      </div>
-    </a>
-  {{/each}}
+          <h4 class="col-xs-12 text-center">{{name}}</h4>
+            
+          <span class="col-xs-12 glyphicon glyphicon-user text-center"> 
+            {{currentlyViewing.length}} 
+          </span>
+          <span class="col-xs-12 text-center">
+          Threads: {{threadsPerSection this}}
+          Messages: {{messagesPerSection this}}
+          </span>
+
+          {{#each frontPageThreads _id}}
+            {{> threadContainer sectionName=../name thread=this}}
+          {{/each}}
+        </div>
+      </a>
+    {{/each}}
+  </div>
 </template>

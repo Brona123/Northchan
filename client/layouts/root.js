@@ -8,7 +8,9 @@ function getDeviceClass() {
 	}
 }
 
-Template.main.onRendered(function() {
+Template.root.onRendered(function() {
+	console.log("ROOT RENDERED");
+	
 	Tracker.autorun(function() {
 		const theme = Session.get("pageTheme");
 
@@ -20,7 +22,7 @@ Template.main.onRendered(function() {
 	});
 });
 
-Template.main.events({
+Template.root.events({
 	'change #theme': function(e, t) {
 		const theme = $('#theme').val();
 
@@ -79,10 +81,17 @@ Template.main.events({
 		settings.reactive = !settings.reactive;
 
 		Session.update("settings", settings);
+	},
+	'click input[name="lightweight"]': (e, t) => {
+		const settings = Session.get("settings");
+		settings.lightweight = !settings.lightweight;
+
+		console.log("Lightweight " + settings.lightweight);
+		Session.update("settings", settings);
 	}
 });
 
-Template.main.helpers({
+Template.root.helpers({
 	connectedClientAmount() {
 		if (ConnectedClients.find()) 
 			return ConnectedClients.find().count();
@@ -109,5 +118,8 @@ Template.main.helpers({
 	},
 	reactiveToggled() {
 		return Session.get("settings").reactive;
+	},
+	lightweightToggled() {
+		return Session.get("settings").lightweight;
 	}
 });

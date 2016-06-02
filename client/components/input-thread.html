@@ -3,7 +3,7 @@
           id="toggleCreateThreadForm"></button>
 
   <form id="createThread">
-    <input type="hidden" name="sectionId" value="{{_id}}" />
+    <input type="hidden" name="sectionId" value="{{sectionId}}" />
       <input type="text" name="threadName" class="form-control" placeholder="Thread name" maxlength="80" />
     
     <select id="inputTypeSelection" class="form-control">
@@ -24,58 +24,4 @@
             class="btn btn-success btn-block center" 
             value="Create a thread" />
   </form>
-</template>
-
-<template name="embed">
-  <input type='text' 
-          name='embedLink' 
-          class='form-control' 
-          placeholder='Embed link' />
-</template>
-
-<template name="file">
-  
-  <div class='input-group'>
-    <span class='input-group-btn'>
-      <span class='btn btn-primary btn-file'>
-        Select file <input type='file' name='file' />
-      </span>
-    </span>
-
-    <input id='filePath' type='text' class='form-control' readonly>
-  </div>
-
-  <div class="progress">
-    <div class="progress-bar"
-          role="progressbar"
-          aria-valuenow="{{uploadProgress}}"
-          aria-valuemin="0"
-          aria-valuemax="100"
-          style="width: {{uploadProgress}}%;">
-      <span>{{uploadProgress}}%</span>
-    </div>
-  </div>
-
-</template>
-
-<template name="livestream">
-  <input type="text"
-          id="channelName"
-          name="channelName"
-          class="form-control"
-          placeholder="Channel name" />
-
-  <label class="checkbox-inline" for="channelName">
-    <input type="checkbox" name="includeChat" checked />Include chat
-  </label>
-</template>
-
-<template name="poll">
-  <div id='pollInput'>
-    <input type='text' 
-            class="form-control" 
-            name='pollTitle' 
-            placeholder='Title' />
-    <br />Options <input type='button' name='addOption' value='Add option' />
-  </div>
 </template>

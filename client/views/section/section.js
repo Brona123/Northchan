@@ -1,8 +1,28 @@
 var pageRendered = new ReactiveVar(false);
 
-Template.section.onCreated(() => {
+Template.section.onCreated(function () {
 	pageRendered.set(false);
 	currentInputTypeTemplate = new ReactiveVar("embed");
+
+	this.autorun(function() {
+		const sectionMatcher = {
+			"name" : FlowRouter.getParam("section")
+		};
+		Meteor.subscribe("sections", sectionMatcher, {});
+
+		const threadsOptions = {
+			"sectionName" : FlowRouter.getParam("section")
+		};
+		Meteor.subscribe("threads", {}, threadsOptions);
+
+		const messageOptions = {
+			"sectionName" : FlowRouter.getParam("section"),
+			fields : { threadId : 1}
+		};
+		Meteor.subscribe("messages", {}, messageOptions);
+
+		Meteor.subscribe("polls");
+	});
 });
 
 Template.section.onRendered(function() {
@@ -21,10 +41,12 @@ Template.section.helpers({
 	sectionViewCount() {
 		const currentSection = Sections.findOne();
 
-		if (currentSection)
+		if (currentSection && currentSection.currentlyViewing)
 			return currentSection.currentlyViewing.length;
 	},
 	threads() {
+		if (!FlowRouter.subsReady()) return;
+
 		if (Session.get("settings").reactive) {
 			return Threads.find({}, {sort : {"currentlyViewing" : -1, "sortableTime" : -1}});
 		} else {
@@ -32,6 +54,8 @@ Template.section.helpers({
 		}
 	},
 	sectionName() {
+		if (!FlowRouter.subsReady()) return;
+		
 		const currentSection = Sections.findOne();
 
 		if (currentSection)

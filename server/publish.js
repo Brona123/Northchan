@@ -1,67 +1,57 @@
 const pbl = Meteor.publish;
 const rateLimiterTimeouts = [];
 
-pbl("sections", function () {
+pbl("sections", function(matcher, options) {
+	check(matcher, Object);
+	check(options, Match.Maybe(Object));
 	checkRateLimits(this, "sections");
 
-	return Sections.find();
+	return Sections.find(matcher, options);
 });
 
-pbl("currentSection", function (sectionName) {
-	check(sectionName, String);
-	checkRateLimits(this, "currentSection");
-	
-	return Sections.find({"name" : sectionName});
-});
-
-pbl("sectionThreadStubs", function () {
-	checkRateLimits(this, "sectionThreadStubs");
-
-	return Threads.find({});
-});
-
-pbl("threadMessageStubs", function () {
-	checkRateLimits(this, "threadMessageStubs");
-
-	return Messages.find({});
-});
-
-pbl("threads", function (sectionName) {
-	check(sectionName, String);
+pbl("threads", function(matcher, options) {
+	const matcherPattern = {
+		sectionId : Match.Maybe(String),
+		threadId : Match.Maybe(String),
+		slug : Match.Maybe(String)
+	}
+	check(matcher, matcherPattern);
+	check(options, Object);
 	checkRateLimits(this, "threads");
 
-	let section = Sections.findOne({"name" : sectionName});
+	if (options.calculateLimit) {
+		const threadsTotal = Sections.find().count() * options.calculateLimit.threadsPerSection;
+		options.limit = threadsTotal;
 
-	if (!section) {
-		return;
+		return Threads.find(matcher, options);		
+	} else if (options.sectionName) {
+		const section = Sections.findOne({"name" : options.sectionName});
+
+		return Threads.find({sectionId : section._id});
 	} else {
-		return Threads.find({"sectionId" : section._id});
+		return Threads.find(matcher, options);
 	}
 });
 
-pbl("thread", function (threadSlug) {
-	check(threadSlug, String);
-	checkRateLimits(this, "thread");
-
-	return Threads.find({"slug" : threadSlug});
-});
-
-pbl("messages", function (threadSlug) {
-	check(threadSlug, String);
+pbl("messages", function(matcher, options) {
+	const matcherPattern = {
+		sectionId : Match.Maybe(String),
+		threadId : Match.Maybe(String)
+	}
+	check(matcher, matcherPattern);
+	check(options, Object);
 	checkRateLimits(this, "messages");
-	
-	let thread = Threads.findOne({"slug" : threadSlug});
 
-	if (!thread) {
-		return;
+	if (options.sectionName) {
+		let section = Sections.findOne({name : options.sectionName});
+
+		return Messages.find({sectionId : section._id}, options);
+	} else if (options.threadName) {
+		let thread = Threads.findOne({name : options.threadName});
+
+		return Messages.find({threadId : thread._id}, options);
 	} else {
-
-		if (Roles.userIsInRole(this.userId, 'superadmin,moderator')) {
-			return Messages.find({"threadId" : thread._id});
-		} else {
-			return Messages.find({"threadId" : thread._id}
-								, {$fields : {"from" : 0}});
-		}
+		return Messages.find(matcher, options);
 	}
 });
 

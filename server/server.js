@@ -45,6 +45,8 @@ Meteor.startup(() => {
 
 	// Clear rate limiter data when starting server
 	RateLimiting.remove({});
+
+	storeFixtures();
 });
 
 Meteor.onConnection((conn) => {

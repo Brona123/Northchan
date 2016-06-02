@@ -1,7 +1,24 @@
 var pageRendered = new ReactiveVar(false);
 
-Template.thread.onCreated(() => {
+Template.thread.onCreated(function () {
 	pageRendered.set(false);
+
+	this.autorun(function() {
+		const sectionMatcher = {
+			"name" : FlowRouter.getParam("section")
+		}
+		Meteor.subscribe("sections", sectionMatcher, {});
+
+		const threadMatcher = {
+			"slug" : FlowRouter.getParam("threadslug")
+		}
+		Meteor.subscribe("threads", threadMatcher, {});
+
+		const messageOptions = {
+			"threadName" : FlowRouter.getParam("threadslug")
+		};
+		Meteor.subscribe("messages", {}, messageOptions);
+	});
 });
 
 Template.thread.onRendered(function () {
@@ -24,8 +41,19 @@ Template.thread.onRendered(function () {
 });
 
 Template.beforeThread.helpers({
+	sectionId() {
+		const sectionName = FlowRouter.getParam("section");
+		const section = Sections.findOne({"name" : sectionName});
+
+		if (section)
+			return section._id;
+	},
 	threadId() {
-		return this._id;
+		const threadSlug = FlowRouter.getParam("threadslug");
+		const thread = Threads.findOne({"slug" : threadSlug});
+
+		if (thread)
+			return thread._id;
 	}
 });
 
@@ -34,9 +62,13 @@ Template.thread.helpers({
 		return this.name;
 	},
 	messages() {
+		if (!FlowRouter.subsReady()) return;
+
 		return Messages.find({}, {sort : {sortableTime: 1}});
 	},
 	viewerCount() {
+		if (!FlowRouter.subsReady()) return;
+
 		let currentThread = Threads.findOne();
 
 		if (currentThread)

@@ -1,8 +1,8 @@
 <template name="beforeThread">
   {{> thread}}
 
-  {{#unless readonly}}
-    {{> inputMessage threadId=threadId}}
+  {{#unless settings.readonly}}
+    {{> inputMessage sectionId=sectionId threadId=threadId}}
   {{/unless}}
 </template>
 

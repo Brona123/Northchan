@@ -15,7 +15,7 @@
 <template name="section">
   <div class="col-xs-12">
     <!--<h1 class="text-center"> {{name}} </h1>-->
-    {{#unless readonly}}
+    {{#unless settings.readonly}}
       {{> inputThread}}
     {{/unless}}
 

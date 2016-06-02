@@ -16,8 +16,10 @@
 
       </div>
 
-
-      <form id="sendMessage" class="col-xs-12" data-thread-id="{{threadId}}">
+      <form id="sendMessage"
+            class="col-xs-12"
+            data-section-id="{{sectionId}}"
+            data-thread-id="{{threadId}}">
         {{> Template.dynamic template=selectedInput }}
         <textarea class="col-xs-12" 
                   rows="5" 

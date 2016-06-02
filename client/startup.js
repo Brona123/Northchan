@@ -26,10 +26,30 @@ Template.registerHelper("properFileHtml", (downloadUrl) => {
 	}
 });
 
-Template.registerHelper("readonly", () => {
-	return Session.get("settings").readonly;
+Template.registerHelper("settings", () => {
+	return Session.get("settings");
 });
 
 Template.registerHelper("pageTheme", () => {
 	return Session.get("pageTheme");
 });
+
+uploadFile = function(file, callback) {
+	const uploader = new Slingshot.Upload("fileUploads");
+
+	uploader.send(file, function(error, downloadUrl) {
+		currentUploader.set();
+
+		if (error) {
+			console.log(uploader.xhr.response);
+		} else {
+			const fileName = encodeURIComponent(file.name);
+			const fileFolder = "files/";
+			const properFileDownloadUrl = `http://files.northchan.com/${fileFolder}${fileName}`;
+			
+			callback(properFileDownloadUrl);
+		}
+	});
+
+	currentUploader.set(uploader);
+}

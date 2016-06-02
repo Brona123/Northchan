@@ -14,7 +14,7 @@ Threads.before.insert((userId, doc) => {
 	doc.timestamp = date;
 	doc.sortableTime = date.getTime();
 	// Creating a new String object to avoid modifying original name
-	doc.slug = slugify(String(doc.name)); 
+	doc.slug = slugify(String(doc.name));
 });
 
 Messages.before.insert((userId, doc) => {

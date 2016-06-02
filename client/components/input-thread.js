@@ -36,7 +36,11 @@ Template.inputThread.events({
 		if ($("input[name='file']").prop('files') && $("input[name='file']").prop('files')[0]) {
 			const file = $("input[name='file']").prop('files')[0];
 
-			createThreadWithFile(file, threadObject);
+			uploadFile(file, (properFileDownloadUrl) => {
+				threadObject.downloadUrl = properFileDownloadUrl;
+
+				Meteor.call("createThread", threadObject);
+			});
 		} else {
 			// Else we can just do synchronous stuff
 			if ($("input[name='pollTitle']").val()) {
@@ -74,16 +78,13 @@ Template.inputThread.events({
 				threadObject.chatIncluded = chatIncluded;
 			}
 
+			console.log(threadObject);
 			Meteor.call("createThread", threadObject);
 		}
 
 
 		let form = $("#createThread")[0];
 		form.reset();
-	},
-	'change .btn-file :file': function(e, t) {
-		const fileName = $(".btn-file :file").val().split("\\").pop();
-		$("#filePath").val(fileName);
 	},
 	'change #inputTypeSelection': (e, t) => {
 		const inputType = $('#inputTypeSelection').val();
@@ -123,36 +124,9 @@ Template.inputThread.events({
 Template.inputThread.helpers({
 	selectedInput() {
 		return currentInputTypeTemplate.get();
+	},
+	sectionId() {
+		if (Sections.findOne())
+			return Sections.findOne()._id;
 	}
 });
-
-Template.file.helpers({
-	uploadProgress() {
-		const uploader = currentUploader.get();
-
-		if (uploader) {
-			return Math.round(uploader.progress() * 100) || 0;
-		}
-	}
-});
-
-function createThreadWithFile(file, threadObject) {
-	const uploader = new Slingshot.Upload("fileUploads");
-
-	uploader.send(file, function(error, downloadUrl) {
-		currentUploader.set();
-
-		if (error) {
-			console.log(uploader.xhr.response);
-		} else {
-			const fileName = file.name;
-			const fileFolder = "files/";
-			const properFileDownloadUrl = `http://files.northchan.com/${fileFolder}${fileName}`;
-			
-			threadObject.downloadUrl = properFileDownloadUrl;
-			Meteor.call("createThread", threadObject);
-		}
-	});
-
-	currentUploader.set(uploader);
-}

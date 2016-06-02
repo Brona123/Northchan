@@ -9,12 +9,14 @@ Template.inputMessage.events({
 	'submit #sendMessage': function(e, t) {
 		e.preventDefault();
 
+		const sectionId = $("#sendMessage").attr("data-section-id");
 		const threadId = $("#sendMessage").attr("data-thread-id");
 		const message = $("textarea[name='msg']").val();
 		const references = parseReferences(message);
-		const msgCount = Metadata.findOne().msgCount;
 
+		console.log(sectionId);
 		let messageObject = {
+			sectionId : sectionId,
 			threadId : threadId,
 			msg : message,
 		}
@@ -22,12 +24,14 @@ Template.inputMessage.events({
 		if (references)
 			messageObject.references = references;
 
-
 		if ($("input[name='file']").prop('files') && $("input[name='file']").prop('files')[0]) {
-			console.log($("input[name='file']").prop('files')[0])
 			const file = $("input[name='file']").prop('files')[0];
 
-			insertMessageWithFile(file, messageObject);
+			uploadFile(file, (properFileDownloadUrl) => {
+				messageObject.downloadUrl = properFileDownloadUrl;
+
+				Meteor.call("insertMessage", messageObject);
+			});
 		} else {
 			if ($("input[name='embedLink']").val()) {
 				const embedLink = getVideoEmbedLink($("input[name='embedLink']").val());
@@ -91,44 +95,6 @@ Template.inputMessage.helpers({
 		return currentInputTypeTemplate.get();
 	}
 });
-
-function insertMessageWithFile(file, messageObject) {
-	let uploader = new Slingshot.Upload("fileUploads");
-	
-	uploader.send(file, function(error, downloadUrl) {
-		currentUploader.set();
-
-		if (error) {
-			console.log(error);
-
-			let fileInput = $("input[name='msgFile']");
-			let container = $(".inputArea");
-			
-			fileInput.popover({
-				placement: 'top',
-				container : '.inputArea',
-				html: true,
-				content: "<div> File size too big </div>"
-			}).popover('show');
-
-			// TODO oikeaan kohtaan popover
-			
-			Meteor.setTimeout(() => {
-				fileInput.popover('hide');
-			}, 2000);
-			
-		} else {
-			const encodedFileURI = encodeURIComponent(file.name);
-			const properFileDownloadUrl = `http://files.northchan.com/files/${encodedFileURI}`;
-			
-			messageObject.downloadUrl = properFileDownloadUrl;
-
-			Meteor.call("insertMessage", messageObject);
-		}
-	});
-
-	currentUploader.set(uploader);
-}
 
 function parseReferences(msg) {
 	// If message doesn't have references, return empty array

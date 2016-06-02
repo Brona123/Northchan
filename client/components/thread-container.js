@@ -10,6 +10,8 @@ Template.threadContainer.onRendered(function() {
 
 Template.threadContainer.helpers({
 	firstLines(initialText) {
+		if (!FlowRouter.subsReady()) return;
+
 		if (!initialText) {
 			return;
 		}
@@ -21,6 +23,9 @@ Template.threadContainer.helpers({
 		}
 	},
 	truncateHeader(header) {
+		if (!FlowRouter.subsReady()) return;
+		if (!header) return;
+
 		if (header.length < 20) {
 			return header;
 		} else {
@@ -33,6 +38,8 @@ Template.threadContainer.helpers({
 
 			if (ctx) {
 				const poll = Polls.findOne(pollId);
+
+				if (!poll) return;
 
 				const data = [];
 
@@ -61,15 +68,18 @@ Template.threadContainer.helpers({
 		}
 	},
 	pollTitle(pollId) {
+		if (!FlowRouter.subsReady()) return;
+
 		const poll = Polls.findOne(pollId);
 
 		if (poll)
 			return poll.pollTitle;
 	},
-	messageCount() {
-		//console.log(Messages.find({"threadId" : this._id}).count());
+	messageCount(threadId) {
+		const messages = Messages.find({"threadId" : threadId});
 
-		return Messages.find({"threadId" : this._id}).count();
+		if (messages)
+			return messages.count();
 	}
 });
 

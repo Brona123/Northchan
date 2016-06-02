@@ -12,6 +12,10 @@ a:link {
 	text-decoration: none;
 }
 
+#sections {
+
+}
+
 .spinner {
 	position: fixed;
 	top:50%;
@@ -69,16 +73,21 @@ a:link {
 	border-style: dashed;
 	border-color: #3EB489;
 	border-width: 2px;
-	min-height: 20vh;
 	margin-top: 1px;
 	border-radius:5px 2px 5px 2px;
 	overflow: hidden;
+	opacity: 0.9;
 	/*font-size: 2vh;*/
+}
+
+#sections img {
+	max-width: 1000px;
+	max-height: 800px;
 }
 
 .sectionContainer:hover {
 	border-style: ridge;
-	background: rgba(0,0,0,0.3);
+	opacity: 1;
 }
 
 .sectionContainer .title {
@@ -108,6 +117,7 @@ div#pollInput {
 
 .threadContainer {
 	border-style: dashed;
+	opacity: 0.9;
 }
 
 .desktop .threadContainer {
@@ -170,6 +180,7 @@ div#pollInput {
 
 .threadContainer:hover {
 	border-style:outset;
+	opacity:1;
 }
 
 .threadContainer a {
@@ -198,7 +209,7 @@ div#pollInput {
 
 /* THREAD ROUTE */
 .desktopThreadRouteRootContainer {
-	height:60%;
+	height:50vh;
 }
 
 .desktopThreadRouteRootContainer.readonly {
@@ -206,7 +217,7 @@ div#pollInput {
 }
 
 .phoneThreadRouteRootContainer {
-	height:50%;
+	height:40vh;
 }
 
 .phoneThreadRouteRootContainer.readonly {

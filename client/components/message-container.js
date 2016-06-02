@@ -11,25 +11,14 @@ Template.messageContainer.onRendered(() => {
 
 Template.messageContainer.helpers({
     finnishDate(date) {
-        if (!date)
-            return;
+        if (!date) return;
 
-        return date.getDate()
-                + "."
-                + (date.getMonth() + 1)
-                + "."
-                + date.getFullYear()
-                + " "
-                + prependZero(date.getHours())
-                + ":"
-                + prependZero(date.getMinutes())
-                + ":"
-                + prependZero(date.getSeconds());
+        const pz = prependZero;
+
+        return `${date.getDate()}.${date.getMonth()+1}.${date.getFullYear()} ${pz(date.getHours())}:${pz(date.getMinutes())}:${pz(date.getSeconds())}`;
     },
     styleLikes(likeCount) {
-        if (!likeCount) {
-            return;
-        }
+        if (!likeCount) return;
 
         let elem = $("<span />");
 
@@ -46,6 +35,8 @@ Template.messageContainer.helpers({
         return elem.prop('outerHTML');
     },
     formatMsg(msg) {
+        if (!msg) return;
+
         const splittedMsg = msg.split("\n");
         let formattedMsg = "";
 
@@ -85,14 +76,7 @@ Template.messageContainer.helpers({
         if (poll)
             return poll.options;
     },
-    cacheUrl() {
-        // Can only preload images
-        // currentUploader.file.type === "video/mp4"
-        return currentUploader.get().url(true);
-    },
     votes(pollId) {
-        console.log("VOTES");
-
         renderPollsCanvas(pollId);
 
         return Polls.findOne(pollId).alreadyVoted;
@@ -129,14 +113,12 @@ Template.messageContainer.events({
     },
     'click .replies a':(e, t) => {
         const id = $(e.target).attr('href');
-
         const elem = $(id).get(0);
 
         elem.scrollIntoView();
     },
     'click .reference':(e, t) => {
         const id = $(e.target).attr('href');
-
         const elem = $(id).get(0);
 
         elem.scrollIntoView();
@@ -174,24 +156,6 @@ Template.messageContainer.events({
                     , msgContent
                     , modId);
     },
-    'progress video': function(e, t) {
-        /*
-        var self = e.originalEvent.target;
-
-        var range = 0;
-        var bf = self.buffered;
-        var time = self.currentTime;
-
-        while(!(bf.start(range) <= time && time <= bf.end(range))) {
-            range += 1;
-        }
-        var loadStartPercentage = bf.start(range) / self.duration;
-        var loadEndPercentage = bf.end(range) / self.duration;
-        var loadPercentage = loadEndPercentage - loadStartPercentage;
-
-        alert(loadPercentage);
-        */
-    },
     'click .resize': (e, t) => {
         const url = $(e.target).attr("data-video-url");
         const elem = $(`video[src='${url}']`);
@@ -199,9 +163,6 @@ Template.messageContainer.events({
         elem.toggleClass("maximized");
         elem.prop("controls", !elem.prop("controls"));
         elem[0].pause();
-    },
-    'ready canvas': (e, t) => {
-        console.log("CANVAS IS READY");
     }
 });
 
@@ -247,6 +208,8 @@ function renderPollsCanvas(pollId) {
 
         if (ctx) {
             const poll = Polls.findOne(pollId);
+
+            if (!poll) return;
 
             const data = [];
 

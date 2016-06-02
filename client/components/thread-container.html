@@ -16,41 +16,45 @@
         </span>
 
         <span class="threadMessageCountContainer">
-          {{messageCount}}
+          {{messageCount _id}}
           <span class="glyphicon glyphicon-envelope"></span>
         </span>
 
-        {{#with downloadUrl}}
-          <div class="file">
-            {{{properFileHtml this}}}
-          </div>
-        {{/with}}
+        {{#unless settings.lightweight}}
 
-        {{#with embedLink}}
-          <div class="embed">
-            <iframe src="{{this}}"
-                    frameborder="0" 
-                    allowfullscreen>
-            </iframe>
-          </div>
-        {{/with}}
-        
-        {{#with pollId}}
-          <div class="poll">
-            <h4 class="threadTitle">{{pollTitle this}}</h4>
-            <canvas id="{{this}}" ></canvas>
-          </div>
-          {{{pollHtml this}}}
-        {{/with}}
+          {{#with downloadUrl}}
+            <div class="file">
+              {{{properFileHtml this}}}
+            </div>
+          {{/with}}
 
-        {{#with livestream}}
-          <div class="livestream">
-            <iframe src="https://player.twitch.tv/?channel={{this}}&autoplay=false"
-                    frameborder="0"></iframe>
-          </div>
-        {{/with}}
+          {{#with embedLink}}
+            <div class="embed">
+              <iframe src="{{this}}"
+                      frameborder="0" 
+                      allowfullscreen>
+              </iframe>
+            </div>
+          {{/with}}
+          
+          {{#with pollId}}
+            <div class="poll">
+              <h4 class="threadTitle">{{pollTitle this}}</h4>
+              <canvas id="{{this}}" ></canvas>
+            </div>
+            {{{pollHtml this}}}
+          {{/with}}
 
-        <p>{{firstLines initialText}}</p>
+          {{#with livestream}}
+            <div class="livestream">
+              <iframe src="https://player.twitch.tv/?channel={{this}}&autoplay=false"
+                      frameborder="0"></iframe>
+            </div>
+          {{/with}}
+
+        {{/unless}}
+
+        <p>{{firstLines threadText}}</p>
       </div>
     </a>
   {{/with}}

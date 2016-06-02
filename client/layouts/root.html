@@ -1,4 +1,4 @@
-<template name="main">
+<template name="root">
   <div id="rootContainer">
     <div class="col-xs-12">
       <div class="accountpane">
@@ -8,7 +8,7 @@
           <span class="glyphicon glyphicon-cog"></span>
         </button>
 
-        {{#unless readonly}}
+        {{#unless settings.readonly}}
           {{#if currentUser}}
             {{#if isInRole 'superadmin'}}
               <a href="/account-listing" id="accountListing" >Account listing</a>
@@ -32,7 +32,7 @@
           {{/if}}
         {{/unless}}
 
-        {{#unless readonly}}
+        {{#unless settings.readonly}}
           <span class="glyphicon glyphicon-user">{{connectedClientAmount}}</span>
         {{/unless}}
       </div>
@@ -59,8 +59,8 @@
 
       
     </div>
+    {{> Template.dynamic template=main}}
     
-    {{> yield}}
   </div>
 
   <!-- Login/Register account modal -->
@@ -122,7 +122,12 @@
           <br />
           <input type="checkbox"
                   name="reactive" 
-                  checked="{{reactiveToggled}}" />Reactive data          
+                  checked="{{reactiveToggled}}" />Reactive data
+
+          <h3>Performance</h3>
+          <input type="checkbox"
+                  name="lightweight"
+                  checked="{{lightweightToggled}}" />Lightweight mode
         </div>
 
         <div class="modal-footer">
