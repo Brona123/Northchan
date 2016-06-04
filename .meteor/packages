@@ -36,3 +36,5 @@ u2622:persistent-session
 ddp-rate-limiter
 kadira:flow-router
 kadira:blaze-layout
+practicalmeteor:mocha
+johanbrook:publication-collector

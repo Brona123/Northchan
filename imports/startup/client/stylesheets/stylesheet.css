@@ -1,0 +1,722 @@
+html {
+	position: relative;
+	height: 100%;
+	font-size: 10px;
+}
+
+body {
+	height: 100%;
+}
+
+a:link {
+	text-decoration: none;
+}
+
+.spinner {
+	position: fixed;
+	top:50%;
+	left:50%;
+}
+
+#rootContainer {
+	height:100%;
+	position: relative;
+}
+
+.phone * {
+	font-size:30px;
+}
+
+
+.desktop * {
+	font-size:1vw;
+}
+
+.navbar {
+	display:inline-block;
+	margin:0;
+	word-break: break-all;
+}
+
+.phone .navbar {
+	width: 100%;
+}
+
+.phone .navbar * {
+	font-size:5vw;
+}
+
+.desktop .accountpane {
+	float:right;
+}
+
+.phone .accountpane button {
+	min-width: 10vw;
+	min-height: 10vw;
+}
+
+.phone input[type="checkbox"] {
+	width: 50px;
+	height: 50px;
+}
+
+.phone .modal-dialog {
+	width:100%;
+}
+
+.sectionContainer {
+	border-radius: 3px;
+	border-style: dashed;
+	border-color: #3EB489;
+	border-width: 2px;
+	margin-top: 1px;
+	border-radius:5px 2px 5px 2px;
+	overflow: hidden;
+	opacity: 0.9;
+	background-size: 100% 100%;
+	/*font-size: 2vh;*/
+}
+
+#sections img {
+	max-width: 1000px;
+	max-height: 800px;
+}
+
+.sectionContainer:hover {
+	border-style: ridge;
+	opacity: 1;
+}
+
+.sectionContainer .title {
+	text-align: center;
+}
+
+/* SECTION ROUTE */
+
+.phone #createThread * {
+	font-size:5vw;
+	min-height: 10vw;
+}
+
+#createThread textarea {
+
+}
+
+div#pollInput {
+	text-align: center;
+}
+
+#sectionViewCount {
+	/*font-size: 3vh;*/
+	text-align: center;
+	margin:1vh;
+}
+
+.threadContainer {
+	border-style: dashed;
+	opacity: 0.9;
+}
+
+.desktop .threadContainer {
+	border-radius: 5px;
+	border-color: #3EB489;
+	border-width: 2px;
+	height:250px;
+	overflow:hidden;
+	/*font-size: 2vh;*/
+}
+
+.phone .threadContainer {
+	border-radius: 5px;
+	border-color: #3EB489;
+	border-width: 2px;
+	height:250px;
+	overflow:hidden;
+}
+
+.threadContainer img {
+	width: 100%;
+	height: 60%;
+}
+
+.threadContainer video {
+	width: 100%;
+	height: 60%;
+	max-height: 200px;
+}
+
+.threadContainer .embed iframe {
+	width: 100%;
+	height: 60%;
+}
+
+.threadContainer .livestream iframe {
+	width: 100%;
+	height: 60%;
+}
+
+.threadContainer .poll {
+	width:100%;
+}
+
+.phone .threadContainer .poll {
+	width:45vw;
+}
+
+.desktop .threadContainer .poll {
+	width:15vw;
+}
+
+.threadContainer .poll canvas {
+	width:100%;
+}
+
+.threadContainer .poll .threadTitle {
+	text-align: center;
+}
+
+.threadContainer:hover {
+	border-style:outset;
+	opacity:1;
+}
+
+.threadContainer a {
+	text-decoration: none;
+	word-wrap: break-word;
+}
+
+.threadContainer .header {
+	max-height: 10px;
+	overflow-y: hidden;
+}
+
+.threadContainer .threadViewCountContainer {
+	float:right;
+}
+
+.threadContainer .threadMessageCountContainer {
+	float:right;
+}
+
+.threadContainer hr {
+	margin:1px;
+}
+/* /SECTION ROUTE */
+
+
+/* THREAD ROUTE */
+.desktopThreadRouteRootContainer {
+	height:50vh;
+}
+
+.desktopThreadRouteRootContainer.readonly {
+	height:85vh;
+}
+
+.phoneThreadRouteRootContainer {
+	height:40vh;
+}
+
+.phoneThreadRouteRootContainer.readonly {
+	height:90%;
+}
+
+.tabletThreadRouteRootContainer {
+	height:90%;
+}
+
+.desktopThreadRouteRootContainer #messagelist {
+	overflow-y:scroll;
+	height:100%;
+}
+
+.phoneThreadRouteRootContainer #messagelist {
+	overflow-y:scroll;
+	height:100%;
+}
+
+.tabletThreadRouteRootContainer #messagelist {
+	overflow-y:scroll;
+	height:45%;
+}
+ 
+#messagelist.maximized {
+	height:100%;
+}
+
+.metadata .actions {
+	float:right;
+	margin-right: 10px;
+}
+
+.phone .metadata time {
+	font-size:30px;
+}
+
+.phone .metadata .reply {
+	font-size:40px;
+}
+
+.phone .metadata .actions button {
+	font-size:70px;
+}
+
+.disliked {
+	color: red;
+}
+
+.liked {
+	color: green;
+}
+
+.inputArea {
+	/* Set the fixed height of the footer here */
+	position:fixed;
+	bottom:0;
+}
+
+.inputArea .progress {
+	background-color: #222222;
+}
+
+.phone .inputArea * {
+	font-size: 5vw;
+	min-height: 10vw;
+}
+
+.phone .inputArea input {
+	height: 7vw;
+}
+
+
+.phone .progress {
+	background-color: black;
+	align: middle;
+}
+
+.phone .progress .progress-bar {
+	color:red;
+}
+
+.progress span {
+    display: block;
+    width: 100%;
+}
+
+.tablet .inputArea {
+	height:50vw;
+}
+
+.tablet .inputArea input {
+	height: 7vw;
+}
+
+.tablet .progress {
+	height:5vw;
+}
+
+.desktop .minimized {
+	height: 2.5vw;
+}
+
+.phone .minimized {
+	height: 5vw;
+}
+
+.tablet .minimized {
+	height: 5vw;
+}
+
+.inputArea textarea {
+	resize: none;
+}
+
+.inputArea #hideInputArea {
+	float:right;
+}
+
+.inputArea #charactersTyped {
+	float:left;
+}
+
+.btn-file {
+	position:relative;
+	overflow:hidden;
+}
+
+.btn-file input[type=file] {
+	position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.minimized #sendMessage {
+	visibility: hidden;
+}
+
+.messageContainer {
+	border-radius: 10px 10px 10px 10px;
+	border-style: ridge;
+	border-color: #3EB489;
+	border-width: 4px;
+	/*margin:0.5vh;*/
+}
+
+.messageContainer .content .file {
+	text-align: center;
+	display:table-cell;
+	float:left;
+	cursor:pointer;
+}
+
+.messageContainer .content .embed {
+	text-align: center;
+	display:table-cell;
+	float:left;
+	cursor:pointer;
+}
+
+.messageContainer .content .pollContainer {
+	float:left;
+	width:50vw;
+}
+
+.phone .messageContainer .content .pollContainer {
+	float:left;
+	width:98vw;
+}
+
+.messageContainer .content .poll {
+	float:left;
+	width:100%;
+}
+
+.messageContainer .content .poll canvas {
+	float:left;
+	width:100%;
+}
+
+.messageContainer hr {
+	margin-top:8px;
+	margin-bottom:0px;
+	height:1px;
+	background-color:green;
+}
+
+.messageContainer .file {
+	display: block;
+	max-height: none;
+	max-width: 100%;
+}
+
+.messageContainer .file.minimized {
+	display: block;
+	max-height: 160px;
+	max-width: 200px;
+	width: auto;
+	height: auto;
+}
+
+.messageContainer img {
+	width: 100%;
+	height: 100%;
+}
+
+.messageContainer video {
+	max-height: 160px;
+	max-width: 200px;
+	width: auto;
+}
+
+.messageContainer video.maximized {
+	max-height: none;
+	max-width: none;
+	width: 100%;
+	height: 100%;
+}
+
+.phone .messageContainer video.maximized {
+	width: 98vw;
+}
+
+.messageContainer audio {
+	background-color:blue;
+}
+
+.messageContainer .content .msg {
+	white-space: pre-line;
+	word-break:break-all;
+}
+
+.phone .msg {
+	font-size: 40px;
+}
+
+.messageContainer .content .msg .greentext {
+	color:green;
+}
+
+.messageContainer .content .msg .bluetext {
+	color:blue;
+}
+
+.messageContainer .content {
+	display:table-cell;
+	margin:3px;
+}
+
+.messageContainer .replies {
+	display:table-cell;
+	vertical-align: bottom;
+}
+
+.popover {
+	width:100%;
+}
+
+/* /THREAD ROUTE */
+
+/******************************** THEMES **********************/
+
+/* MINT THEME */
+
+.mint {
+	background-color: #CCFFCC;
+}
+
+.mint a:visited {
+	color:#CE5A57;
+}
+
+.mint a:link {
+	color:#444C5C;
+}
+
+.mint .threadContainer {
+	background-color: #FFFFCC;
+	color: #AD864F;
+	font-family:"Comic Sans MS", cursive, sans-serif;
+}
+
+.mint .messageContainer {
+	background-color: #FFFFCC;
+	color: #AD864F;
+	font-family:"Comic Sans MS", cursive, sans-serif;
+}
+
+.mint .inputArea {
+	background-color: #FFFFCC;
+}
+
+.mint ::-webkit-scrollbar-track {
+  	background-color: #FFFFCC;
+}
+
+.mint ::-webkit-scrollbar-thumb {
+  	background-color: #AAFFAA;
+}
+
+/* /MINT THEME */
+
+/* DARK THEME */
+
+.dark {
+	background-color: #021C1E;
+}
+
+.dark a {
+	color:#7DA3A1;
+}
+
+.dark .threadContainer {
+	background-color: #004445;
+	color: #444C5C;
+}
+
+.dark .messageContainer {
+	background-color: #2C7873;
+	color:#444C5C;
+}
+
+.dark .inputArea {
+	background-color:#2C7873;
+}
+
+.dark .messageContainer {
+	background-color: #2C7873;
+	color:#444C5C;
+}
+
+.dark ::-webkit-scrollbar-track {
+  	background-color: #2C7873;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  	background-color: #021C1E;
+}
+
+/* /DARK THEME */
+
+/* MONOKAI THEME */
+
+.monokai {
+	background-color: #171812;
+}
+
+.monokaiBg a {
+
+}
+
+.monokai .threadContainer {
+	background-color: #272822;
+	color: #A6E22E;
+}
+
+.monokai .messageContainer {
+	background-color: #272822;
+	color:#A6E22E;
+}
+
+.monokai .inputArea {
+	background-color:#272822;
+}
+
+/* /MONOKAI THEME */
+
+/* MARS THEME */
+
+.mars {
+	background-color: #46211A;
+}
+
+.mars a {
+	color:#BA5536;
+}
+
+.mars .threadContainer {
+	background-color: #693D3D;
+	color: #E1B16A;
+}
+
+.mars .messageContainer {
+	background-color: #693D3D;
+	color: #E1B16A;
+}
+
+.mars .inputArea {
+	background-color: #693D3D;
+}
+
+/* /MARS THEME */
+
+/* LSD THEME */
+
+@keyframes bglsd {
+	0% { 
+		background:radial-gradient(violet 5%, red 25%, blue 55%);
+	}
+	100% { 
+		background:radial-gradient(blue 5%, red 25%, violet 55%);
+	}
+}
+
+@keyframes threadlsd {
+	0% {
+		background-color: #693D3D; 
+	}
+	50% {
+		background-color: violet;
+	}
+	100% {
+		background-color: red;
+	}
+}
+
+@keyframes messagelsd {
+	0% {
+		background-color: #693D3D; 
+	}
+	50% {
+		background-color: violet;
+	}
+	100% {
+		background-color: #272822;
+	}
+}
+
+.lsd {
+	animation-name: bglsd;
+	animation-duration:2s;
+	animation-iteration-count: infinite;
+}
+
+.lsd .threadContainer {
+	animation-name: threadlsd;
+	animation-duration:5s;
+	animation-iteration-count: infinite;
+}
+
+.lsd .messageContainer {
+	animation-name: messagelsd;
+	animation-duration:7s;
+	animation-iteration-count: infinite;
+}
+
+.lsd .inputArea {
+
+}
+
+/* /LSD THEME */
+
+/* PP THEME */
+
+.ppBg {
+	background-color: black;
+}
+
+.ppBg a {
+	color:blue;
+}
+
+.ppThread {
+	background-color: black;
+	color: yellow;
+}
+
+.ppMessage {
+	background-color: black;
+	color: yellow;
+}
+
+.ppInput {
+	background-color: white;
+}
+
+/* /PP THEME */
+
+/* SCROLLBAR CSS */
+
+::-webkit-scrollbar {
+  	width: 10px;  /* for vertical scrollbars */
+  	height: 10px; /* for horizontal scrollbars */
+}
+
+/* /SCROLLBAR CSS */
+
+/* BOOTSTRAP OVERRIDE */
+
+.popover {
+	max-width: 80%;
+    white-space:pre-wrap;
+}
+
+/* /BOOTSTRAP OVERRIDE */

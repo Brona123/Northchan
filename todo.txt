@@ -34,6 +34,7 @@ threadin luonti ilman fileä etc
 rate limiter (1 message per 10 sec)
 SEMI DONE -- poll display kun voteja on olemassa
 SEMI DONE -- mobiili video display kusee
+client side session variable client IP:stä joka lähetetään serverille metodeissa, serverillä kuitenkin katsotaan oikea ip spooffeja varten
 
 ACCOUNT SYSTEM
 usereiden poisto
@@ -54,3 +55,6 @@ numerot viestissä bugittavat
 viestissä referoidessa viestiä jota ei olemassa tulee server error
 tulevaisuuden viestiä referoidessa kyseisessä viestissä ei näy repliesejä
 thread creation empty checkit titlessä ja messagessa
+
+TESTING
+meteor test --driver-package practicalmeteor:mocha
